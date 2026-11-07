@@ -35,14 +35,14 @@
 
 1. **Đọc và hiểu codebase** — giải thích feature, trace bug qua code
 2. **Edit files** toàn project — refactor một hàm và cập nhật mọi file tham chiếu
-3. **Chạy terminal commands** — build scripts, tests, installs; dùng output để quyết định bước tiếp theo
+3. **Chạy terminal commands** — build scripts, tests, installs; dùng kết quả để quyết định bước tiếp theo
 4. **Search web** — tra documentation, API references mới nhất
 
 ### 3 khái niệm để dùng hiệu quả
 
-1. **Context window** = "working memory" của Claude — chứa nhiều nhưng không phải tất cả; Claude **định vị chiến lược** câu trả lời thay vì nạp cả codebase
+1. **Context window** = "working memory" của Claude — chứa nhiều nhưng không phải tất cả; Claude **lựa chọn thông tin liên quan** để đưa vào ngữ cảnh thay vì nạp cả codebase
 2. **Bạn kiểm soát permissions** — hands-on (duyệt từng lệnh) hoặc auto mode (background safety check sàng lọc hầu hết hành động)
-3. **Claude có thể sai** — hiểu nhầm ý định, tạo bugs, over-engineer → stay in the loop để bắt lỗi sớm
+3. **Claude có thể mắc lỗi** — hiểu sai yêu cầu, tạo ra bugs hoặc triển khai giải pháp phức tạp hơn mức cần thiết. Vì vậy, bạn cần theo dõi quá trình thực thi để phát hiện lỗi sớm
 
 > Claude Code có mặt tại: **terminal, VS Code, JetBrains IDEs, Claude Desktop app, và web**.
 
@@ -125,7 +125,7 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 4. Review plan → accept → Claude execute (tùy permission mode có thể check-in từng bước)
 5. Cuối cùng xem chính xác Claude đã làm gì và cách nó suy luận
 
-> Recap: prompt càng **descriptive** càng tốt; có thể stay in the loop ở mọi bước; dùng Plan Mode để đào chi tiết **trước khi code chạy**.
+> Recap: prompt càng **descriptive** càng tốt; bạn có thể theo dõi và can thiệp ở mọi bước; dùng Plan Mode để đào chi tiết **trước khi code chạy**.
 
 ## Bài 5: Explore → Plan → Code → Commit (8′)
 
@@ -149,13 +149,13 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 2. **Add tools** — VD cài extension **Claude in Chrome** khi build web UI để Claude Code điều khiển browser tab và test UI trực tiếp
 3. **Include a test suite** — cho Claude bộ test để tự validate liên tục (Claude viết test được); đảm bảo tests là **reliable source of truth** trước để tránh false positives
 
-> 💡 Claude lặp lại cùng một lỗi? Nhờ nó **lưu solution vào CLAUDE.md**.
+> 💡 Claude lặp lại cùng một lỗi? Nhờ nó **lưu giải pháp vào CLAUDE.md**.
 
 ### 3. Commit
 
 - Tự test changes trước khi push
 - Chạy **subagent code reviewer** trước khi commit — "fresh pair of eyes" không mang bias của main agent sau cả session
-- Nhờ Claude generate **commit message** theo style của bạn → lặp lại cycle
+- Nhờ Claude generate **commit message** theo phong cách của bạn → lặp lại cycle
 
 ## Bài 6: Context Management (7′)
 
@@ -238,7 +238,7 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 
 ### Vấn đề nó giải quyết
 
-- Không có CLAUDE.md → Claude Code **bắt đầu fresh mỗi lần**: re-explore codebase, tìm dependencies, khám phá features; đôi khi **tự giả định sai** → khó steer
+- Không có CLAUDE.md → Claude Code **bắt đầu fresh mỗi lần**: re-explore codebase, tìm dependencies, khám phá features; đôi khi **tự giả định sai** → khó điều chỉnh hướng
 - Giải pháp: file Markdown tên `CLAUDE.md` ở **project root** — Claude Code đọc tự động mỗi session; như *"onboarding script cho codebase"*; nội dung được **append vào prompt** của bạn
 
 ### Ví dụ cấu trúc
@@ -269,7 +269,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 ### 3 pro tips
 
-1. **Save corrections to memory** — cứ phải sửa Claude cùng một điều (VD: luôn dùng server actions thay API routes)? Nhờ nó lưu rule đó vào memory — persists qua sessions
+1. **Save corrections to memory** — cứ phải sửa Claude cùng một điều (VD: luôn dùng server actions thay API routes)? Nhờ nó lưu rule đó vào memory — được giữ lại qua các session
 2. **Reference project docs** bằng ký hiệu `@` + path:
    ```markdown
    ## README.md
@@ -293,7 +293,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
   - `.claude/agents/` (project hiện tại)
   - `~/.claude/agents/` (mọi projects của bạn)
 - Folder chưa tồn tại lúc session bắt đầu → **restart Claude Code** để load subagent mới
-- Claude tự sinh name, description, prompt — các thứ này cũng quyết định **khi nào** Claude invoke subagent theo prompt của bạn
+- Claude tự sinh name, description, prompt — các thứ này cũng quyết định **khi nào** Claude gọi (invoke) subagent theo prompt của bạn
 
 ### Tùy biến sâu
 
@@ -373,7 +373,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Đặc tính định nghĩa: hooks **deterministic — luôn luôn chạy**
 - Đối lập với instructions trong CLAUDE.md: nhờ Claude chạy Prettier sau edits *"works most of the time"* nhưng không đảm bảo — hook loại bỏ ngoại lệ
 - Use cases:
-  - auto-format sau file edits
+  - tự động định dạng code (auto-format) sau file edits
   - log mọi command (compliance)
   - **chặn thao tác nguy hiểm** (sửa production files)
   - notification khi Claude xong task
@@ -399,7 +399,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Hook nhận tool name + input dạng **JSON trên stdin**
 - Exit codes:
   - **0** = tiến hành
-  - **2** = **block** — stderr được feed lại Claude như feedback để nó hiểu lý do và điều chỉnh
+  - **2** = **block** — stderr được trả về cho Claude như feedback để nó hiểu lý do và điều chỉnh
   - **khác** = non-blocking error (hiện cho user)
 - VD enforcement:
   - chặn writes vào production config directory
@@ -823,7 +823,7 @@ practices, and adherence to project standards...
   - `model`
   - `color`
 - Body markdown dưới frontmatter = **system prompt** — chất lượng prompt quyết định độ hữu ích
-- **Testing:** restart nếu folder `agents` mới tạo; delegation không trigger → refine description với trigger scenarios cụ thể hơn
+- **Testing:** restart nếu folder `agents` mới tạo; delegation không trigger → điều chỉnh description với các trigger scenario cụ thể hơn
 
 ## C.3 — Designing effective subagents (10′)
 
@@ -959,7 +959,7 @@ Brief context on why this change is needed
 - Test prompt: *"write a PR description for my changes"*
 - **Matching:** startup load names + descriptions → so **semantic** (VD "explain this function" khớp skill "explain code with visual diagrams") → khớp thì đọc full SKILL.md
 - skills đơn giản auto-load (v2.1.19 bỏ approval step)
-- **Priority khi trùng tên:** **Enterprise → Personal → Project** (org enforce standards, cá nhân vẫn customize); plugin skills đứng ngoài — namespaced `/plugin-name:skill-name`, cả hai cùng load
+- **Priority khi trùng tên:** **Enterprise → Personal → Project** (org áp đặt standards, cá nhân vẫn tùy chỉnh được); plugin skills đứng ngoài — namespaced `/plugin-name:skill-name`, cả hai cùng load
 - Best practice: tên descriptive (`frontend-review`, `backend-review`) thay vì generic (`review`)
 - **Update:** sửa SKILL.md
 - **Remove:** xóa directory — có hiệu lực ngay session hiện tại
@@ -1017,8 +1017,8 @@ Brief context on why this change is needed
 
 ### 3 cách phân phối
 
-1. **Git repository** — skills trong `.claude/skills` + commit → ai clone repo tự có, không cần install; updates propagate qua pull. Hợp: team coding standards, workflows gắn với codebase
-2. **Plugins + marketplaces** — trong plugin project, tạo directory `skills/` mirror cấu trúc `.claude`; publish lên marketplace để cộng đồng discover + install. Hợp: skills không gắn project cụ thể
+1. **Git repository** — skills trong `.claude/skills` + commit → ai clone repo tự có, không cần install; cập nhật được áp dụng qua git pull. Hợp: team coding standards, workflows gắn với codebase
+2. **Plugins + marketplaces** — trong plugin project, tạo directory `skills/` mirror cấu trúc `.claude`; publish lên marketplace để cộng đồng tìm thấy và cài đặt. Hợp: skills không gắn project cụ thể
 3. **Enterprise managed settings** — admins deploy org-wide (skills vào `.claude/skills/` của managed settings dir, VD `/etc/claude-code/.claude/skills/`)
    - **priority cao nhất** (override personal/project cùng tên)
    - kiểm soát cả marketplaces qua `strictKnownMarketplaces`:
@@ -1066,7 +1066,7 @@ claude plugin validate .claude/skills     # project
 | **Chọn nhầm skill** | Descriptions quá giống nhau | Viết description phân biệt, cụ thể |
 | **Bị shadow** | Priority conflict | Enterprise shadow personal cùng tên → rename cho khác biệt hơn, hoặc hỏi admin |
 | **Plugin skills thiếu** | Install/loading | `/plugin` → tab Installed + **Errors**; vừa cài thì `/reload-plugins`; skills phải ở `skills/` **plugin root** (không trong `.claude-plugin/`) |
-| **Runtime errors** | Môi trường | Dependencies phải installed (**document chúng trong description** để Claude biết); scripts cần `chmod +x`; paths dùng **forward slashes** kể cả Windows |
+| **Runtime errors** | Môi trường | Dependencies phải installed (**ghi rõ chúng trong description** để Claude biết); scripts cần `chmod +x`; paths dùng **forward slashes** kể cả Windows |
 
 > Lời khuyên chốt của khóa: *"The best skills address real pain points — start with the instructions you find yourself repeating most often."*
 
@@ -1087,3 +1087,7 @@ claude plugin validate .claude/skills     # project
 > ✅ **Độ phủ:** 22/22 bài Academy đã được đối chiếu với **HTML gốc** (prerendered) — Phần A, C, D phản ánh trọn nội dung từng trang.
 > 2 trang docs reference (hooks + code-review-local) đọc trọn.
 > 6 trang docs con của Code Review product (setup/customize/costs...) là tài liệu vận hành admin, ngoài phạm vi khóa học — tổng quan đã có ở B.1.
+
+---
+
+> Metadata: cập nhật 2026-11-07 · nguồn: Anthropic Claude Academy (khóa *Claude Code 101* + 2 khóa con, 11/2026) · phạm vi: 12 bài chính + 10 bài khóa con (subagents, agent skills) + 3 trang docs (Code Review, Hooks, /code-review)

@@ -20,9 +20,9 @@
 
 ### Key takeaways
 - **Cowork là Claude dựng cho *công việc*, không chỉ cho *câu trả lời*** — gặp bạn nơi bạn làm việc: máy local, cloud apps, hay browser
-- **Cowork là về delegating**: chat vẫn là nơi nghĩ thành tiếng, draft, hỏi đáp; Cowork thêm khả năng mô tả **outcome** rồi Claude plan → execute → deliver toàn bộ
+- **Cowork tập trung vào việc giao phó công việc (delegating)**: chat vẫn là nơi nghĩ thành tiếng, draft, hỏi đáp; Cowork thêm khả năng mô tả **outcome** rồi Claude plan → execute → deliver toàn bộ
 - Dựng cho việc **đa bước, chạy dài**, trải nhiều tools, kết thúc bằng **artifact thật**
-- **Bạn giữ quyền kiểm soát**: Claude hiện plan trước khi bắt đầu; mặc định hỏi trước các hành động quan trọng (gửi, xóa, share); cho steer bất kỳ lúc nào
+- **Bạn giữ quyền kiểm soát**: Claude hiện plan trước khi bắt đầu; mặc định hỏi trước các hành động quan trọng (gửi, xóa, share); cho điều chỉnh hướng bất kỳ lúc nào
 
 ### Cowork thực chất là gì
 Claude làm việc **cùng** bạn:
@@ -142,7 +142,7 @@ Claude hỏi để đóng gaps **trước khi** bắt tay vào việc (khi deleg
 Đa số là multiple-choice, click phương án phù hợp; không phương án nào vừa thì trả lời bằng lời của bạn.
 
 ### Steer mid-task
-Theo dõi plan + progress. Lệch hướng (wrong source, wrong format, wrong tone) → **interrupt ngay**, không đợi xong rồi regenerate; chạy lệch nặng thì **stop run → refine prompt → start lại**.
+Theo dõi plan + progress. Lệch hướng (wrong source, wrong format, wrong tone) → **interrupt ngay**, không đợi xong rồi regenerate; chạy lệch nặng thì **dừng run → điều chỉnh prompt → chạy lại**.
 
 *"Cowork is built for course corrections, and the cost of a redirect is low."*
 
@@ -156,7 +156,7 @@ Draft gần đúng → nhờ Claude sửa (nó nhớ conversation, **edit nhanh 
 
 ## Bài 5: Get better results faster (2′)
 
-**4 building blocks** khiến Claude tốt hơn theo thời gian (context bạn cung cấp một lần cứ tiếp tục trả lãi):
+**4 khối cấu thành (building blocks)** khiến Claude tốt hơn theo thời gian (ngữ cảnh bạn cung cấp một lần cứ tiếp tục trả lãi):
 1. **Global instructions** — áp dụng mọi Cowork session
 2. **Projects** — Claude tự buildup memory từ conversations bên trong
 3. **Skills** — encode workflows lặp lại
@@ -646,3 +646,5 @@ Cách này triển khai thế nào tùy admin org của bạn:
 > ✅ **Độ phủ**: 14/14 bài đọc từ **raw HTML gốc** và tóm tắt đầy đủ từng section — key takeaways, prompts mẫu, watch-outs, lesson reflection.
 > 5/5 refer links quét trọn nội dung (2 link support đã redirect sang docs mới — theo tới đích).
 > ℹ️ **YouTube/media**: không có link YouTube hay asset media công khai nào trong nội dung (video = embed Academy, ảnh = og:image của khóa).
+
+> Metadata: cập nhật 2026-11-08 · nguồn: Anthropic Claude Academy (khóa *Introduction to Claude Cowork*, 11/2026) · phạm vi: 14 bài học + 5 refer links (Get started, Safely, M365, Outlook, Chrome)

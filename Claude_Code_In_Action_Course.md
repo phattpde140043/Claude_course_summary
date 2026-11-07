@@ -56,7 +56,7 @@ Cấu trúc 4 nhóm bài theo sidebar của khóa:
 
 **Vấn đề:** Prompt Claude làm task nhanh thì dễ — bạn hỏi, nó làm, bạn kiểm tra.
 
-Nhưng task dài (refactor một chục file, build feature mới mất nhiều giờ) là chuyện khác: càng phải "lái" Claude nhiều giữa chừng, việc càng kéo dài.
+Nhưng task dài (refactor hàng chục file, build feature mới mất nhiều giờ) là chuyện khác: càng phải "lái" Claude nhiều giữa chừng, việc càng kéo dài.
 
 **Nguyên tắc cốt lõi — 2 thói quen:** (1) xác định phạm vi công việc **trước khi** Claude bắt đầu; (2) lái nó **trong lúc** nó chạy.
 
@@ -65,7 +65,7 @@ Nhưng task dài (refactor một chục file, build feature mới mất nhiều 
 - Trước khi Claude viết dòng nào, cho nó lập plan. Ở **plan mode**, Claude research mà **không sửa** source files — đọc code, xác định cái gì cần đổi, đưa plan cho bạn review.
 - Khi nhận plan: **đọc thật**, đừng lướt.
   - Plan càng kỹ càng ít surprise khi chạy.
-  - Thiếu sót gì thì yêu cầu Claude bổ sung ngay — **iterate trên plan nhanh hơn** nhiều so với để Claude chạy rồi dọn dẹp đống mess.
+  - Nếu phát hiện thiếu sót, hãy yêu cầu Claude bổ sung ngay trong giai đoạn lập kế hoạch. Việc điều chỉnh plan trước khi thực thi thường hiệu quả hơn nhiều so với sửa chữa những thay đổi không phù hợp sau đó.
 
 #### Steer while Claude works — Compact
 
@@ -81,7 +81,7 @@ Nhưng task dài (refactor một chục file, build feature mới mất nhiều 
 
 #### Rewind
 
-- Khi Claude đi sai hướng, không cần prompt để kéo lại. **Rewind** đưa bạn về checkpoint gần nhất — **mỗi user prompt tạo một checkpoint** có thể revert.
+- Khi Claude bắt đầu đi chệch hướng, bạn có thể dùng **Rewind** để quay về checkpoint gần nhất thay vì điều chỉnh qua nhiều prompt — **mỗi user prompt tạo một checkpoint** có thể revert.
 - Mở menu: **double-tap Escape** trên prompt trống. Các tùy chọn:
   - **Restore code and conversation** — rollback cả hai cùng lúc.
   - **Restore conversation** — chỉ rollback chat.
@@ -120,7 +120,7 @@ Nhưng task dài (refactor một chục file, build feature mới mất nhiều 
 4. Đặt goal khi mô tả được "done" tốt hơn mô tả các bước.
 5. Chạy song song trong worktrees.
 
-→ Làm vậy thì tin được một long run mà không phải trông nom từng bước.
+→ Làm vậy thì bạn có thể tin một long run mà không phải trông nom từng bước.
 
 ---
 
@@ -191,12 +191,12 @@ Rule có được tuân thủ hay không nằm ở cách diễn đạt. Đa số
 
 **3. Emphasis is a budget** — từ như "IMPORTANT", "YOU MUST" có nâng priority của rule, nhưng chỉ **tương đối** so với những gì yên tĩnh xung quanh.
 
-Nếu rule nào cũng gào thì không gì nổi bật. Chi tiêu emphasis như ngân sách: dành cho 2–3 rule thật đau khi bị phá, còn lại để âm lượng bình thường.
+Nếu rule nào cũng được nhấn mạnh tối đa thì không có rule nào nổi bật. Chi tiêu emphasis như ngân sách: dành cho 2–3 rule thật đau khi bị phá, còn lại để âm lượng bình thường.
 
 #### Keep the file under revision
 
 - CLAUDE.md **không bao giờ "xong"** — đối xử như living code liên tục được sửa.
-- Khi Claude làm sai, đừng thở dài rồi sửa tay — hãy coi đó là **bug report cho CLAUDE.md**.
+- Khi Claude làm sai, đừng im lặng sửa tay — hãy coi đó là **bug report cho CLAUDE.md**.
   Thậm chí nói thẳng với Claude: *"add that to the CLAUDE.md file"* — nó sẽ tự viết rule. File tốt dần lên mỗi lần có chuyện sai.
 
 #### The bottom line
@@ -215,7 +215,7 @@ Nếu rule nào cũng gào thì không gì nổi bật. Chi tiêu emphasis như 
 
 *(Lesson 3 of 9 · 5 min · slug: `verification-skills`)*
 
-Skills là cách tự động hóa việc lặp lại. Bài này tập trung một việc skills cực hợp: **verify chính công việc của Claude** — nếu chỉ xây được một skill, hãy xây skill này trước tiên.
+Skills là cách tự động hóa việc lặp lại. Bài này tập trung vào một việc mà skills cực kỳ phù hợp: **kiểm chứng (verify) chính công việc của Claude** — nếu chỉ xây được một skill, hãy xây skill này trước tiên.
 
 #### Why a verification skill is the one to build first
 
@@ -229,7 +229,7 @@ Skills là cách tự động hóa việc lặp lại. Bài này tập trung m�
 - Toàn bộ flow chạy **không cần bạn yêu cầu** — description của skill là thứ trigger nó, và đã trigger thì luôn đi đúng các bước đó.
 - Điểm check cuối đáng chú ý: chạy tests thấy xanh chưa đủ — test có thể bị **lặng lẽ nới lỏng** để pass vô điều kiện, nên skill đọc diff xác nhận tests không bị yếu đi.
   **"Done" không phải "code nhìn đúng" từ diff — done là các gate được chạy và quan sát, kết quả được nêu rõ ràng.**
-- Dạng này áp dụng cho mọi procedure team lặp lại: release checklist, migration recipe, pre-PR check. **Rule of thumb: đã gõ cùng một multi-step instruction 2 lần → đó là một skill.**
+- Dạng này áp dụng cho mọi procedure team lặp lại: release checklist, migration recipe, pre-PR check. **Nguyên tắc thực dụng (rule of thumb): đã gõ cùng một multi-step instruction 2 lần → đó là một skill.**
 
 #### A skill folder can hold more than instructions
 
@@ -267,7 +267,7 @@ Ba chỗ để đặt instructions, dễ trộn lẫn — cách phân biệt nha
 | Mode | Hành vi |
 |---|---|
 | **Manual** | Chỉ đọc (reads) không cần hỏi. Mọi thứ khác phải hỏi trước. |
-| **Accept edits** | Chạy reads, file edits, và các bash command phổ biến trên file system không cần hỏi. Dành cho iterate code mà bạn review sau. |
+| **Accept edits** | Chạy reads, file edits, và các bash command phổ biến trên file system không cần hỏi. Dành cho việc chỉnh sửa code mà bạn review sau. |
 | **Plan** | Research và đề xuất thay đổi, **không edit gì**. Reads chạy tự do; khi auto mode khả dụng, classifier của auto rà soát các command Claude chạy để khám phá và cho chạy không prompt những cái được duyệt. |
 | **Auto** | Chấp nhận mọi thứ, với một **classifier model riêng** rà soát đa số action trước khi chạy. |
 | **Don't ask** | Cho reads trong working directories + tools đã pre-approve. Mọi thứ đáng lẽ prompt → **auto-denied**. |
@@ -410,13 +410,13 @@ Bài này đề cập 2 cách bàn giao:
 - **Cloud scheduled tasks** (trước đây gọi là *routines*) — không phải build gì.
 - **Headless mode** — kiểm soát hoàn toàn từ script của bạn.
 
-Tưởng tượng như một **spectrum**: một đầu là cloud scheduled tasks chạy trên hạ tầng managed của Anthropic; đầu kia là headless mode / Agent SDK — chạy Claude Code từ code của chính bạn.
+Hãy tưởng tượng một **dải lựa chọn (spectrum)**: một đầu là cloud scheduled tasks chạy trên hạ tầng managed của Anthropic; đầu kia là headless mode / Agent SDK — chạy Claude Code từ code của chính bạn.
 
 #### Scheduled tasks — a saved prompt that runs in the cloud
 
 - Cloud scheduled task = cách trực tiếp nhất tự động hóa repeat work: **không script, không server**.
   Nó bundle 3 thứ — **prompt + repository nó làm việc + connectors cần thiết** — rồi chạy bundle đó trên cloud mỗi khi trigger.
-- Điểm mấu chốt: hạ tầng là **của Anthropic** — không máy của bạn phải thức qua đêm, không workflow file phải maintain. Mô tả job một lần, nó chạy.
+- Điểm mấu chốt: hạ tầng là **của Anthropic** — không cần máy của bạn thức qua đêm, không cần workflow file phải bảo trì. Mô tả job một lần, nó chạy.
 - **Scheduled task không nhất thiết cần "schedule"** — 3 loại trigger:
   - **Cron schedule** (vd mỗi sáng 9am).
   - **HTTP POST** vào API endpoint của nó — code của bạn tự kick off.
@@ -507,12 +507,12 @@ Rồi iterate qua messages Claude stream về, xử lý theo cách app cần. C�
 
 *(Lesson 7 of 9 · 6 min · slug: `github-actions-and-code-review`)*
 
-**Nơi tốt nhất bàn giao repetitive work là pull request** — nơi review diễn ra, thay đổi đáp đất, và nhiều busywork sống.
+**Nơi tốt nhất để bàn giao công việc lặp lại là pull request** — nơi review diễn ra, nơi thay đổi được hợp nhất, và nơi nhiều việc vụn vặt tích tụ.
 
 Hai cách đặt Claude vào đây, giải hai vấn đề khác nhau:
 
-- Một **managed service** bật lên là xong.
-- Một **GitHub Action** tự tay wire.
+- Một **managed service** chỉ cần bật lên là hoạt động.
+- Một **GitHub Action** bạn tự tích hợp.
 
 #### The managed path: Code Review
 
@@ -576,15 +576,15 @@ Giờ ai viết `@claude implement the spec in the linked Linear issue` trên PR
 
 Cùng action chạy daily rollup: **cron** trigger (vd 9:00 UTC) → action chạy `prompt` của bạn → đọc rollup trong log của run đó.
 
-**Scheduled run không tự post comment.** Có thể thêm trigger **`workflow_dispatch`** để kick off thủ công từ Actions tab.
+**Scheduled run không tự post comment.** Có thể thêm trigger **`workflow_dispatch`** để kích hoạt thủ công từ Actions tab.
 
 Khi chạy, theo dõi các bước trong **Actions tab** như mọi GitHub workflow.
 
 #### Tuning the run with claude_args
 
-`claude_args` là nơi fine-tune — vài núm đáng biết:
+`claude_args` là nơi tinh chỉnh — vài tùy chọn đáng biết:
 
-- **`--max-turns 5`** — hard cap cho agent loop, không chạy mãi được.
+- **`--max-turns 5`** — giới hạn cứng (hard cap) cho agent loop, không chạy mãi được.
 - **Permission mode** — job unattended thì chọn chế độ không dừng hỏi (không ai ở đó để trả lời).
 - **Allowed tools** — đưa đúng những gì job cần, không hơn. Report → read-only.
 
@@ -592,7 +592,7 @@ Khi chạy, theo dõi các bước trong **Actions tab** như mọi GitHub workf
 
 - **PR review** → managed path: bật Code Review, GitHub app post inline findings, bạn fix + push.
 - **Hơn review** → action: `/install-github-app` để setup, một workflow cho `@claude` mentions, một cho cron, mọi tuning nằm trong `claude_args`.
-- **Bắt đầu bằng managed service. Chuyển sang action ngay khi cần Claude thực sự LÀ gì đó trong CI, chứ không chỉ comment về nó.**
+- **Bắt đầu bằng managed service. Chuyển sang action ngay khi bạn cần Claude thực sự làm gì đó trong CI, chứ không chỉ bình luận về nó.**
 
 ---
 
@@ -628,7 +628,7 @@ Công thức: **càng ít theo dõi, càng phải verify nhiều.**
 
 #### Turn tests into a gate, not a promise
 
-- Gate thật cho unsupervised run: **tests có pass không** và **Claude có thực sự chạy chúng hay chỉ claiming là có**. Đừng phó mặc cho niềm tin — wire thành **hook** để Claude không bỏ qua được:
+- Gate thật cho unsupervised run: **tests có pass không** và **Claude có thực sự chạy chúng hay chỉ claiming là có**. Đừng phó mặc cho niềm tin — cấu hình thành **hook** để Claude không bỏ qua được:
   - **Stop hook** chạy tests và **từ chối kết thúc turn khi fail**.
   - **Post-tool-use hook** lint + type check sau **mọi** edit.
 - Chi tiết then chốt: **exit code**. Hook exit **mã 2** đưa failure thẳng lại cho Claude → Claude đọc failure và **tự sửa không cần bạn hỏi**.
@@ -636,8 +636,8 @@ Công thức: **càng ít theo dõi, càng phải verify nhiều.**
 
 #### Get a cold second opinion
 
-- Sub-agent code review chạy trước PR dùng được ở đây: mở **session/sub-agent hoàn toàn mới** review code đã đổi với **không ký ức** về code được build thế nào.
-- Vì nó không có cổ phần trong approach, nó bắt được những thứ run gốc **tự thuyết phục mình bỏ qua**. Reviewer thứ hai mắt lạnh tìm ra cái tác giả rationalized away.
+- Sub-agent code review chạy trước PR dùng được ở đây: mở **session/sub-agent hoàn toàn mới** review code đã đổi với **không một kỷ ức nào** về cách code được build.
+- Vì nó không dính lợi ích vào cách tiếp cận, nó bắt được những thứ run gốc **tự thuyết phục mình bỏ qua**. Reviewer thứ hai với cái nhìn khách quan tìm ra điều mà tác giả tự biện luận cho qua.
 
 #### Putting it together
 
@@ -656,7 +656,7 @@ Làm vậy thì "Claude làm lúc tôi không nhìn" **không còn cần niềm 
 
 **Vấn đề:** setup đáng tin giá trị gấp bội khi cả team cùng chạy — nhưng di chuyển nó mới khó.
 
-Bạn build một `.claude` tuyệt vời với skills, subagents, hooks... rồi sao? Mọi người copy-paste files giữa các máy và cầu nguyện chúng đồng bộ.
+Bạn build một `.claude` tuyệt vời với skills, subagents, hooks... rồi sao? Mọi người copy-paste files giữa các máy và mong sao chúng đồng bộ.
 
 **Plugins sửa điều đó: cách Claude Code đóng gói một setup và chuyển từ người này sang người kia.**
 
@@ -675,7 +675,7 @@ Hai mặt: (1) dùng plugins người khác publish; (2) đóng gói plugin riê
 
 - Lệnh mở **details của plugin trước** để bạn review và chọn scope.
   Sau đó Claude Code cài và in summary ngắn: hoặc nói plugin **đã active trong session**, hoặc nhắc **`/reload-plugins`** và Claude Code tự chạy reload đó cho bạn.
-  Bạn chỉ can thiệp khi reload **cảnh báo** message kế tiếp sẽ re-read toàn bộ conversation — khi đó chạy `/reload-plugins --force` để kích hoạt plugin dù sao.
+  Bạn chỉ can thiệp khi reload **cảnh báo** message kế tiếp sẽ re-read toàn bộ conversation — khi đó chạy `/reload-plugins --force` để kích hoạt plugin dù có cảnh báo.
 
 #### Adding a marketplace for your team
 
@@ -692,8 +692,8 @@ Hai mặt: (1) dùng plugins người khác publish; (2) đóng gói plugin riê
 
 - **Plugin chạy code trên máy bạn, với quyền của bạn.** Hooks của nó fire trên **mọi tool call khớp**.
   Cài plugin vì skills → bạn cũng nhận cả PreToolUse và Stop hooks của nó, **dù bạn có đọc chúng hay không**.
-- Suy ngẫm: một community plugin có thể ship Stop hook **gọi ra network endpoint mỗi lần**, và không gì trong cấu hình bạn cảnh báo. Không phải lý do tránh plugins — mà là lý do **nhìn trước**.
-- Trước khi cài, xem **details**: Claude Code cho biết nó sẽ cài gì, **ước lượng context cost**, kèm cảnh báo thẳng thắn rằng **Anthropic không kiểm soát nội dung third-party plugins**.
+- Suy ngẫm: một community plugin có thể ship Stop hook **gọi ra network endpoint mỗi lần**, và không có gì trong cấu hình cảnh báo bạn. Không phải lý do tránh plugins — mà là lý do **nhìn trước**.
+- Trước khi cài, xem **details**: Claude Code cho biết nó sẽ cài gì, **ước lượng chi phí context window**, kèm cảnh báo thẳng thắn rằng **Anthropic không kiểm soát nội dung third-party plugins**.
 - Hai điều về nguồn gốc plugin:
   - Plugin lên được **community marketplace** vì *tác giả* gửi nó cho Anthropic.
   - **Official marketplace** được curated trên track riêng biệt.
@@ -736,7 +736,7 @@ Trên nền đó là manifest **tùy chọn**, tại `.claude-plugin/plugin.json
 
 - Manifest optional — bỏ cũng vẫn discover components theo directory convention. Nhưng đáng biết:
   - **Name là field bắt buộc duy nhất.** Nó namespaced skills của bạn thành `/plugin-name:skill-name` — skill trong plugin này chạy như **`/svg-splitter-review:<skill-name>`** → không trùng skill của ai khác.
-  - **Version nó như dependency bình thường** — đó là điều làm updates và version tracking chạy được trong team.
+  - **Version hoạt động như dependency bình thường** — đó là điều làm updates và version tracking chạy được trong team.
 
 #### The takeaway
 
@@ -745,7 +745,7 @@ Hai rule đơn giản phủ gần hết:
 1. **Khi dùng:** đọc trước khi cài — plugin chạy code với quyền của bạn; xem hooks, agents, MCP servers của nó trước.
 2. **Khi build:** package `.claude` ngay khi nó chạy tốt. Một manifest, một install.
 
-**Đó là toàn bộ ý nghĩa: một đơn vị cài đặt, và setup bạn tin tưởng đến được cả team.**
+**Đó là toàn bộ ý nghĩa: một đơn vị cài đặt, và setup đáng tin đến được với cả team.**
 
 ---
 
@@ -767,3 +767,7 @@ Hai rule đơn giản phủ gần hết:
 → *verify* thứ không giám sát (bài 8) → *share* qua plugins (bài 9).
 
 Mỗi bài nâng một bậc độ tự tin: từ điều khiển tay đến tự động hoàn toàn có kiểm chứng.
+
+---
+
+> Metadata: cập nhật 2026-11-07 · nguồn: Anthropic Claude Academy (khóa *Claude Code in Action*, 11/2026) · phạm vi: 9 bài học + tổng kết toàn khóa

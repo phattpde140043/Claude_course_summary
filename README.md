@@ -2,9 +2,9 @@
 
 Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) — biên soạn bằng tiếng Việt, giữ nguyên thuật ngữ chuyên ngành tiếng Anh.
 
-Đối tượng: người làm việc trong lĩnh vực technical đã quen sử dụng AI assistant.
+Đối tượng: người làm việc trong lĩnh vực kỹ thuật đã quen sử dụng AI assistant.
 
-> Toàn bộ nội dung được quét từ **raw text** của các bài học (kể cả sub-links, media links) cập nhật 11/2026, đảm bảo không bỏ sót thông tin chuyên môn.
+> Toàn bộ nội dung được quét từ **raw text** của các bài học cập nhật 11/2026, nhằm không bỏ sót thông tin chuyên môn.
 
 ---
 
@@ -21,21 +21,21 @@ Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) 
 
 | Tài liệu | Nội dung |
 | :--- | :--- |
-| [**Claude_Code_101_Course.md**](Claude_Code_101_Course.md) | Khóa Claude Code 101 (16 bài): cài đặt, Explore→Plan→Code→Commit, context management, `/review`, CLAUDE.md, subagents, skills, MCP, hooks, automation |
+| [**Claude_Code_101_Course.md**](Claude_Code_101_Course.md) | Khóa Claude Code 101 (12 bài chính + 10 bài khóa con): cài đặt, Explore→Plan→Code→Commit, context management, `/review`, CLAUDE.md, subagents, skills, MCP, hooks, automation |
 | [**Claude_Code_In_Action_Course.md**](Claude_Code_In_Action_Course.md) | Khóa Claude Code in Action (4 phần): Steer the work · Configure Claude · Automate repeat work · Verify and share — kèm tổng kết thực hành |
 
 ### 3. Bề mặt làm việc chuyên biệt
 
 | Tài liệu | Nội dung |
 | :--- | :--- |
-| [**Claude_Cowork_Course.md**](Claude_Cowork_Course.md) | Khóa Introduction to Claude Cowork (11 bài): setup, hand-off task, global instructions, projects, skills, plugins, Claude in Chrome, Claude for Microsoft 365, best practices an toàn |
+| [**Claude_Cowork_Course.md**](Claude_Cowork_Course.md) | Khóa Introduction to Claude Cowork (14 bài): setup, hand-off task, global instructions, projects, skills, plugins, Claude in Chrome, Claude for Microsoft 365, best practices an toàn |
 | [**Claude_Tag_Course.md**](Claude_Tag_Course.md) | Khóa Claude Tag — hợp tác với Claude trong Slack (11 bài): DM/public channel/private channel, memory & instructions, proactivity, schedule công việc định kỳ, viết request hiệu quả |
 
 ### 4. Platform & API
 
 | Tài liệu | Nội dung |
 | :--- | :--- |
-| [**Claude_Platform_101_Course.md**](Claude_Platform_101_Course.md) | Khóa Claude Platform 101: API call đầu tiên, chọn model, agent loop, tool use, thinking, built-in tools, skills, MCP, context management, managed agents, prompt engineering |
+| [**Claude_Platform_101_Course.md**](Claude_Platform_101_Course.md) | Khóa Claude Platform 101: API call đầu tiên, chọn model, agent loop, tool use, thinking, built-in tools, skills, MCP, context management, managed agents, building với Claude Code |
 
 ### 5. Tham khảo thêm
 

@@ -2311,3 +2311,7 @@ enabling you to make informed decisions and edit as needed.
 
 **Output:** Claude analyzes your messages for key details within conversation threads, then uses Web Search to find relevant options online.
 Finally, it stores organized notes in your Notes app, accessible across all your devices.
+
+---
+
+> Metadata: cập nhật 2026-11-08 · nguồn: Anthropic Claude Academy (Use Case Gallery, 11/2026) · phạm vi: 156 use cases theo 14 nhóm role

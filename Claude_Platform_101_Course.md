@@ -17,7 +17,7 @@
 ## Bài 1: What is the Claude Platform? (6′)
 
 ### Định nghĩa
-**Claude Platform** = hạ tầng của Anthropic để build với Claude **programmatically**: thay vì chat trong browser, bạn gửi **structured requests** từ code và nhận structured responses —
+**Claude Platform** = hạ tầng của Anthropic để xây dựng cùng Claude **thông qua code (programmatically)**: thay vì chat trong browser, bạn gửi **structured requests** từ code và nhận structured responses —
 
 kiểm soát mọi chi tiết: model nào, bao nhiêu tokens, tools gì, system instructions nào.
 
@@ -29,14 +29,14 @@ Cấu thành:
 - **Console** (quản lý API keys, monitor usage, deploy managed agents, test prompts).
 
 ### 3 lớp của platform
-1. **Primitives** — building blocks gọi từ code: Messages API, tool use, files, web search, code execution, MCP servers, skills
+1. **Primitives** — các khối cấu thành (building blocks) gọi từ code: Messages API, tool use, files, web search, code execution, MCP servers, skills
 2. **Infrastructure** — để scale agentic systems qua prototype: managed agents, retries, queues, observability
 3. **Controls** — chạy production: dashboards, evals
 
 > Shorthand: *"build with primitives, scale on infrastructure, run with control."*
 
 ### Ví dụ: draft help desk replies
-Wire nút UI → Messages API (Python):
+Tích hợp nút UI → Messages API (Python):
 ```python
 client = anthropic.Anthropic()
 response = client.messages.create(
@@ -52,7 +52,7 @@ draft = response.content
 - `system` — system prompt định nghĩa role (tone + guidelines vào đây)
 - `messages` — array objects với role `user`/`assistant`
 - Flow: define client → retrieve ticket → `messages.create` → trả response cho button render
-- Ý nghĩa cốt lõi: không build chatbot từ đầu — **đưa Claude vào sản phẩm đã có**, API là cách wire nó in. Cần agents? Platform **chạy giúp** (managed agents)
+- Ý nghĩa cốt lõi: không build chatbot từ đầu — **đưa Claude vào sản phẩm đã có**, API là cách tích hợp nó vào. Cần agents? Platform **chạy giúp** (managed agents)
 
 ## Bài 2: Your first API call (5′)
 
@@ -227,7 +227,7 @@ Khác biệt chỉ: tools thật thay mock, results **stream về UI dạng serv
   }
 }
 ```
-Gửi compliance report → turn 1 Claude trả `stop_reason: "tool_use"` → loop gọi tool với param Claude xin → feed lại **tool result** (user message chứa `tool_result` block gắn với `tool_use_id`) → Claude tiếp tục.
+Gửi compliance report → turn 1 Claude trả `stop_reason: "tool_use"` → loop gọi tool với param Claude xin → trả về **tool result** (user message chứa `tool_result` block gắn với `tool_use_id`) → Claude tiếp tục.
 
 ### Nhiều tools: Claude tự chọn
 Scenario Denver 3 ngày → khai báo `get_weather` + `get_forecast`; loop giống hệt, chỉ thêm `runTool` **dispatch theo tên bằng switch**:
@@ -754,3 +754,5 @@ Lần chạy này: Claude Code tạo **Zod tool** parse input + return output th
 
 > ✅ **Độ phủ:** 13/13 bài đọc từ raw HTML gốc, **giữ nguyên toàn bộ code samples** (Python + TypeScript + JSON) — đây là khóa nặng code nhất trong 5 khóa đã quét.
 > 2/2 refer links quét trọn. Duration mỗi bài: 6-5-5-7-8-5-6-6-6-6-7-8-5′.
+
+> Metadata: cập nhật 2026-11-08 · nguồn: Anthropic Claude Academy (khóa *Claude Platform 101*, 11/2026) · phạm vi: 13 bài học + 2 refer links (Fable/Mythos 5.1 blog, Managed Agents events-and-streaming)

@@ -3,7 +3,7 @@
 > **Nguồn:** Claude Academy — khóa *Claude 101* (15 lessons + 2 videos + Use Case Gallery 156 use cases)
 > academy.claude.com · quét 11/2026
 >
-> **Đối tượng:** người làm technical đã quen dùng AI assistant. Bỏ toàn bộ phần onboarding/dẫn dắt; chỉ giữ các thông tin mang tính quyết định.
+> **Đối tượng:** người làm việc trong lĩnh vực kỹ thuật đã quen dùng AI assistant. Bỏ toàn bộ phần onboarding/dẫn dắt; chỉ giữ các thông tin mang tính quyết định.
 >
 > **File liên quan:**
 >
@@ -118,14 +118,14 @@ Mẹo: biểu tượng **bút chì** trên message cho phép chỉnh sửa và g
 - **Discernment** — đánh giá phản biện.
 - **Diligence** — trách nhiệm + đạo đức.
 
-Fluency về bản chất là *năng lực phán đoán* (judgment), không phải chỉ là biết thao tác.
+Fluency không chỉ là biết cách sử dụng công cụ, mà còn là khả năng lựa chọn cách sử dụng phù hợp và đánh giá kết quả một cách có ý thức.
 
 **Eval 4 bước:**
 
 1. Thu 5–10 ví dụ của task thật.
 2. Viết test prompts với context tự nhiên.
-3. So sánh output (accuracy, tone, gaps).
-4. Refine prompt và lặp.
+3. So sánh kết quả (accuracy, tone, gaps).
+4. Điều chỉnh prompt và lặp lại.
 
 **Delegation diligence loop** — xây niềm tin trên dữ liệu đã biết kết quả đúng:
 
@@ -135,11 +135,11 @@ Fluency về bản chất là *năng lực phán đoán* (judgment), không ph�
 4. **Refine** — hoàn thiện yêu cầu, test lại.
 5. **Quyết định** — kết quả khớp → tự tin dùng cho dữ liệu mới; không khớp sau vài lần thử → **task này không nên giao**.
 
-Case minh họa (Rio, Valley Veterans Services):
+Case minh họa (Rio, Valley Veterans Services) — minh họa *delegation diligence loop* nêu trên qua ba lần thử:
 
-- Lần 1: AI xác định đúng correlation giữa attendance và placement, nhưng bỏ sót insight về chương trình kết hợp housing + job.
-- Hoàn thiện yêu cầu nêu rõ *program type* → AI bắt được insight này.
-- Thiếu *enrollment dates* thì AI tự suy đoán (infer) sai — cần cung cấp đủ dữ liệu cho cohort analysis.
+- **Lần 1 (yêu cầu chung chung):** AI xác định đúng correlation giữa attendance và placement, nhưng bỏ sót insight về chương trình kết hợp housing + job. Minh họa: yêu cầu chưa nêu rõ *program type* thì AI không có căn cứ để phân tích tách biệt từng loại chương trình.
+- **Lần 2 (sau bước Refine):** yêu cầu nêu rõ *program type* — AI bắt được insight đã bỏ sót. Minh họa: chất lượng phân tích tăng theo độ đầy đủ của mô tả; chính bước hoàn thiện yêu cầu tạo ra khác biệt.
+- **Lần 3 (thiếu dữ liệu đầu vào):** thiếu *enrollment dates*, AI tự suy đoán (infer) sai. Minh họa: AI không tự sinh được dữ liệu còn thiếu — muốn chạy cohort analysis, phải cung cấp đủ dữ liệu.
 
 > **"Validation builds confidence, but it doesn't eliminate responsibility"** — bạn vẫn phải chịu trách nhiệm (accountable) và minh bạch (transparent) về vai trò của AI.
 
@@ -159,7 +159,7 @@ Case minh họa (Rio, Valley Veterans Services):
 | Đặc điểm công việc | Bề mặt | Dấu hiệu | Tính năng riêng |
 | :--- | :--- | :--- | :--- |
 | **Turn-by-turn** (tương tác từng lượt) | **Chat** | Câu trả lời định hình câu hỏi tiếp theo (brainstorm, drafting, thinking aloud); cần phán đoán ở mỗi bước | Quick entry (double-tap `Option` trên Mac), screenshots/window sharing, dictation, desktop connectors |
-| **Hand-off** (bàn giao cả quy trình) | **Cowork** (Pro/Max/Team/Enterprise) | Task đa bước tuần tự; output là file hoàn chỉnh đặt đúng vị trí; công việc trải qua nhiều công cụ; cần chạy theo lịch trình | Local folder access · Scheduled tasks (chạy remote kể cả khi máy sleep) · Subagents song song · Projects · Browser use · Computer use (research preview, Pro/Max) · Plugins (bundles theo role: sales/finance/legal) |
+| **Hand-off** (bàn giao cả quy trình) | **Cowork** (Pro/Max/Team/Enterprise) | Task đa bước tuần tự; kết quả là file hoàn chỉnh, đặt đúng vị trí; công việc trải qua nhiều công cụ; cần chạy theo lịch trình | Local folder access · Scheduled tasks (chạy remote kể cả khi máy sleep) · Subagents song song · Projects · Browser use · Computer use (research preview, Pro/Max) · Plugins (bundles theo role: sales/finance/legal) |
 | **Building software** (xây dựng phần mềm) | **Code tab** (Pro/Max/Team/Enterprise) | Viết/test/chạy/ship code trong codebase thật | Visual diffs, built-in terminal, git-backed versioning · Local: folder tự chọn + dev server · Cloud: GitHub repo, session tồn tại sau khi đóng app (Cowork cũng chạy cloud trên Pro/Max) |
 
 **Kiểm soát trong Cowork:**
@@ -211,7 +211,7 @@ An toàn trong Claude in Chrome: xin permission trước hành động rủi ro 
 **Best practices:**
 
 - Bắt đầu với 1 use case rồi mở rộng.
-- **Doc lỗi thời → câu trả lời lỗi thời** — cập nhật knowledge base.
+- **Tài liệu lỗi thời thì câu trả lời cũng lỗi thời** — cập nhật knowledge base.
 - Instructions mơ hồ → kết quả thiếu nhất quán.
 - Tham chiếu tài liệu theo tên ("Dựa trên Q3 report, top concerns là gì?").
 
@@ -231,7 +231,7 @@ Chạy trong **sandboxed environment**; có thể bật **Allow limited network 
 
 - Claude **tự chọn** skill khi liên quan (không cần kích hoạt thủ công).
 - Việc dùng skill hiển thị trong chain of thought.
-- File execution tạo **phiên bản mới** (không edit bản gốc).
+- File execution tạo **phiên bản mới** (không sửa bản gốc).
 - Formats: .xlsx/.pptx/.docx/.pdf.
 - Lưu ý: nếu Claude Slides/Docs đang bật, yêu cầu có thể trả về **artifact** thay vì file.
 
@@ -258,7 +258,7 @@ Fallback: download file → Customize > Skills > Add → Upload skill.
 
 ### 4.4 Artifacts — deliverables chỉnh sửa & chia sẻ được
 
-Các output độc lập (documents, decks, designs, dashboards, prototypes) mở trong **cửa sổ riêng cạnh chat**; **được lưu trong tab Artifacts**, độc lập với conversation. Chủ động yêu cầu tạo: *"Create this as an artifact"*.
+Các sản phẩm đầu ra độc lập (documents, decks, designs, dashboards, prototypes) mở trong **cửa sổ riêng cạnh chat**; **được lưu trong tab Artifacts**, độc lập với conversation. Chủ động yêu cầu tạo: *"Create this as an artifact"*.
 
 | Tool | Dùng cho | Năng lực |
 | :--- | :--- | :--- |
@@ -425,7 +425,7 @@ Research hoạt động như một quy trình nghiên cứu có tính chủ đ�
 - **Education:** 10 · **Legal:** 10 · **Engineering:** 9 · **Product:** 7 · **Design:** 7 · **Research:** 7
 - **HR:** 6 · **Data:** 1
 
-Mỗi trang có prompt mẫu theo bước (Describe the task → Give Claude context → …) + nút "Try in Claude". → Chi tiết đầy đủ trong `Claude_Course_UseCases.md`.
+Mỗi trang có prompt mẫu theo bước (Describe the task → Give Claude context → …) + nút "Try in Claude". Chi tiết đầy đủ trong `Claude_Course_UseCases.md`.
 
 ---
 
@@ -466,3 +466,5 @@ Team/Enterprise: admin quyết định bật/tắt designs, decks, documents; Ow
 - Loạt khóa chuyên sâu: Claude Code in Action, Introduction to Claude Cowork.
 
 > **Nguyên tắc chốt:** "Claude is designed to be a collaborator, not a replacement" — bắt đầu từ **một recurring task** trong tuần rồi iterate. Kỹ năng sẽ sắc qua thực hành.
+
+> Metadata: cập nhật 2026-11-08 · nguồn: Anthropic Claude Academy (khóa *Claude 101* + Use Case Gallery, 11/2026) · phạm vi: 15 bài học + 2 video + 156 use cases

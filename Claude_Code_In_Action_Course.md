@@ -56,7 +56,7 @@ Cấu trúc 4 nhóm bài theo sidebar của khóa:
 
 **Vấn đề:** Prompt Claude làm task nhanh thì dễ — bạn hỏi, nó làm, bạn kiểm tra.
 
-Nhưng task dài (refactor chục file, build feature mới mất nhiều giờ) là chuyện khác: càng phải "lái" Claude nhiều giữa chừng, việc càng kéo dài.
+Nhưng task dài (refactor một chục file, build feature mới mất nhiều giờ) là chuyện khác: càng phải "lái" Claude nhiều giữa chừng, việc càng kéo dài.
 
 **Nguyên tắc cốt lõi — 2 thói quen:** (1) xác định phạm vi công việc **trước khi** Claude bắt đầu; (2) lái nó **trong lúc** nó chạy.
 
@@ -65,19 +65,19 @@ Nhưng task dài (refactor chục file, build feature mới mất nhiều giờ)
 - Trước khi Claude viết dòng nào, cho nó lập plan. Ở **plan mode**, Claude research mà **không sửa** source files — đọc code, xác định cái gì cần đổi, đưa plan cho bạn review.
 - Khi nhận plan: **đọc thật**, đừng lướt.
   - Plan càng kỹ càng ít surprise khi chạy.
-  - Thiếu sót gì thì yêu cầu Claude bổ sung ngay — **iterate trên plan nhanh hơn** nhiều so với để Claude chạy rồi dọn dệp đống mess.
+  - Thiếu sót gì thì yêu cầu Claude bổ sung ngay — **iterate trên plan nhanh hơn** nhiều so với để Claude chạy rồi dọn dẹp đống mess.
 
 #### Steer while Claude works — Compact
 
 - **`/compact`** tóm tắt conversation, dùng summary đó làm context mới và xóa messages cũ → giải phóng context window để Claude chạy tiếp.
 - **Rủi ro:** thứ quan trọng bị rơi khỏi summary → Claude lạc hướng (drift).
-- **Đừng chạy `/compact` trơn** — thêm instruction sau lệnh để chỉ dẫn cách tóm tắt. Ví dụ đã xong debug từ lâu, giờ chỉ quan tâm API changes:
+- **Đừng chạy `/compact` không kèm instruction** — thêm instruction sau lệnh để chỉ dẫn cách tóm tắt. Ví dụ đã xong debug từ lâu, giờ chỉ quan tâm API changes:
 
 ```
 /compact Focus on the --version flag implementation
 ```
 
-- Mọi thứ viết sau lệnh sẽ định hình summary giữ lại gì — đó là **vô lăng điều khiển context** của bạn.
+- Mọi thứ viết sau lệnh sẽ định hình những gì summary giữ lại — đó là **vô lăng điều khiển context** của bạn.
 
 #### Rewind
 
@@ -108,7 +108,7 @@ Nhưng task dài (refactor chục file, build feature mới mất nhiều giờ)
 
 #### Run parallel work with worktrees
 
-- Ẩn dụ: nhiều agents trên cùng codebase = nhiều vô lăng trong một xe → không an toàn, hai session Claude giành cùng file dẫn đến conflict.
+- Ẩn dụ: nhiều agents trên cùng codebase = nhiều vô lăng trong một xe → không an toàn, hai session Claude giành nhau cùng file dẫn đến conflict.
 - **Worktrees:** mỗi session có **file tree độc lập riêng** → không ai đè thay đổi của ai. Session thoát mà worktree sạch thì **tự động bị xóa**.
 - File cần biết: **`.worktreeinclude`** đặt ở repo root — liệt kê các git-ignored files cần copy vào mỗi worktree (ví dụ file env variables hay local config cần ở mọi worktree nhưng không muốn commit).
 
@@ -144,7 +144,7 @@ File càng dài càng tự cạnh tranh với chính nó, Claude càng khó theo
 
 - Có rule là **guidance**, có rule là **hard line** không bao giờ được phép vượt — hai việc khác nhau.
 - Ví dụ "never push to main": đặt trong CLAUDE.md thì bạn chỉ *hy vọng* Claude đọc và tôn trọng.
-  Đa số thời gian là có — nhưng "đa số" không đủ cho thứ nguy hiểm vậy. Rule cứng như vậy thuộc về **pre-tool-use hook**.
+  Đa số thời gian Claude có làm vậy — nhưng "đa số" không đủ cho thứ nguy hiểm đến thế. Rule cứng như vậy thuộc về **pre-tool-use hook**.
 - Hook là code chạy **trước** khi Claude hành động và có thể **chặn** hành động đó — kể cả khi Claude cố push to main, hook chặn lại.
   Đó là enforcement thật, không phải lời đề nghị lịch sự. **Hard rules → hooks; soft conventions → CLAUDE.md.**
 
@@ -179,7 +179,7 @@ Khi project file dài, tách bằng path-to-file import syntax:
 
 Rule có được tuân thủ hay không nằm ở cách diễn đạt. Đa số rule thất bại vì **vague**.
 
-**1. Be specific and checkable** — đừng viết "follow best practices" (bạn có chắc đó là gì không? Nếu bạn không check được nó có được tuân thủ, Claude cũng không):
+**1. Be specific and checkable** — đừng viết "follow best practices" (bạn có chắc mình biết đó là gì không? Nếu bạn không check được nó có được tuân thủ, Claude cũng không):
 
 - Vague: `"Follow best practices for API routes."`
 - Specific: `"Put new API routes in src/api/handlers, one per file."` ← nhìn kết quả là biết ngay đúng/sai. Đó là chuẩn mỗi rule phải đạt.
@@ -197,7 +197,7 @@ Nếu rule nào cũng gào thì không gì nổi bật. Chi tiêu emphasis như 
 
 - CLAUDE.md **không bao giờ "xong"** — đối xử như living code liên tục được sửa.
 - Khi Claude làm sai, đừng thở dài rồi sửa tay — hãy coi đó là **bug report cho CLAUDE.md**.
-  Thậm chí bảo thẳng Claude: *"add that to the CLAUDE.md file"* — nó sẽ tự viết rule. File tốt dần lên mỗi lần có chuyện sai.
+  Thậm chí nói thẳng với Claude: *"add that to the CLAUDE.md file"* — nó sẽ tự viết rule. File tốt dần lên mỗi lần có chuyện sai.
 
 #### The bottom line
 
@@ -252,7 +252,7 @@ Ba chỗ để đặt instructions, dễ trộn lẫn — cách phân biệt nha
 #### The recap
 
 - Skill = folder chứa SKILL.md: **name**, **description** (thứ trigger nó), và **procedure**.
-  Chỉ descriptions được load vào context cho đến khi skill cần đến → chi phí packaged mọi procedure lặp lại gần như bằng 0.
+  Chỉ descriptions được load vào context cho đến khi skill cần đến → chi phí để package mọi procedure lặp lại gần như bằng 0.
 - Bắt đầu với verification: build skill, commit vào **`.claude/skills`** của project → cả team thừa hưởng cùng một nước đi.
   Work của mọi người được kiểm tra cùng một cách, tự động, không ai phải nhớ để hỏi.
 
@@ -281,7 +281,7 @@ Không cần nhớ lệnh từng mode — nhấn **shift-tab** để cycle qua c
 
 - Auto là mode hands-off: Claude tự chạy, nhưng trước khi đa số action thực thi, một **classifier model riêng** rà soát.
   Classifier canh **intent** — phát hiện các nước đi leo thang vượt quá điều bạn thực sự yêu cầu.
-- **Chặn:** production deploys và migrations; force pushing; pipe code tải về thẳng vào shell; gửi sensitive data ra external endpoint; hủy không thể hoàn tác các file tồn tại trước session.
+- **Chặn:** production deploys và migrations; force pushing; pipe code tải về thẳng vào shell; gửi sensitive data ra external endpoint; thao tác hủy không thể hoàn tác với các file tồn tại trước session.
 - **Cho qua:** edits cục bộ trong project; cài dependencies từ lock file; read-only requests; push lên branch của chính bạn.
 - **Guardrails của auto vẫn đang hoàn thiện** — xem docs cho block/allow lists hiện tại.
 
@@ -310,9 +310,9 @@ Không cần nhớ lệnh từng mode — nhấn **shift-tab** để cycle qua c
 
 *(Lesson 5 of 9 · 7 min · slug: `hooks`)*
 
-**Vấn đề với CLAUDE.md:** đó là *request*, không phải *guarantee*. Viết "always format after editing" thì Claude *thường* nghe. Nhưng trên long run không ai trông, "thường" là chưa đủ.
+**Vấn đề với CLAUDE.md:** đó là *request*, không phải *guarantee*. Viết "always format after editing" thì Claude *thường* tuân theo. Nhưng trên long run không ai trông, "thường" là chưa đủ.
 
-**Hook giải quyết:** hook là **deterministic code chạy tại điểm cố định trong loop** — nó **đảm bảo** behavior thay vì hy vọng. Biến rule từ "Claude thường nghe" thành **"Claude không thể bỏ qua."**
+**Hook giải quyết:** hook là **deterministic code chạy tại điểm cố định trong loop** — nó **đảm bảo** behavior thay vì hy vọng. Biến rule từ "Claude thường tuân theo" thành **"Claude không thể bỏ qua."**
 
 #### The hook events
 
@@ -336,7 +336,7 @@ PreToolUse là nơi mạnh nhất vì **chặn được tool call trước khi c
 - `allow` — cho qua.
 - `deny` — chặn.
 - `ask` — đẩy về người dùng quyết định.
-- (Có giá trị thứ 4 `defer`, chỉ áp dụng cho run `-p` non-interactive where calling process pause/resume tool — hiếm khi cần.)
+- (Có giá trị thứ 4 `defer`, chỉ áp dụng cho run `-p` non-interactive mà calling process có thể pause/resume tool — hiếm khi cần.)
 
 Hình dạng JSON:
 
@@ -367,7 +367,7 @@ Ba con số quan trọng:
 - **Bất kỳ giá trị khác** = non-blocking; stderr được log, Claude cứ chạy tiếp.
 
 - **Bẫy lớn nhất: exit 1.** Nghe như error nhưng **không chặn** — Claude vẫn chạy command. Muốn chặn thì **exit 2, không phải 1**.
-- Vài wrinkle nữa: exit 2 chặn được cả **Stop** (cách bảo Claude "chưa xong").
+- Vài wrinkle nữa: exit 2 chặn được cả **Stop** (cách nói với Claude "chưa xong").
   Nhưng **PostToolUse** fire *sau khi* tool đã chạy — block ở đó là quá muộn để chặn call (vẫn feed text lại cho Claude được).
   Một vài event **ignore blocking hoàn toàn**: Notification và SessionStart — SessionStart chỉ hiện stderr cho *bạn* xem, Notification ignore, cả hai cứ tiếp tục.
 
@@ -393,7 +393,7 @@ Hooks biến rule Claude *thường* theo thành rule *luôn luôn* theo.
 
 Vượt qua auto-formatting: canh tools bằng **PreToolUse**, chặn turn bằng **Stop**, giữ state qua compact.
 
-Setup tốn công một chút nhưng hoàn vốn ngay lần đầu nó bắt được thứ gì trên run bạn không hề trông.
+Setup tốn công một chút nhưng hoàn vốn ngay lần đầu nó bắt được thứ gì trên run bạn không hề trông nom.
 
 ---
 
@@ -405,7 +405,7 @@ Setup tốn công một chút nhưng hoàn vốn ngay lần đầu nó bắt đ�
 
 Một khi đã tin Claude làm tốt một task, bước tiếp theo là **ngừng làm thủ công**.
 
-Bài này covers 2 cách bàn giao:
+Bài này đề cập 2 cách bàn giao:
 
 - **Cloud scheduled tasks** (trước đây gọi là *routines*) — không phải build gì.
 - **Headless mode** — kiểm soát hoàn toàn từ script của bạn.
@@ -421,7 +421,7 @@ Tưởng tượng như một **spectrum**: một đầu là cloud scheduled task
   - **Cron schedule** (vd mỗi sáng 9am).
   - **HTTP POST** vào API endpoint của nó — code của bạn tự kick off.
   - **GitHub event** (vd pull request mới landing).
-- Fit tốt: prompt lặp lại theo trigger định kỳ — morning dependency audit, PR triager chạy khi PR mới vào, daily scan Sentry tickets xếp mức độ khẩn.
+- Phù hợp: prompt lặp lại theo trigger định kỳ — morning dependency audit, PR triager chạy khi PR mới vào, daily scan Sentry tickets xếp mức độ khẩn.
 - **Mental model:** scheduled task = prompt + repo + connectors + trigger.
 
 #### Two ways to create one
@@ -457,7 +457,7 @@ claude -p "summarize the changes in this diff"
 
 Vì headless pipe như shell tool, bạn thường cần **structured data** thay vì văn xuôi: ghép **JSON schema** với **JSON output format** — Claude ràng buộc output khớp schema.
 
-Object khớp schema nằm trong field **`structured_output`** của JSON response → lôi ra bằng `jq`, pipe vào database hay script khác:
+Object khớp schema nằm trong field **`structured_output`** của JSON response → trích ra bằng `jq`, pipe vào database hay script khác:
 
 ```bash
 claude -p "Extract the exported function names from src/core/style.js" \
@@ -468,13 +468,13 @@ claude -p "Extract the exported function names from src/core/style.js" \
 
 #### Multi-step automation with sessions
 
-Việc trải nhiều bước không cần nhét vào một command — capture **session ID** từ JSON output rồi resume sau:
+Việc trải nhiều bước không cần đóng gói vào một command — capture **session ID** từ JSON output rồi resume sau:
 
 ```bash
 claude --resume "$(jq -r .session_id /tmp/plan.json)"
 ```
 
-Script này khởi động việc, script kia resume với **đầy đủ context** — tiện khi lượt đầu tạo plan, lượt hai thi hành.
+Script này khởi động việc, script kia resume với **đầy đủ context** — tiện khi lượt đầu tạo plan, lượt hai thực thi.
 
 #### Consistent runs for CI — `--bare`
 
@@ -528,7 +528,7 @@ Hai cách đặt Claude vào đây, giải hai vấn đề khác nhau:
 - Khi bật: mọi thứ chạy trên hạ tầng Anthropic.
   **Bộ review agents phân tích diff đối chiếu với full codebase** — không chỉ các dòng đổi trong cô lập.
   Findings post dạng inline comment trên đúng dòng, **tag theo severity**, kèm summary table trong check run.
-  Tính năng hay: **deduplicate và rank findings** — thay vì bức tường nitpicks, bạn đọc một handful vấn đề thật đáng chú ý.
+  Tính năng hay: **deduplicate và rank findings** — thay vì bức tường nitpicks, bạn đọc một số ít vấn đề thật đáng chú ý.
 
 #### What Code Review will and won't do
 
@@ -544,7 +544,7 @@ Code Review lo phần review. Khi job vượt ra ngoài review → **GitHub Acti
 
 Nó chạy agent trên **PR comments, scheduled jobs, và mọi GitHub event**.
 
-- Setup từ trong Claude Code: lệnh **`/install-github-app`** (cần **repo admin**). Slash command dẫn bạn qua cài GitHub app + set secret **`ANTHROPIC_API_KEY`** trên repo.
+- Setup từ trong Claude Code: lệnh **`/install-github-app`** (cần **repo admin**). Slash command dẫn bạn qua các bước cài GitHub app + set secret **`ANTHROPIC_API_KEY`** trên repo.
 - Action: **`anthics/claude-code-action@v1`**. Các inputs thực dùng:
 
 | Input | Ý nghĩa |
@@ -570,7 +570,7 @@ Trong `permissions` của job, cấp **`id-token: write`** để action đăng n
     claude_args: "--max-turns 5 --model claude-sonnet-5"
 ```
 
-Giờ ai viết `@claude implement the spec in the linked Linear issue` trên PR → action nhặt lên. Claude push commits và post comments mô tả nó đã làm gì.
+Giờ ai viết `@claude implement the spec in the linked Linear issue` trên PR → action nhận và xử lý. Claude push commits và post comments mô tả nó đã làm gì.
 
 #### A workflow that runs on a schedule
 
@@ -614,7 +614,7 @@ Công thức: **càng ít theo dõi, càng phải verify nhiều.**
 
 #### Keep unattended runs in auto mode
 
-- Run unattended ở nơi làm việc → giữ ở **auto mode** thay vì bypass permissions: classifier vẫn rà đa số action cho nguy hiểm — lưới an toàn đáng giữ.
+- Run unattended ở nơi làm việc → giữ ở **auto mode** thay vì bypass permissions: classifier vẫn rà soát đa số action để phát hiện nguy hiểm — lưới an toàn đáng giữ.
 - Nhưng hiểu rõ lưới đó làm gì/không làm gì: **classifier không bao giờ phán code đúng hay sai** — nó chỉ flag action nguy hiểm.
   Thanh verify của bạn giữ nguyên, đặt theo mức độ unsupervised của run.
 
@@ -628,11 +628,11 @@ Công thức: **càng ít theo dõi, càng phải verify nhiều.**
 
 #### Turn tests into a gate, not a promise
 
-- Gate thật cho unsupervised run: **tests có pass không** và **Claude có thực sự chạy chúng hay chỉ claiming là có**. Đừng để niềm tin lo — wire thành **hook** để Claude không bỏ qua được:
+- Gate thật cho unsupervised run: **tests có pass không** và **Claude có thực sự chạy chúng hay chỉ claiming là có**. Đừng phó mặc cho niềm tin — wire thành **hook** để Claude không bỏ qua được:
   - **Stop hook** chạy tests và **từ chối kết thúc turn khi fail**.
   - **Post-tool-use hook** lint + type check sau **mọi** edit.
 - Chi tiết then chốt: **exit code**. Hook exit **mã 2** đưa failure thẳng lại cho Claude → Claude đọc failure và **tự sửa không cần bạn hỏi**.
-  Và check fire trên **mọi run**, kể cả khi bạn quên yêu cầu.
+  Và check sẽ fire trên **mọi run**, kể cả khi bạn quên yêu cầu.
 
 #### Get a cold second opinion
 
@@ -665,7 +665,7 @@ Hai mặt: (1) dùng plugins người khác publish; (2) đóng gói plugin riê
 #### What a plugin is
 
 - Plugin = **một đơn vị cài đặt duy nhất**.
-  Bundle mọi thứ bạn từng chia tay: **skills, subagents, hooks, MCP server configs**, cộng đuôi dài hơn — **LSP servers, background monitors, themes, và một lát của `settings.json`**.
+  Bundle mọi thứ bạn từng chia sẻ thủ công: **skills, subagents, hooks, MCP server configs**, cộng thêm chuỗi mở rộng — **LSP servers, background monitors, themes, và một lát của `settings.json`**.
   Một version, một install.
 - Cài trực tiếp bằng tên trong session:
 
@@ -692,7 +692,7 @@ Hai mặt: (1) dùng plugins người khác publish; (2) đóng gói plugin riê
 
 - **Plugin chạy code trên máy bạn, với quyền của bạn.** Hooks của nó fire trên **mọi tool call khớp**.
   Cài plugin vì skills → bạn cũng nhận cả PreToolUse và Stop hooks của nó, **dù bạn có đọc chúng hay không**.
-- Suy ngẫm: một community plugin có thể ship Stop hook **call ra network endpoint mỗi lần**, và không gì trong cấu hình bạn cảnh báo. Không phải lý do tránh plugins — mà là lý do **nhìn trước**.
+- Suy ngẫm: một community plugin có thể ship Stop hook **gọi ra network endpoint mỗi lần**, và không gì trong cấu hình bạn cảnh báo. Không phải lý do tránh plugins — mà là lý do **nhìn trước**.
 - Trước khi cài, xem **details**: Claude Code cho biết nó sẽ cài gì, **ước lượng context cost**, kèm cảnh báo thẳng thắn rằng **Anthropic không kiểm soát nội dung third-party plugins**.
 - Hai điều về nguồn gốc plugin:
   - Plugin lên được **community marketplace** vì *tác giả* gửi nó cho Anthropic.
@@ -703,7 +703,7 @@ Hai mặt: (1) dùng plugins người khác publish; (2) đóng gói plugin riê
 
 - Plugin **không overwrite** cấu hình của bạn — components của nó chạy **song song** với của bạn. Chủ yếu là tốt, nhưng có hệ quả cần hiểu:
   - **Hooks stack:** PreToolUse hook của plugin và của bạn **đều fire** trên mọi tool call, không cái nào thay cái nào. Chính vì vậy phải đọc details trước.
-  - **Skills, agents, commands được namespaced** dưới tên plugin → không bao giờ đụng yours.
+  - **Skills, agents, commands được namespaced** dưới tên plugin → không bao giờ trùng với của bạn.
   - Plugin có thể ship `settings.json` nhưng chỉ **rất hẹp**: Claude Code chỉ honor **2 keys** — `agent` và `subagent` status line keys.
   - Key **`agent`** đáng dừng lại: set nó **thăng cấp một subagent của plugin lên main thread**, kèm system prompt, tool restrictions, và model của subagent đó.
   Nói cách khác, bật plugin có thể **thay đổi hành vi mặc định của Claude Code** — một lý do chính để nhìn kỹ trước cả khi bật.
@@ -721,7 +721,7 @@ Khi đã có `.claude` directory chạy tốt — đừng bắt team copy-paste 
 
 #### The manifest
 
-Bên trên là manifest **tùy chọn**, tại `.claude-plugin/plugin.json`, giữ name, version, description, author:
+Trên nền đó là manifest **tùy chọn**, tại `.claude-plugin/plugin.json`, giữ name, version, description, author:
 
 ```json
 {
@@ -735,7 +735,7 @@ Bên trên là manifest **tùy chọn**, tại `.claude-plugin/plugin.json`, gi�
 ```
 
 - Manifest optional — bỏ cũng vẫn discover components theo directory convention. Nhưng đáng biết:
-  - **Name là field bắt buộc duy nhất.** Nó namespaced skills của bạn thành `/plugin-name:skill-name` — skill trong plugin này chạy như **`/svg-splitter-review:<skill-name>`** → không đụng skill của ai khác.
+  - **Name là field bắt buộc duy nhất.** Nó namespaced skills của bạn thành `/plugin-name:skill-name` — skill trong plugin này chạy như **`/svg-splitter-review:<skill-name>`** → không trùng skill của ai khác.
   - **Version nó như dependency bình thường** — đó là điều làm updates và version tracking chạy được trong team.
 
 #### The takeaway

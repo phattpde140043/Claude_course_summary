@@ -74,10 +74,10 @@ Trong suốt loop, bạn có thể thêm context, interrupt, hoặc steer.
 | :--- | :--- |
 | **Manual** | Xin duyệt rõ ràng trước mỗi edit file / shell command |
 | **Auto-accept** | Edits tự chạy; các lệnh filesystem phổ biến (`mkdir`, `mv`, `rm`) cũng tự do; lệnh khác vẫn hỏi |
-| **Plan mode** | Đọc files + chạy exploratory commands, **không đụng source files**, rồi tổng hợp plan trước khi làm |
+| **Plan mode** | Đọc files + chạy exploratory commands, **không chạm vào source files**, rồi tổng hợp plan trước khi làm |
 | **Auto mode** | Bỏ qua prompt thường; background classifier chặn hành động *"irreversible, destructive, hoặc nhắm ngoài môi trường"* — khi bị chặn, Claude tìm đường an toàn hơn hoặc hỏi |
 
-> ⚠️ Mode khởi động tùy version và settings. Cảnh báo: trao "free rein" nghĩa là một sai lầm có thể khó bắt trước khi xảy ra.
+> ⚠️ Mode khởi động tùy version và settings. Cảnh báo: trao "free rein" nghĩa là một sai lầm có thể khó phát hiện kịp trước khi xảy ra.
 
 ## Bài 3: Installing Claude Code (6′)
 
@@ -129,7 +129,7 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 
 ## Bài 5: Explore → Plan → Code → Commit (8′)
 
-> *"Nếu chỉ mang về một điều từ khóa này, hãy là workflow này."* — Hầu hết mọi người nhảy thẳng đến việc nhờ Claude viết code, dẫn phải course-correct nhiều về sau.
+> *"Nếu chỉ mang về một điều từ khóa này, hãy là workflow này."* — Hầu hết mọi người nhảy thẳng đến việc nhờ Claude viết code, dẫn đến việc phải course-correct nhiều về sau.
 
 ### 1. Explore + Plan (qua Plan Mode)
 
@@ -262,9 +262,9 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 ### CLAUDE.md dành cho teams
 
-- **Commit vào version control** để cả team hưởng
+- **Commit vào version control** để cả team hưởng lợi
 - Hierarchy:
-  - **Project-level**: project root, share cả team
+  - **Project-level**: project root, dùng chung cả team
   - **User-level**: config folder, cá nhân, áp dụng cho mọi projects của bạn — hợp cho preferences riêng
 
 ### 3 pro tips
@@ -281,7 +281,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 ### Ý tưởng
 
-- Claude **delegate** tasks cho subagents: bẻ task ra, chạy song song, cải thiện context management
+- Claude **delegate** tasks cho subagents: chia task ra, chạy song song, cải thiện context management
 - Mỗi subagent chạy trong **context window riêng, isolated**; xong việc trả về **summary** cho main thread — *"bạn có câu trả lời mà không phải cả hành trình tới nó"*
 
 ### Tạo subagent của riêng bạn
@@ -318,7 +318,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 ### Skills sống ở đâu?
 
-- **Personal**: `~/.claude/skills` — theo bạn Across mọi projects (commit style, doc format, giải thích code)
+- **Personal**: `~/.claude/skills` — theo bạn trên mọi projects (commit style, doc format, giải thích code)
 - **Project**: `.claude/skills` trong repo root — ai clone repo cũng có (team standards, brand guidelines, fonts/colors)
 
 ### Skills vs các hình thức tùy biến khác
@@ -364,7 +364,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Chạy `/mcp` audit và **disable servers không dùng**
 - **Ưu tiên CLI** nếu có tương đương (`gh` cho GitHub, `aws` cho AWS) — hiệu quả hơn context vì không register listing từng tool
 - **Skills pairing**: kết hợp MCP server với Skill dạy Claude dùng tools của nó tốt — chỉ name + description của Skill ở trong context
-- **Tool search**: bật mặc định — full MCP tool definitions chỉ vào context khi Claude cần
+- **Tool search**: bật mặc định — full MCP tool definitions chỉ được nạp vào context khi Claude cần
 
 ## Bài 12: Hooks (6′)
 
@@ -462,7 +462,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 ### Định nghĩa đầy đủ
 
 - Hooks là **shell command, HTTP endpoint, MCP tool call, LLM prompt, hoặc subagent** do bạn định nghĩa, chạy **tự động** tại các điểm trong lifecycle Claude Code
-- Chạy giống hệt across terminal, IDE, Desktop, cloud sessions
+- Chạy giống hệt trên terminal, IDE, Desktop, cloud sessions
 - 3 nhịp hoạt động:
   - **per session** (`SessionStart`, `SessionEnd`)
   - **per turn** (`UserPromptSubmit`, `Stop`, `StopFailure`)
@@ -659,8 +659,8 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 ### Async hooks (chạy nền)
 
 - `"async": true` (chỉ command hooks): Claude tiếp tục làm việc, không chờ; **không thể block** — `decision`/`permissionDecision`/`continue` vô hiệu vì action đã xong
-- Output (`additionalContext`/`systemMessage`) delivered ở **turn kế tiếp**; session idle thì chờ user tương tác tiếp (ngoại lệ: `asyncRewake` exit 2 đánh thức Claude ngay)
-- `-p` mode: async hooks còn chạy bị kill khi teardown (outcome `cancelled`) — việc phải sống lâu hơn session → spawn process detached hoàn toàn
+- Output (`additionalContext`/`systemMessage`) được gửi ở **turn kế tiếp**; session idle thì chờ user tương tác tiếp (ngoại lệ: `asyncRewake` exit 2 đánh thức Claude ngay)
+- `-p` mode: async hooks còn đang chạy sẽ bị kill khi teardown (outcome `cancelled`) — việc phải sống lâu hơn session → spawn process detached hoàn toàn
 - VD kinh điển: `PostToolUse` matcher `Write|Edit` chạy test suite nền, trả kết quả qua `additionalContext`
 
 ### Security
@@ -668,7 +668,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - ⚠️ Command hooks chạy với **đầy đủ quyền user của bạn** — review + test mọi hook command trước khi thêm vào config
 - **Workspace trust:** interactive session giữ lại hooks (kể cả từ `~/.claude/settings.json`) tới khi bạn accept trust dialog
 - **`-p`/SDK session coi folder là trusted** → hooks commit trong `.claude/settings.json` của repo lạ vẫn chạy — review `.claude/` trước khi script `claude -p`, dùng `--bare`, hoặc `--settings '{"disableAllHooks": true}'`
-- Best practices: validate input; **luôn quote** `"$VAR"`; chặn path traversal (`..`); dùng absolute paths; tránh đụng `.env`, `.git/`, keys
+- Best practices: validate input; **luôn quote** `"$VAR"`; chặn path traversal (`..`); dùng absolute paths; tránh chạm vào `.env`, `.git/`, keys
 
 ### Windows PowerShell
 
@@ -737,7 +737,7 @@ Không có target → review commits của branch hiện tại (so với upstrea
 
 ### Cơ chế & lưu ý quan trọng
 
-- Review chạy là **background subagent với context window riêng** → không đầy conversation; findings về tới nơi trong hội thoại
+- Review chạy là **background subagent với context window riêng** → không đầy conversation; findings được gửi về trong hội thoại
 - **/rewind caveat**: `--fix` chạy nền edit **ngoài checkpoints của session** — `/rewind` chỉ restore files Claude đã edit trong conversation; edits của review phải revert bằng git
 - Review chạy foreground (chạy lại `/code-review` khi đang có review, hoặc `-p`) thì `/rewind` hoạt động bình thường
 - Đọc **`CLAUDE.md`** của bạn (kể cả `-p` run); **không đọc `REVIEW.md`** (file đó chỉ configure Code Review product trên GitHub)
@@ -783,7 +783,7 @@ Không có target → review commits của branch hiện tại (so với upstrea
 | **Plan** | Dùng trong plan mode để research/analysis trước khi đưa plan |
 
 - 3 lợi ích:
-  - **Focus** (bẻ việc, mỗi subagent một việc)
+  - **Focus** (chia việc, mỗi subagent một việc)
   - **Clean context** (isolated intermediate work)
   - **Concise output** (chỉ trả thông tin cần)
 
@@ -840,7 +840,7 @@ practices, and adherence to project standards...
 ### Định nghĩa output format — *"cải thiện quan trọng nhất"*
 
 1. **Natural stopping points** — subagent biết xong khi đủ các section
-2. **Chặn overlong runs** — không có output định nghĩa, subagent không biết research bao nhiêu là đủ
+2. **Chặn overlong runs** — không định nghĩa output, subagent không biết research bao nhiêu là đủ
 
 VD template code review 6 sections:
 
@@ -854,7 +854,7 @@ VD template code review 6 sections:
 ### Báo cáo obstacles
 
 - Workarounds phát hiện giữa chừng (fix dependency, flag đặc biệt) **phải xuất hiện trong summary** — không thì main thread tốn thời gian + tokens khám phá lại
-- Cần surface:
+- Cần nêu rõ:
   - setup/env quirks
   - workarounds
   - commands cần flags đặc biệt
@@ -884,7 +884,7 @@ VD template code review 6 sections:
 - **Research là classic use case:** tìm JWT validation trong codebase lạ → subagent đọc nhiều files, trace calls — main nhận summary sạch (*"middleware/auth.js line 42, gọi từ Express router trong route/api.js"*)
 - **Code reviews:** Claude review code chính nó viết trong cùng thread thì feedback yếu
   - reviewer subagent thấy changes trong context riêng + encode team review standards trong system prompt để **tiêu chuẩn nhất quán toàn team**
-- **Custom system prompts** thật sự cải thiện: copywriting (tone/audience/style — default prompt quá technical); styling (đọc design system files trước khi viết CSS)
+- **Custom system prompts** thực sự cải thiện: copywriting (tone/audience/style — default prompt quá technical); styling (đọc design system files trước khi viết CSS)
 
 ### Khi subagents phản tác dụng — 3 anti-patterns
 
@@ -992,7 +992,7 @@ Brief context on why this change is needed
   - `references/` — tài liệu bổ sung
   - `assets/` — images, templates, data
 - Link sang files phụ kèm chỉ dẫn rõ **khi nào** đọc (VD: đọc `architecture-guide.md` chỉ khi hỏi system-design)
-- **Scripts hiệu quả:** code script KHÔNG vào context — chỉ **output** tốn tokens; instructed Claude *chạy* script chứ không đọc script
+- **Scripts hiệu quả:** code script KHÔNG vào context — chỉ **output** tốn tokens; hướng dẫn Claude *chạy* script chứ không đọc script
 
 ## D.4 — Skills vs. other Claude Code features (6′)
 
@@ -1021,7 +1021,7 @@ Brief context on why this change is needed
 2. **Plugins + marketplaces** — trong plugin project, tạo directory `skills/` mirror cấu trúc `.claude`; publish lên marketplace để cộng đồng discover + install. Hợp: skills không gắn project cụ thể
 3. **Enterprise managed settings** — admins deploy org-wide (skills vào `.claude/skills/` của managed settings dir, VD `/etc/claude-code/.claude/skills/`)
    - **priority cao nhất** (override personal/project cùng tên)
-   - kiểm cả marketplaces qua `strictKnownMarketplaces`:
+   - kiểm soát cả marketplaces qua `strictKnownMarketplaces`:
    ```json
    "strictKnownMarketplaces": [
      { "source": "github", "repo": "acme-corp/approved-plugins" },
@@ -1061,7 +1061,7 @@ claude plugin validate .claude/skills     # project
 
 | Triệu chứng | Nguyên nhân | Fix |
 | :--- | :--- | :--- |
-| **Không trigger** | Description problem (gần như luôn) | So description với cách bạn thật sự diễn đạt; thêm trigger phrases; test các biến thể ("help me profile this", "why is this slow?") rồi thêm keywords cho biến thể fail |
+| **Không trigger** | Description problem (gần như luôn) | So description với cách bạn thực sự diễn đạt; thêm trigger phrases; test các biến thể ("help me profile this", "why is this slow?") rồi thêm keywords cho biến thể fail |
 | **Không load** | Sai cấu trúc | `SKILL.md` phải nằm trong **named directory** (không nằm trực tiếp ở skills root); tên file đúng chính xác `SKILL.md`; chạy `claude --debug` để tìm message naming skill của bạn |
 | **Chọn nhầm skill** | Descriptions quá giống nhau | Viết description phân biệt, cụ thể |
 | **Bị shadow** | Priority conflict | Enterprise shadow personal cùng tên → rename cho khác biệt hơn, hoặc hỏi admin |

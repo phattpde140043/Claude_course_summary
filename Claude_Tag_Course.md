@@ -20,13 +20,13 @@
 ### Claude Tag là gì
 **Claude trong Slack workspace của team.** Trong channel, gõ `@Claude` + nói nhu cầu → Claude trả lời trong **thread dưới message**.
 
-Nó **đọc sẵn nội dung channel** trước (không phải giải thích background). Channel có connected tools (Google Drive, calendar, ticketing...) → Claude look up và **make changes** luôn.
+Claude **đọc sẵn nội dung channel** trước khi trả lời, nên bạn không phải giải thích lại background. Nếu channel có connected tools (Google Drive, calendar, ticketing...) → Claude look up thông tin và **make changes** luôn tại chỗ.
 
 Cả channel thấy thread, ai cũng reply để thêm chi tiết hoặc đổi hướng Claude đang làm.
 
-Điểm hơn chatbot — vì "sống" trong channel, Claude làm việc được **khi không ai tag**:
-- **Untagged replies**: channel nhận requests/problems (IT help, bug-report) — nói Claude **một lần** messages nào cần xử lý → từ đó tự trả lời từng message mới: trả lời câu hỏi, hỏi thiếu thông tin, tag đúng owner
-- **Standing responsibility**: Claude trông một việc qua nhiều ngày/tuần (giữ launch checklist cập nhật, báo khi slipped)
+Điểm khác biệt so với chatbot — vì hoạt động ngay trong channel, Claude làm việc được cả **khi không ai tag**:
+- **Untagged replies**: channel nhận requests/problems (IT help, bug-report) — hướng dẫn Claude **một lần** về những message nào cần xử lý; từ đó Claude tự xử lý message mới: giải đáp câu hỏi, hỏi thêm thông tin còn thiếu, tag đúng owner
+- **Standing responsibility**: Claude trông giữ một việc qua nhiều ngày/tuần (giữ launch checklist cập nhật, báo khi một mục trễ tiến độ)
 - **Routines**: mô tả task một lần (*"post a summary of this channel every Monday at 9am"*) → Claude lặp theo schedule
 
 ### Khác chat với Claude ở đâu
@@ -34,30 +34,32 @@ Cả channel thấy thread, ai cũng reply để thêm chi tiết hoặc đổi 
 - Link **Configure** dưới mỗi reply mở channel settings
 
 ### Làm được gì khi không có tools
-Ngay cả 0 connections: đọc thread + history channel (kể cả pinned), **search nội dung workspace**, viết + chạy code trong sandbox (biến CSV thành chart, thread dài thành doc).
+Ngay cả khi chưa có connection nào: đọc thread + history channel (kể cả pinned), **search nội dung workspace**, viết + chạy code trong sandbox (biến CSV thành chart, thread dài thành doc).
 
 ### 3 nơi làm việc
 - **DM** (bài 2)
 - **Public channel** (bài 3)
 - **Private channel** (bài 4)
 
-Claude như nhau cả ba — thay đổi: **ai tham gia được, Claude với tới đâu, nơi giữ những gì nó học**.
+Claude như nhau ở cả ba nơi — ba yếu tố thay đổi: **ai tham gia được, Claude truy cập được tới đâu, và nơi lưu giữ những gì nó học**.
 
-> **Try:** `/invite @Claude` trong channel bạn hay làm → tag một câu hỏi ngắn về recent work của channel → done khi Claude trả lời và câu trả lời dùng thứ đã post ở đó. (Không reply → nhờ người quản lý Claude Tag bật cho channel.)
+> **Try:** `/invite @Claude` trong channel bạn hay làm → tag một câu hỏi ngắn về recent work của channel → done khi Claude trả lời và câu trả lời tận dụng nội dung đã được post ở đó. (Không reply → nhờ người quản lý Claude Tag bật cho channel.)
 
 ## Bài 2: Claude in a DM (15′)
 
 ### Khi nào dùng DM
-Muốn Claude **hành động dưới tài khoản bạn, trong tools của bạn, trên việc chỉ mình bạn thấy** → DM. Ở đây Claude là **extension của bạn**; trong channel nó làm việc dưới tên riêng của nó. DM cũng là nơi **thử trước khi ai thấy**.
+Muốn Claude **hành động dưới tài khoản bạn, trong tools của bạn, trên việc chỉ mình bạn thấy** → DM. Ở đây Claude là **extension của bạn**; trong channel nó làm việc dưới tên riêng của nó.
+
+DM cũng là nơi **thử nghiệm trước khi người khác nhìn thấy**.
 
 Làm được:
 
-- **Claude làm việc như bạn** (chạy trên Claude account của bạn với connectors của bạn — đọc calendar, email, files)
-- **thử nghiệm riêng tư** (shape draft, hỏi điều không muốn post channel)
-- **catch up public channel** (nói tên channel → Claude search hộ, bạn không phải post)
-- **routines cá nhân** (morning brief chỉ post cho bạn)
+- **Claude làm việc như bạn**: chạy trên Claude account của bạn với connectors của bạn — đọc calendar, email, files
+- **Thử nghiệm riêng tư**: soạn thảo draft, hỏi điều chưa muốn post lên channel
+- **Catch up public channel**: nói tên channel → Claude tìm kiếm giúp bạn, không phải tự post
+- **Routines cá nhân**: morning brief chỉ post cho riêng bạn
 
-*Org tắt DMs → dùng channel chỉ mình + Claude.*
+*Nếu tổ chức tắt DMs → dùng channel chỉ gồm mình bạn và Claude.*
 
 ### Claude dùng được gì trong DM
 - **Daily tools của bạn**: calendar, email, files (qua personal connectors)
@@ -69,12 +71,12 @@ Câu hỏi khám phá: *"What do you know about me, and what sorts of things can
 ### Privacy & giới hạn
 - Những gì Claude học trong DM **giữ riêng DM** — không vào workspace notes
 - connectors ngắt được bất cứ lúc nào
-- việc làm trong tools của bạn diễn ra **dưới tên bạn** → review trước khi để send/change
+- việc làm trong tools của bạn diễn ra **dưới tên bạn** → review trước khi cho phép gửi/thay đổi
 - DM không visible cho channel nào (và ngược lại, connections của channel không vào DM)
 - **Giới hạn (chính là điểm mạnh)**:
   - không ai khác thấy/tiếp tục được (đồng nghiệp không thể thêm hiểu biết, sửa, hoặc pick up khi bạn vắng)
   - làm từ tools của bạn — CRM/tracker của team channel **không có** ở đây
-  - điều Claude học chỉ hưởng cho **một mình bạn** (nói trong public channel thì cả channel hưởng)
+  - điều Claude học chỉ có **một mình bạn** tận dụng được (nói trong public channel thì cả channel cùng được hưởng)
 
 > **Try — morning brief:** mở DM, chỉ các channels quan trọng (hoặc: *"search the workspace and tell me what you find about me, my work and my priorities, then propose the channels you should watch for me"*)
 > → yêu cầu brief (khi nào, xem gì, mang về gì) → lần đầu tới thì **sharpen trong thread**:
@@ -85,7 +87,7 @@ Câu hỏi khám phá: *"What do you know about me, and what sorts of things can
 ## Bài 3: Claude in a public channel (15′)
 
 ### Khi nào dùng public channel
-Muốn Claude **dùng tools của team**, trên việc **người khác thấy — sửa — tiếp tục được**. Điều Claude học ở đây giúp **mọi người trong channel** → *"khi hơn một nơi đều được, chọn cái này"*.
+Muốn Claude **dùng tools của team**, trên việc **người khác thấy — sửa — tiếp tục được**. Điều Claude học ở đây giúp **mọi người trong channel** → *"khi hơn một nơi đều làm được, chọn public channel"*.
 
 Claude thấy **toàn bộ history channel kể cả trước khi được thêm** + mọi tools connected. Ai setup Claude Tag quyết định tools từng channel; **mặc định không cần Claude account** để tag (org trả tiền).
 
@@ -123,14 +125,14 @@ Việc chứa info chỉ nhóm cụ thể được thấy — people matters, fi
 
 Mọi thứ của bài 3 hoạt động cho members: threads ai trong nhóm cũng correct/continue được, history + connected tools của channel, untagged replies, routines.
 
-Tool connect **riêng cho channel này** (billing system trong private finance channel) — chỉ members nhờ Claude dùng; Claude chỉ làm được những gì account được phép, giữ ở **mức access tối thiểu việc cần**.
+Tool connect **riêng cho channel này** (billing system trong private finance channel) — chỉ members mới nhờ Claude dùng được; Claude chỉ làm được những gì account được phép, giữ ở **mức access tối thiểu việc cần**.
 
 Channel hưởng **workspace notes** Claude đã học từ public channels, nhưng **không thêm gì vào đó**.
 
 ### Boundary = ranh giới của Claude
 - **Chỉ members** cho Claude đọc/act ở đây — từ channel/DM khác, Claude xử sự **như thể channel này + tools + memory của nó không tồn tại**; replies chỉ members thấy
 - Học được lưu **chỉ vào channel notes** — *không bao giờ* vào workspace notes → confidential context không thể nổi lên channel người khác
-- **Member list = access list**: account đọc được gì thì mọi member với tới qua Claude → *keep it tight*
+- **Member list = access list**: account đọc được gì thì mọi member cũng truy cập được qua Claude → *keep it tight*
 - Mọi action attributable: Claude dùng account riêng trong tools — log của tool ghi rõ Claude làm gì, khi nào
 - **Guests & shared channels**: do admin quyết định (guest channels); nơi Claude trả lời thì không search phần còn lại của workspace từ đó
 
@@ -143,7 +145,7 @@ Channel hưởng **workspace notes** Claude đã học từ public channels, nh�
 - việc của nhóm cụ thể → private channel của nhóm
 - cả team dùng được → public channel nơi việc đó diễn ra
 
-**Nơi hỏi đổi ai được hưởng**: public — colleagues đọc câu trả lời, correction của bạn cải thiện replies sau của **cả channel**; DM — chỉ bạn.
+**Nơi hỏi quyết định ai được hưởng lợi**: public — colleagues đọc được câu trả lời, correction của bạn cải thiện replies sau của **cả channel**; DM — chỉ mình bạn.
 
 ### Nhiều nơi fit → public channel
 3 thứ DM không có:
@@ -151,7 +153,7 @@ Channel hưởng **workspace notes** Claude đã học từ public channels, nh�
 2. **Claude học giúp cả channel**: correction lưu vào channel notes, Claude dùng cho mọi người ở đó
 3. **Setup một lần phục vụ mọi người**: tools + instructions + routines của channel work cho tất cả — mỗi bổ sung làm request sau **ngắn hơn** và result **tốt hơn**
 
-DM/private đúng cho việc chỉ mình/nhóm — dùng cho việc khác là giấu private những thứ không cần private.
+DM/private phù hợp cho việc của riêng mình/nhóm — dùng cho việc khác đồng nghĩa với đưa nội dung không cần riêng tư vào nơi riêng tư.
 
 > Check nhanh nơi bạn đứng: hỏi Claude *"what can you access from here?"*
 
@@ -161,18 +163,18 @@ DM/private đúng cho việc chỉ mình/nhóm — dùng cho việc khác là gi
 
 | | **Memory** | **Channel instructions** |
 | :--- | :--- | :--- |
-| Là gì | Notes Claude tự viết về channel (+ bạn thêm bằng message) | Rules người gõ vào settings của channel |
+| Là gì | Notes Claude tự viết về channel (+ bạn thêm bằng message) | Rules người quản lý nhập vào settings của channel |
 | Cách đổi | Nói với Claude trong message | Sửa trang Configure (dưới mọi reply của Claude) |
-| Dùng cho | Corrections, preferences, aiowns gì — thứ Claude nhặt khi làm việc | Purpose của channel, tone, khi nào reply, điều **không bao giờ** làm — cho **mọi thread** |
+| Dùng cho | Corrections, preferences, ai chịu trách nhiệm phần gì — những gì Claude tự ghi nhận khi làm việc | Purpose của channel, tone, khi nào reply, điều **không bao giờ** làm — cho **mọi thread** |
 
 > ⚠️ **Note mâu thuẫn instruction → instruction thắng.**
-> Nguyên tắc chọn: **mức độ rule phải giữ vững** (*how firmly a rule should hold*) — rule đang thử / học lỏng lẻo → memory; rule đã chứng minh và **phải đúng trong mọi thread** → instructions.
+> Nguyên tắc chọn: **mức độ rule phải giữ vững** (*how firmly a rule should hold*) — rule đang thử nghiệm hoặc còn lỏng lẻo → memory; rule đã được chứng minh và **phải đúng trong mọi thread** → instructions.
 
 ### Memory
 - Thêm: `@Claude remember for this channel: …` — Claude cũng tự save khi làm việc; đọc notes **trước khi trả lời**; ai trong channel cũng thêm/sửa/xóa được
 - Scope:
   - **Channel notes** (riêng từng channel; notes DM scoped bạn, chỉ bạn)
-  - **Workspace notes** (đọc ở mọi channel; **chỉ save từ public channel**, chỉ cho thứ ai cũng cần biết — VD naming rule toàn công ty)
+  - **Workspace notes** (đọc ở mọi channel; **chỉ save từ public channel**, chỉ dành cho những gì ai cũng cần biết — VD naming rule toàn công ty)
 - Duy trì:
   - `@Claude what do you remember about this channel?` (xem)
   - `remember for this channel: [bản sửa]` (sửa)
@@ -182,13 +184,13 @@ DM/private đúng cho việc chỉ mình/nhóm — dùng cho việc khác là gi
 
 ### Channel instructions
 - VD: *"This channel handles billing questions. Keep replies short. Never contact customers directly."* — đọc ở **đầu mỗi thread**
-- ⚠️ Là **guidance theo sát, không phải hard lock** — việc phải không-bao-giờ-xảy-ra → dùng **setting hoặc access control**, đừng dùng câu chữ
+- ⚠️ Là **guidance theo sát, không phải hard lock** — việc tuyệt đối không được xảy ra → dùng **setting hoặc access control**, đừng dựa vào câu chữ
 - Good uses:
-  - purpose
-  - reply điều gì không cần tag
-  - tone/length
-  - sources trả lời từ đâu
-  - file vào đâu
+  - purpose của channel
+  - loại message nào cần reply mà không cần tag
+  - tone/length của replies
+  - sources trả lời dựa từ đâu
+  - file lưu vào đâu
 - Sửa tại **Configure** (ai có Claude account ở org cũng sửa được, trừ khi admin **lock**)
 - cùng trang: setting **Respond automatically** + danh sách connected tools (chỉ admin/channel managers đổi)
 - **Changes áp dụng cho thread mới** → test trong fresh thread
@@ -197,11 +199,11 @@ DM/private đúng cho việc chỉ mình/nhóm — dùng cho việc khác là gi
 Replies < 6 dòng; link logs thay vì paste. File confirmed bugs vào tracker với label from-chat. Investigation read-only; never touch production."*
 
 ### Luồng thực dụng
-Feedback format/voice sống được ở **cả hai nơi**. Thử nhanh: nói *"keep replies under six lines"* trong channel → Claude save vào memory + theo.
+Feedback về format/voice lưu được ở **cả hai nơi**. Thử nhanh: nói *"keep replies under six lines"* trong channel → Claude save vào memory và làm theo.
 
 Rule **đã ổn định** → **promote vào channel instructions** (không có quyền sửa thì nhờ người quản lý).
 
-### Bảng chẩn đoán khi kết quả tệ
+### Bảng chẩn đoán khi kết quả không đạt
 | Hiện tượng | Nguyên nhân | Fix |
 | :--- | :--- | :--- |
 | Replies mỏng/generic | Thiếu tools chứa việc | Nhờ manager connect tools vào channel |
@@ -217,13 +219,13 @@ Rule **đã ổn định** → **promote vào channel instructions** (không có
 ### Một channel, một loại việc
 Claude biết đến từ chính channel đó (history + instructions + memory + tools).
 
-**Giữ một loại việc mỗi channel** với tools phù hợp → Claude học job đó kỹ → trở thành **specialist của channel** — điều khiến proactivity hữu ích: channel một job thì Claude phân biệt được message nào là việc của nó.
+**Giữ một loại việc mỗi channel** cùng tools phù hợp → Claude học kỹ job đó và trở thành **specialist của channel**. Đây chính là điều khiến proactivity hữu ích: channel chỉ có một job thì Claude phân biệt được message nào là việc của mình.
 
 ### Cơ chế
-Bật automatic replies → Claude **đọc liên tục**, cân từng message, tự quyết có vào. Dạy qua instruction:
+Bật automatic replies → Claude **đọc liên tục**, đánh giá từng message và tự quyết định có tham gia hay không. Dạy qua instruction:
 > `@Claude remember for this channel: when someone posts an account name or asks about an open item, reply even if nobody tagged you. Stay out of scheduling and social chatter.`
 
-→ Save vào notes, Claude cân khi quyết định reply.
+→ Save vào notes, Claude dùng khi cân nhắc quyết định reply.
 
 ### Untagged replies tạo giá trị ở đâu
 - **Support/feedback channel**: câu hỏi vào → Claude trả lời ngay từ knowledge base, không chờ ai tag
@@ -234,13 +236,15 @@ Bật automatic replies → Claude **đọc liên tục**, cân từng message, 
 ### Standing responsibility (bước xa hơn reply từng message)
 Giao Claude một **job** — tự quyết việc cần làm và hành động qua nhiều ngày/tuần:
 - **Coordination**: launch/event nhiều threads — đọc nơi decisions land, update trackers, remind owners khi đến hạn, flag slipped
-- **Owning an outcome**: mục tiêu cụ thể (queue < 1 ngày old; migration xong cuối quý) — theo dõi ảnh hưởng, tự làm được thì làm, **mang đến bạn phần cần quyết định kèm recommendation**
+- **Owning an outcome**: mục tiêu cụ thể (queue < 1 ngày old; migration xong cuối quý) — theo dõi ảnh hưởng, tự làm được thì làm, **mang đến cho bạn phần cần quyết định kèm recommendation**
 - **Continuity through change**: việc chạy nhiều tháng người xoay vòng — nhớ decided & why, trả lời *"where did we land on this"*, chỉ ra proposal mới mâu thuẫn quyết định cũ
 
-Khởi động: document standard process + bật automatic replies → Claude sharpen theo thời gian. Ổn định → thêm vào **channel instructions** (instructions outrank memory). Khóa *Building Effective Human-Agent Teams* covering roles + hand-off.
+Khởi động: document standard process + bật automatic replies → Claude sharpen theo thời gian. Khi đã ổn định → thêm vào **channel instructions** (instructions outrank memory).
+
+Khóa *Building Effective Human-Agent Teams* đề cập sâu roles + hand-off.
 
 ### Tắt / tinh chỉnh
-Channel ồn → **cải instructions cụ thể hơn trước**, rồi:
+Channel ồn → **cải thiện instructions cho cụ thể hơn trước**, rồi:
 - Tắt hẳn: `@Claude only respond when someone @-mentions you` (đổi **Respond automatically** của cả channel)
 - Tinh chỉnh: `@Claude answer questions about our decisions and the work we're doing. Skip scheduling.` (qua notes)
 - Im một thread: `@Claude only respond when I @-mention you` (gửi trong thread đó)
@@ -250,7 +254,7 @@ Channel ồn → **cải instructions cụ thể hơn trước**, rồi:
 
 ### Loại routine
 - **Weekly/daily reports**: status digest, tóm tắt decisions, danh sách blocked/waiting
-- **Continuous monitoring**: watch một channel/repository cho changes cụ thể — thấy gì post alert/summary
+- **Continuous monitoring**: watch một channel/repository cho changes cụ thể — khi phát hiện thay đổi thì post alert/summary
 - **Regular checks**: review pending, flag overdue/at-risk, surface patterns
 
 ### Setup = 1 message: đọc gì, tìm gì, post gì, khi nào
@@ -258,9 +262,9 @@ Channel ồn → **cải instructions cụ thể hơn trước**, rồi:
 > anything overdue, and anything the thread says has slipped that the tracker still shows on time.
 > Name the owner, link the message, and suggest a next step. If nothing needs attention, post nothing.`
 
-Ngày yên tĩnh → post nothing → **post nào của routine cũng đáng đọc**. Routine chạy với tools của channel nên so sánh được nhiều nguồn.
+Vào ngày yên tĩnh, routine không post gì — nhờ vậy **mọi post của routine đều đáng đọc**. Routine chạy với tools của channel nên so sánh được nhiều nguồn.
 
-**First post = draft**: reply trong thread điều chỉnh — Claude đọc feedback, học, áp cho **mọi run sau**.
+**First post = draft**: reply trong thread để điều chỉnh — Claude đọc feedback, học và áp dụng cho **mọi run sau**.
 
 ### Quản lý (thuộc channel, ai cũng làm được)
 - **List**: `@Claude what routines do you have set up in this channel?` hoặc `@Claude !scheduled`
@@ -270,37 +274,37 @@ Ngày yên tĩnh → post nothing → **post nào của routine cũng đáng đ�
 
 ## Bài 9: Write a request Claude can work with (15′)
 
-Giao Claude **task/trách nhiệm** (không phải câu hỏi) → cần instruction khác: Claude phải hiểu việc đủ để biết **khi nào bước vào, khi nào xong, quyết thế nào khi bạn không có mặt**.
+Giao Claude **task/trách nhiệm** (không phải câu hỏi) → cần instruction khác: Claude phải hiểu việc đủ để biết **khi nào bước vào, khi nào xong, quyết định ra sao khi bạn không có mặt**.
 
 ### Step 1 — Chọn việc
 - **Outcome thinking**: hình dung giao cho người hiểu workspace hoàn toàn — bạn nhờ họ gộp/tìm hiểu gì?
-- **Inputs**: Claude với tới tools/files/threads việc cần? Hỏi `@Claude what can you access from this channel?` — thiếu → chuyển task sang channel có, hoặc nhờ admin connect
+- **Inputs**: Claude truy cập được các tools/files/threads mà việc cần? Hỏi `@Claude what can you access from this channel?` — thiếu → chuyển task sang channel có tools đó, hoặc nhờ admin connect
 - **Ai thấy work**: sensitive → private channel
 
 ### Step 2 — Viết request
-1. **Goal trước, process sau**: muốn đạt gì, vì sao, good result ra sao và về đâu; steps/constraints bạn quan tâm — phần còn lại, biết **intent** giúp Claude quyết tốt các chi tiết bạn không nói
+1. **Goal trước, process sau**: muốn đạt gì, vì sao, good result trông ra sao và gửi về đâu; steps/constraints bạn quan tâm — phần còn lại để Claude tự quyết, biết **intent** giúp Claude quyết tốt các chi tiết bạn không nói
 2. **Trỏ inputs**: channel, workspace search, connections của channel, files; có ví dụ good result → link/paste/chỉ chỗ tìm
 3. **Gắn cơ chế kiểm tra**: rubric cho good result · yêu cầu **link sources** · tách *verified* khỏi *inferred*
-4. **Nêu priorities**: audience, mức polish, điều tránh, **decisions nào mang về cho bạn** — khi Claude gặp lựa chọn ngoài dự kiến, chúng lá phán đoán của nó
-5. **Form của kết quả**: ngắn → thread; người ta sẽ mở/xem lại/chuyển tiếp → **page** (Claude publish dashboard/report/prototype trên claude.ai + post link; cả channel mở được; request sau trong thread **update cùng link đó**)
+4. **Nêu priorities**: audience, mức polish, điều tránh, **decisions nào mang về cho bạn** — khi Claude gặp lựa chọn ngoài dự kiến mà bạn chưa nói, các lựa chọn đó là phán đoán của nó
+5. **Form của kết quả**: ngắn → thread; kết quả người khác sẽ mở/xem lại/chuyển tiếp → **page** (Claude publish dashboard/report/prototype trên claude.ai + post link; cả channel mở được; request sau trong thread **update cùng link đó**)
 
 Biến thể:
 - việc lớn phức tạp → nhờ Claude **propose outline trước** để align
-- exploratory/ambiguous → nói rõ, cho câu hỏi + lý do, để nó đề xuất vài hướng rồi mới chọn
+- exploratory/ambiguous → nói rõ, cho câu hỏi + lý do, để Claude đề xuất vài hướng rồi mới chọn
 - proactive/scheduled → nói rõ own gì, đâu bạn quyết
 
-**north star**: một mục tiêu measurable người ta pin trong channel Claude đọc → Claude tự đề xuất work hướng tới đó.
+**north star**: một mục tiêu measurable mà team pin trong channel Claude đọc → Claude tự đề xuất work hướng tới mục tiêu đó.
 
 ### Step 3 — Để Claude làm
-Claude post note ngắn đã bắt đầu → làm việc **không cần bạn**; ai trong channel cũng jump in. Bạn sẽ thấy:
+Claude post note ngắn xác nhận đã bắt đầu → làm việc **không cần bạn**; bất kỳ ai trong channel cũng có thể tham gia. Bạn sẽ thấy:
 - **Progress checklist edit tại chỗ** — 1 message Claude cập nhật khi làm (edit **không gửi notification** — hãy nhìn items được tick; hoặc yêu cầu "message tôi ở các decision point lớn")
 - **Reply mới** khi cần bạn (câu hỏi, vấn đề không tự giải quyết được) hoặc có kết quả — có câu hỏi thì Claude **chờ** bạn
 - **Im = đang làm**; bị chặn thì Claude thường nói ra thay vì im lặng
 - ⚠️ **Edit message đã gửi không tác dụng — gửi reply mới**; mỗi top-level message = task mới; task riêng → thread riêng (channel notes vẫn áp mọi thread)
 
 ### Step 4 — Review kết quả
-Đọc trước khi dùng; stakes cao thì đọc kỹ hơn — kết quả trong thread **không có** dashboards/documents bạn vẫn kiểm đối. Vì đã build cơ chế kiểm tra → theo links/files/queries nó cite. Sửa theo nguyên nhân:
-- Nhìn **nhầm chỗ**/không với tới đúng chỗ → chuyển channel có tool / nhờ admin connect
+Đọc trước khi dùng; stakes cao thì đọc kỹ hơn — kết quả trong thread **không có** dashboards/documents bạn vẫn kiểm đối. Vì đã build cơ chế kiểm tra trước đó, hãy theo dõi links/files/queries nó cite. Sửa theo nguyên nhân:
+- Nhìn **nhầm chỗ**/không truy cập được đúng chỗ → chuyển channel có tool / nhờ admin connect
 - **Thiếu** → hỏi nó đã search sources nào (có thể bị chặn hoặc dừng sớm)
 - **Request không rõ** → reply viết lại (muốn gì, form, priorities, nhìn đâu)
 - **Miss pattern của team** (kể cả cách check work) → save vào memory cho cả channel
@@ -314,32 +318,34 @@ Claude post note ngắn đã bắt đầu → làm việc **không cần bạn**
 - **Untagged replies** (bài 7): Claude biết **khi nào** tự hành động
 - **Routines** (bài 8): Claude biết **khi nào bắt đầu** không cần ai hỏi
 
-→ Context của team, colleagues shape được, làm việc hướng mục tiêu **hàng tuần** chứ không chỉ 1 request. Tất cả quản lý tại **Configure page** của channel (mỗi channel một cái; full member đăng nhập org mở được).
+→ Context của team, colleagues shape được, làm việc hướng mục tiêu **hàng tuần** chứ không chỉ 1 request. Tất cả quản lý tại **Configure page** của channel (mỗi channel một page; full member đăng nhập org mở được).
 
 ### Từ task → ongoing job
-Claude chạy độc lập nhiều channels, nhiều tasks song song → bạn delegate/steer ở **cấp team**. Verify càng nhiều → scope càng lớn: vai trò bạn dịch từ chỉ đạo từng task sang **set goals + review những decisions quan trọng**.
+Claude chạy độc lập trên nhiều channels, nhiều tasks song song → bạn delegate/steer ở **cấp team**.
 
-Bạn set standard một lần, Claude xử routine cases, bạn chỉ review decisions. **Attention của bạn giờ là limit** → nhờ Claude **gom câu hỏi** và **mỗi decision kèm recommendation**.
+Bạn verify càng nhiều thì scope giao cho Claude càng lớn: vai trò của bạn dịch chuyển từ chỉ đạo từng task sang **đặt goals + review những decisions quan trọng**.
 
-Đây là cách teams ở Anthropic làm: delegate có ranh giới, giữ human judgment cho các calls cần nó.
+Bạn set standard một lần, Claude xử routine cases, bạn chỉ review decisions. **Attention của bạn giờ là giới hạn** → nhờ Claude **gom các câu hỏi lại** và **đính kèm recommendation cho mỗi decision**.
 
-> **Try — giao 1 ongoing job:** chọn thứ bạn giữ khỏe theo thời gian (launch, stream of decisions, resource mọi người phụ thuộc)
+Đây là cách các team ở Anthropic làm: delegate có ranh giới, giữ human judgment cho các quyết định cần nó.
+
+> **Try — giao 1 ongoing job:** chọn việc bạn giữ khỏe theo thời gian (launch, stream of decisions, resource mọi người phụ thuộc)
 > → tạo channel riêng cho work đó → connect tracker + channels + docs Claude cần đọc → post ownership message, VD:
 > *"The goal: we launch on October 14 with no open blockers. You own keeping us unblocked until then. Read the tracker and these channels.
 > When something is stuck, find out whether we need information or a decision. Get the information yourself. Bring me anything about scope, timeline, or a real trade-off, grouped twice a week."*
-> → Correct Claude khi nó useful/miss. Done khi: ownership message đã post + Claude từng act 1 lần không được nhờ + nó mang cho bạn **1 decision thay vì tự quyết**.
+> → Đưa feedback khi Claude làm đúng hoặc bỏ sót. Done khi: ownership message đã post + Claude từng tự act 1 lần mà không được nhờ + nó mang cho bạn **1 decision thay vì tự quyết**.
 
 ## Bài 11: Review your team's habits (10′)
 
 Checklist rà từng channel (tốt nhất: channel team giao Claude nhiều việc nhất) — theo habit từng bài.
 
-Mỗi "**no**" = một thứ để thử + bài học cover nó; trả lời hết các dòng → checklist **tự tạo message** bạn post cho Claude trong channel đó để khởi động các gap còn thiếu.
+Mỗi "**no**" = một điểm cần cải thiện để thử + bài học cover nó; trả lời hết các dòng → checklist **tự tạo message** bạn post cho Claude trong channel đó để khởi động các gap còn thiếu.
 
 **Next resources:**
 
-- tasks to try
-- best practices
-- use cases by channel type (cho mọi người)
+- tasks to try (việc nên thử)
+- best practices (kinh nghiệm thực hành tốt)
+- use cases theo loại channel (cho mọi người)
 - *Building Effective Human-Agent Teams* (team lead)
 - customize Claude Tag + connect team tools (người setup).
 
@@ -360,7 +366,7 @@ Mỗi "**no**" = một thứ để thử + bài học cover nó; trả lời h�
   3. working loop với access của channel, checklist edit tại chỗ
   4. result vào thread
   5. quiet period — **sandbox release, thread giữ nguyên**; reply mới rebuild sandbox và chạy tiếp
-- Sandbox chạy **cùng engine với Claude Code on the web** — clone GitHub repos, edit, push branch/PR. Không connect gì cũng đọc thread + channel history + workspace search + chạy code
+- Sandbox chạy **cùng engine với Claude Code on the web** — clone GitHub repos, edit, push branch/PR. Ngay cả khi không connect gì, Claude vẫn đọc thread + channel history + workspace search + chạy code
 
 ### Checklist & steering
 - Task dài: reply đầu là **checklist sống** edit tại chỗ — Slack **không notify khi edit** → thread im = đang làm (không phải stuck); mở thread xem items tick. Stuck thật → Claude nói ra
@@ -377,16 +383,16 @@ Code work → **draft PR dưới Claude GitHub App**.
 
 ### Channel access & cross-channel
 - Access set **per channel** (admin áp cho channel/workspace/toàn Slack/bundle) — cùng capability cho **mọi người** hỏi ở đó (predictable, clean audit)
-- Thread **lock** skills/plugins/instructions lúc start; **connectors + domain rules enforce từng request** — thêm mới chạy được ngay trong thread đang chạy (Claude không báo — gọi tên service); thread mới pick mọi thay đổi
+- Thread **lock** skills/plugins/instructions lúc start; **connectors + domain rules enforce từng request** — thêm mới chạy được ngay trong thread đang chạy (Claude không báo — hãy gọi tên service); thread mới pick mọi thay đổi
 - **Hỏi ở đâu quyết định làm được gì ở channel khác**:
   - public channel → đọc + post/reply/react được ở public channel khác Claude là member
   - private channel/group DM → chỉ đọc (không post)
   - DM → chỉ top-level posts sau khi bạn **Approve and post**
   - Post bên ngoài luôn kèm **attribution line** (*"Sent by Claude in #team-eng on behalf of @jordan"*); reply ở thread đích quay về conversation bạn hỏi
-  - `follow #incidents and tell me here if...` — theo dõi channel khác, act về nơi bạn hỏi (follow từ thread hết hạn sau 7 ngày im)
+  - `follow #incidents and tell me here if...` — theo dõi channel khác, act về nơi bạn hỏi (follow đặt từ thread hết hạn sau 7 ngày không hoạt động)
 
 ### Session context & memory
-- Mention Claude giữa thread có sẵn → chỉ nhận **window** messages (bots filtered) — thread dài: **restate info critical**
+- Mention Claude giữa thread có sẵn → chỉ nhận **window** messages (bots filtered) — thread dài cần **restate các thông tin critical**
 - **Sống qua idle**:
   - conversation + context ✓
   - channel memory ✓
@@ -407,7 +413,7 @@ Code work → **draft PR dưới Claude GitHub App**.
 | Ai thấy work | Cả channel | Chỉ bạn | Chỉ bạn |
 
 ### Admin thấy gì
-Không có page/export hiện từng message người ta gửi Claude:
+Không có page/export nào hiện từng message người dùng gửi Claude:
 - analytics (spend theo channel)
 - **Activity page** (scheduled work, memory files, network events — Owners)
 - Slack threads (như mọi member)
@@ -423,14 +429,14 @@ Không có page/export hiện từng message người ta gửi Claude:
 - Claude Tag DM 1-1 vs **Claude Code in Slack**: hai thứ trông giống nhau — PR mở **dưới tên bạn** = Claude Code in Slack, không phải Claude Tag
 
 ### Personal connectors trong channel
-Task của bạn cần thứ chỉ connectors của bạn với tới → Claude hỏi trước. 3 lựa chọn:
+Task của bạn cần những gì chỉ connectors của bạn mới truy cập được → Claude hỏi trước. 3 lựa chọn:
 - **Allow**
 - **Allow with review** (Enterprise admin có thể bắt buộc)
 - **Don't allow**
 
 Work chạy với quyền của bạn, ghi tên bạn; request người khác trong thread chạy với access của channel.
 
-Claude thiết kế nhận direction từ **chủ connector** — người khác post trong thread là information, không phải instructions; chủ có thể bảo dừng.
+Claude thiết kế nhận direction từ **chủ connector** — post của người khác trong thread chỉ là information, không phải instructions; chủ connector có thể yêu cầu dừng.
 
 ### Agent Proxy (biên mạng)
 Request ra ngoài sandbox (trừ GitHub API/git) qua Agent Proxy, check **3 allow layers** — qua nếu **một** cho phép:
@@ -451,9 +457,9 @@ Chỉ **HTTP/HTTPS** qua được — SSH/native database protocol không qua đ
   - **CMEK**
   - HIPAA config — vì Claude Tag giữ channel memory + session transcripts
 - **Default-deny egress** + GitHub proxy riêng: GitHub API/git không qua 3 layers mà qua GitHub proxy — **chỉ repos admin granted** (public repos clone được không cần credential)
-- **Service accounts**: dùng **dedicated account mỗi service** (VD `claude@yourcompany.example`) — audit tách bạch, revoke không đụng người thật
+- **Service accounts**: dùng **dedicated account mỗi service** (VD `claude@yourcompany.example`) — audit tách bạch, revoke không ảnh hưởng đến tài khoản người thật
 - **Isolate credentials giữa channels**: access áp tại channel / workspace / toàn Slack / **channel rule** (pattern tên channel). Bundle finance chỉ áp 1 private channel → sessions channel khác chạy **như thể credential đó không tồn tại**.
-  ⚠️ Credential đầu tiên add ở tab Connectors áp **toàn Slack** ngay — muốn giới hạn: add qua bundle/channel page/Add credential (off everywhere → pick chỗ)
+  ⚠️ Credential đầu tiên add ở tab Connectors áp **toàn Slack** ngay — muốn giới hạn: add qua bundle/channel page/Add credential (off everywhere → chọn chỗ áp dụng)
 - **Slack Connect channel**: Claude chỉ dùng bundles **attach trực tiếp channel đó** (+ bundles cho Slack Connect); workspace/Slack-page credentials **không** tới; personal connectors không tới
 - **Artifact visibility**: ai vào được source channel → mở được page; **không có share setting**; updates qua thread/comment trên page. Guest + Channel only → không publish artifacts
 - **Member access**: mặc định ai trong workspace cũng invoke được (không cần Claude account) — Team: *Restrict to your organization*; Enterprise: *restrict theo role có capability Claude Tag in Slack*
@@ -484,7 +490,7 @@ Chỉ **HTTP/HTTPS** qua được — SSH/native database protocol không qua đ
   - **Group DM** — chỉ notes của group DM đó
 - DM notes lưu **cùng workspace** (không theo Claude account của bạn) — bị xóa khi Owner disconnect workspace
 - Channel đổi public↔private → notes theo channel; workspace notes đã save từ lúc public **ở lại** workspace (không nên shared → nhờ Owner xóa)
-- **Make it stick**: nói tường minh `remember for this channel: ...`; **giữ ngắn** (budget/channel hạn — entry dài crowd out); playbooks dài → **repo Claude đọc được** (link runbook/style guide thay vì nhét vào memory)
+- **Make it stick**: nói tường minh `remember for this channel: ...`; **giữ ngắn** (budget/channel hạn — entry dài crowd out); playbooks dài → **repo Claude đọc được** (link runbook/style guide thay vì đưa hết vào memory)
 - Check/correct: `what do you remember about this channel?` → sửa/xóa stale; sau khi sửa nhờ Claude **ghi bản sửa** vào memory; **prune định kỳ** (routine weekly review memory hoạt động tốt)
 - Owner xem/sửa/xóa **memory files** trong Claude Tag admin settings
 
@@ -503,7 +509,7 @@ Chỉ **HTTP/HTTPS** qua được — SSH/native database protocol không qua đ
 
 ### Nơi post & quản lý
 - Routine setup **từ thread** → report trong thread đó (chừng nào session sống); session stuck → chạy về top-level → muốn về thread: disable + setup lại từ thread. Setup **top-level** → announce ngắn + work trong thread dưới
-- List (`!scheduled`, hỏi trong thread chỉ ra routines thread đầu — hỏi *"every routine in this channel"* để đủ)
+- List (`!scheduled`; hỏi trong thread chỉ ra routines của thread đầu — hỏi *"every routine in this channel"* để đủ)
 - reschedule/pause/stop (nêu tên)
 - đổi nội dung = stop + setup lại
 - Routines channel **sống qua người setup rời đi**; DM routines theo account người — tắt khi bị xóa khỏi org
@@ -528,12 +534,12 @@ Chỉ **HTTP/HTTPS** qua được — SSH/native database protocol không qua đ
 | Group DM top-level | Đôi khi |
 | Message app/bot khác | **Không** (đọc làm context; reply chỉ khi bot @Claude) |
 
-@-mention → Claude **react emoji** trong vài giây (đã nhận) → trả lời thread hoặc mở working session (working indicator + Stop). Reaction mà không indicator = đang quyết/trả lời trực tiếp.
+@-mention → Claude **react emoji** trong vài giây (đã nhận) → trả lời thread hoặc mở working session (working indicator + Stop). Reaction mà không có indicator = đang cân nhắc/trả lời trực tiếp.
 
 ### 5 hành động với message không tag
-1. **Không gì** (bình thường nhất — channel chưa dạy loại message nào cần trả lời)
+1. **Không làm gì** (bình thường nhất — channel chưa dạy loại message nào cần trả lời)
 2. **Offer to help** — 1 dòng, hoặc **private suggestion** (card *"From Claude, only you can see this"* + Yes/No; hết hạn sau 1 ngày)
-3. **Short reply** — khi câu trả lời đã có sẵn (history/memory), vừa 1 message; display name plain **Claude**
+3. **Short reply** — khi câu trả lời đã có sẵn (history/memory), gọn trong 1 message; display name plain **Claude**
 4. **Working session** trong thread — chỉ khi ai đó trong channel đã dạy loại work đó
 5. **Hand-off sang session đang chạy** — message thêm chi tiết cho việc đang làm ở thread khác (không post gì ở đây)
 
@@ -550,8 +556,8 @@ Admin set **Channel member edits = Block** → member không đổi được (Cl
 ### Im lặng / giảm noise
 - 1 thread: *"only respond when I @-mention you"* hoặc `!mute` (thumbs-down cũng mute thread)
 - Cả channel: Respond automatically **off** — post top-level (không phải trong thread): `@Claude only respond in this channel when someone @-mentions you directly.`; Claude decline → admin đã lock → nhờ admin
-- Private suggestions: ⋯ menu → **Mute for a week** (mình bạn, mọi channel org); channel mention-only = không suggestions
-- Hết nước: `/remove @Claude`
+- Private suggestions: ⋯ menu → **Mute for a week** (chỉ áp cho mình bạn, mọi channel trong org); channel mention-only = không suggestions
+- Trường hợp cuối cùng: `/remove @Claude`
 
 ### Khi Claude ngừng đọc channel
 **Message volume** (đếm từ lần cuối Claude post) hoặc **>10 ngày không mention + không post** → ngừng đọc (không báo). @-mention từ người đánh thức cả hai trường hợp.
@@ -569,11 +575,11 @@ Shared cùng 1 Claude org → trả lời nhưng chỉ default access/settings c
 ## B.8 — Good habits (docs)
 
 ### Work in the open
-- **Public**: mọi thread + checklist + results channel đọc được; gì team viết ra (decisions, conventions, postmortems) là context Claude dùng — *"knowledge sống trong DM hoặc nói miệng là vô hình với nó"*
-- **Share control** — reply thread người khác khởi động là cách work di chuyển
-- **Grant broad access** — channel càng nhiều connections kết quả càng hữu ích; connections scoped vào agent identity nên **không lộ data cá nhân** của ai
+- **Public**: mọi thread + checklist + results channel đọc được; những gì team viết ra (decisions, conventions, postmortems) là context Claude dùng — *"knowledge sống trong DM hoặc nói miệng là vô hình với nó"*
+- **Share control** — reply vào thread người khác khởi động là cách work được chuyển giao
+- **Grant broad access** — nguồn dữ liệu kết nối càng đầy đủ, kết quả càng hữu ích; connections scoped vào agent identity nên **không lộ data cá nhân** của ai
 - **Destination not route** — nói outcome; definition-of-done làm cụ thể
-- **Tolerate the mess** — draft đầu trong thread hữu ích hơn draft polish trong DM: *thread là workspace, không phải deliverable*
+- **Tolerate the mess** — draft thô ban đầu trong thread hữu ích hơn draft hoàn thiện trong DM: *thread là workspace, không phải deliverable*
 
 ### Mention
 Claude không add ai vào channel; không quyết định mention có notify.
@@ -585,8 +591,8 @@ Claude **không bao giờ ping @channel/@here/@everyone**.
 
 ### Viết task tự đóng
 - **Name the outcome, not the activity** — "post the project status and tag me when it's up" ✓; "look at this" ✗ (open-ended report)
-- **Detail**: background có sẵn (thread/channel/tool) → **link + 1 câu outcome**, khỏi nhắc lại.
-  Sai tốn kém → viết thành **constraints**: rules phải theo, checks là verification, gì không được đụng
+- **Detail**: background có sẵn (thread/channel/tool) → **link + 1 câu outcome**, không cần nhắc lại.
+  Sai tốn kém → viết thành **constraints**: rules phải theo, checks là verification, những gì không được chạm vào
   — VD: *"migrate the export config. Hard rules: no behavior change, don't touch the billing module, every old key keeps working as an alias. Done means the full test suite passes."*
 - ⚠️ **Constraints steer nhưng không restrict** — gì phải không-bao-giờ thì enforce **ngoài conversation**: repository permissions, branch protection, required checks
 - **Definition of done** (bảng ai đóng thread):
@@ -600,9 +606,9 @@ Claude **không bao giờ ping @channel/@here/@everyone**.
 
   - Điều kiện phải **observable bởi Claude** ("CI green" cần access CI — không có thì đổi điều kiện bạn tự đóng); **spell out hết** ("babysit this PR until it merges" = approvals + comments resolved + go-ahead của bạn)
   - Task Claude tự đóng → nhờ **attach proof** (source link, chart, test output, diff) — bạn đọc proof, không đọc transcript.
-    Long-running: **durable là một phần of done** (post file / push branch / mở draft PR sớm). Calibrate: channel mới check tất cả; nới dần khi output đứng vững
+    Long-running: **durable là một phần của done** (post file / push branch / mở draft PR sớm). Calibrate: channel mới check tất cả; nới dần khi output đứng vững
 
-- **Decisions nào quay về bạn**: nói rõ tự quyết gì / mang về gì — không nói thì Claude tự phán từng case (hoặc đổi chừng nào hỏi). ⚠️ Cần enforce → branch protection, không chỉ prompt
+- **Decisions nào quay về bạn**: nói rõ tự quyết gì / mang về gì — không nói thì Claude tự phán đoán từng case (hoặc tự quyết định chừng nào nên hỏi). ⚠️ Cần enforce → branch protection, không chỉ prompt
 - **Format cho recurring** (🔴 person/🟡 watch/🟢 fine, skip 🟢) — hoặc "use the format from your 9am post going forward"
 - **Steer explicitly**: `@Claude remember for this channel: always format reports as a table, and ask before posting anything longer than a screen` (cả 2 chiều: thêm structure hoặc bớt noise)
 
@@ -617,10 +623,10 @@ Claude **không bao giờ ping @channel/@here/@everyone**.
 | Ai thấy | Cả channel | Bạn + người mời | Bạn |
 | Billing | Organization | Organization | Seat của bạn |
 
-  - DM trả lời private về public channel được (nêu tên channel) — nhưng chỉ privacy của câu trả lời, không rộng hơn reach
+  - DM trả lời private về public channel được (nêu tên channel) — nhưng chỉ bảo đảm privacy của câu trả lời, không mở rộng thêm reach
   - đọc **full history** public channel cần member (search thì không)
   - private channel chỉ hỏi từ bên trong
-  - Slack Connect / cross-workspace limits; **nhiều nơi work được → chọn channel** (work ở đó compound)
+  - Slack Connect / cross-workspace limits; **nhiều nơi work được → chọn channel** (work ở đó được cộng dồn)
 
 ### Dạy điều gì đó stick (bảng 6 nơi)
 | Muốn Claude biết | Đặt ở | Ai viết | Với tới |
@@ -650,7 +656,7 @@ Giữ số thread khớp năng lực review:
 | Use case | Cho ai | Claude làm | Connections |
 | :--- | :--- | :--- | :--- |
 | Catch up | Mọi người | Tóm tắt thread/channel/điều chờ bạn | Không |
-| Your own channel | Mọi người | Scratch questions, digests, đeo bám việc bạn hứa | Không (tracker/GitHub tùy chọn) |
+| Your own channel | Mọi người | Scratch questions, digests, theo dõi việc bạn đã hứa | Không (tracker/GitHub tùy chọn) |
 | Triage requests | Support/ops/IT | Trả lời được, flag trùng, route phần còn lại, rollup themes | Không |
 | Threads → docs & tickets | Mọi người | Decision doc, memo, ticket, reply send-ready, hosted page | Không (Drive/tracker tùy chọn) |
 | Track projects + chase approvals | PM/leads | Status digests, follow-up sign-off đỗ | Không |
@@ -689,8 +695,8 @@ Connections theo nhóm:
 **Trả lời sai/ồn:** Confident-but-wrong → check source links, "which channels did you search?", "show me the query" (sai phổ biến nhất là **incomplete** — 1 nguồn/1 date range); definition-of-done yêu cầu source mọi figure.
 - Reply mọi message trong thread → "only respond when I @-mention you"
 - Reply không tag → Respond automatically off (post **top-level**)
-- Muốn rút lại → edit chỉ thành note, delete không tới — **nói bằng reply mới**
-- Xóa message Claude post → chỉ message session hiện tại, ai trong conversation yêu cầu, permanent (transcript vẫn còn)
+- Muốn rút lại → edit chỉ thành note, delete không tới được Claude — **nói bằng reply mới**
+- Xóa message Claude post → chỉ áp dụng message session hiện tại, khi người trong conversation yêu cầu, permanent (transcript vẫn còn)
 - "Conversation too long" → thread mới (paste summary)
 
 **Dừng giữa chừng:** API errors/rate limits → auto-retry ~2 phút (tối đa 3; mention để retry sớm; rate limit là momentary, **không phải** spend limit).
@@ -707,7 +713,7 @@ Connections theo nhóm:
 
 **Access:** Connection mới không hiện trong session đang chạy → **gọi tên service** / thread mới.
 - "Can't access channel từng đọc" — public: search được nhưng đọc trực tiếp cần invite; private: chỉ đọc từ bên trong
-- Connector chạy claude.ai không Slack → DM dùng account connectors của bạn; setup tại claude.ai **Customize > Connectors**; DM mới mới pick up
+- Connector chạy claude.ai không Slack → DM dùng account connectors của bạn; setup tại claude.ai **Customize > Connectors**; chỉ DM mới pick up
 - Personal connectors cần **Opus 5 bật org-wide** (Claude dùng cho checks) — tắt thì decline
 - Không mở link được nhưng search thấy → fetch cần admin allow host
 - **SSH/native DB không qua proxy** (chỉ HTTP/HTTPS) → dùng HTTP API
@@ -730,16 +736,16 @@ AI work chuyển từ **single-player** (1 người + 1 chat window) sang **mult
 **4 bài học:**
 1. **Work in public; broad context** — agent chỉ hiểu từ **text tìm được** (Slack, docs, code): *"if it's not written down and accessible, it doesn't exist."*
    Vài workspace-level boundaries thay vì chia sẻ từng item; docs viết với agent là một audience chính; việc nhạy cảm → DM/apps cá nhân
-2. **Role rõ + tools đúng** cho mỗi người & agent — một roster, một bộ artifacts, một workspace; không role rõ → "fleets of personal AIs", trùng lặp, context vụn; người giữ judgment-heavy
+2. **Role rõ + tools đúng** cho mỗi người & agent — một roster, một bộ artifacts, một workspace; không có role rõ → "fleets of personal AIs", trùng lặp, context vụn; người giữ các việc judgment-heavy
 3. **North star cho proactive** — người định nghĩa + ghi lại mục tiêu gắn mission; chỉ agents được chọn (skills + trust) mới đề xuất workstreams mới; human meetings dịch về decisions giá trị nhất
 4. **Trust theo thời gian** — autonomy theo reliability đã chứng minh (một team đạt 500 bug fixes độc lập)
    - verification trước human review (tests, rubrics, **Doer-Verifier** — một agent làm, một agent check)
    - reflection cycles (weekly "lessons & missteps")
-   độc lập rồi thì dạy agent coi **human attention là khan hiếm**: gom câu hỏi, cap review items, cap workload ngày
+   khi agent đã độc lập, dạy agent xem **human attention là tài nguyên khan hiếm**: gom câu hỏi, cap review items, cap workload ngày
 
 **5 câu tự vấn:** info public + searchable chưa? roster + ownership viết ra được chưa? ai cũng có tools đúng chưa? có rubrics/tests verify việc chính chưa? có north star rõ để tham chiếu chưa?
 
-> Takeaway: các pattern này không mới (goals rõ, role rõ, documentation, quality bars) — agents làm cho việc **bỏ qua chúng đắt hơn**.
+> Takeaway: các pattern này không mới (goals rõ, role rõ, documentation, quality bars) — agents khiến chi phí của việc **bỏ qua chúng trở nên đắt hơn**.
 
 ---
 

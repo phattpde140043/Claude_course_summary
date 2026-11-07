@@ -31,7 +31,7 @@ Claude làm việc **cùng** bạn:
 2. Connect các apps (Gmail, Slack, Google Drive, calendar)
 3. Mô tả việc cần → Claude lập plan, chạy từng bước, dùng tools/files cần thiết, trả về **deliverable thật**
 
-Dùng được trong desktop app, web, mobile; **desktop app** là chỗ dùng khi việc liên quan files trên máy (Claude mở/lưu trực tiếp).
+Dùng được trong desktop app, web, mobile; **desktop app** là lựa chọn khi việc liên quan files trên máy (Claude mở/lưu trực tiếp).
 
 Cách vào Cowork tùy version: có bản có tab riêng, có bản mô tả task trong conversation thường → Claude chuyển thành Cowork task.
 
@@ -54,10 +54,10 @@ Cơ học:
 > - **Code** = building software *with* Claude.
 
 - **Chat**: dialogue turn-by-turn — trao đổi nhanh, brainstorming, exploratory thinking, **một tool mỗi lúc**; purpose-built cho bounded exchanges
-- **Cowork**: working session — với tới nhiều tools, giữ nhiệm vụ theo thời gian, trả finished outputs *(khoảng cách mà upload files vào Chat không bao giờ bít nổi)*
+- **Cowork**: working session — truy cập được nhiều tools, giữ nhiệm vụ theo thời gian, trả finished outputs *(khoảng cách mà upload files vào Chat không bao giờ lấp được)*
 - **Code**: môi trường dev đầy đủ chạy trong codebase, có terminal + git — cho developer viết và ship phần mềm
 
-Knowledge worker dành phần lớn thời gian cho hai cái đầu — cho những việc rất khác nhau.
+Knowledge worker dành phần lớn thời gian cho hai bề mặt đầu — cho những việc rất khác nhau.
 
 ## Bài 2: Setting up Claude Cowork (20′)
 
@@ -67,7 +67,7 @@ Knowledge worker dành phần lớn thời gian cho hai cái đầu — cho nh�
 - Folder là nơi Cowork có quyền **read AND write** — khác hẳn attach file vào tin nhắn
 - Chọn folder **scoped cho một project/stream of work** (không cần cả Documents folder); folder thật có context phù hợp (source materials, templates)
 - **Cloud files khác local**: nhiều connector (Google Drive, M365 mặc định) chỉ **read-and-search**; số khác create/edit được — kiểm tra mô tả từng connector khi bật
-- Task khởi động từ web/phone với tới connectors nhưng **không** với tới local folders
+- Task khởi động từ web/phone truy cập được connectors nhưng **không** truy cập được local folders
 
 ### Thêm connectors
 - Setup một lần trong **Customize**, bật/tắt theo từng task. Nhóm nên cài trước:
@@ -89,7 +89,7 @@ Knowledge worker dành phần lớn thời gian cho hai cái đầu — cho nh�
 1. Chọn folder chứa việc thật (chưa yên tâm thì copy sang folder mới — nhưng dùng **vật liệu thật**, không phải toy files)
 2. Connect một app (email + cloud storage thường có giá trị nhất đầu tiên)
 3. Prompt: *"Take a look at everything in this folder and write me a brief on what you've learned — what's in the folder, how the documents relate to one another, any surprising insights..."*
-4. Đọc brief, đối chiếu với hiểu biết của bạn: Claude bắt được gì bạn might have missed? Miss gì?
+4. Đọc brief, đối chiếu với hiểu biết của bạn: Claude bắt được gì bạn có thể bỏ sót? Bỏ sót gì?
 
 ## Bài 3: What Cowork can do for you (10′)
 
@@ -111,17 +111,17 @@ Knowledge worker dành phần lớn thời gian cho hai cái đầu — cho nh�
 - Chọn cadence (hourly, daily, weekdays, manual) → review prompt → accept
 - **Nơi chạy tùy nhu cầu**:
   - Chỉ dùng connectors → chạy **remote**, máy không cần bật
-  - Cần files/apps trên máy → chạy trên máy, **desktop app phải mở** đúng giờ (máy đóng/ngủ/tắt → Claude nhặt việc lại khi bạn trở về và báo biết là bị delay)
+  - Cần files/apps trên máy → chạy trên máy, **desktop app phải mở** đúng giờ (máy đóng/ngủ/tắt → Claude nhận lại việc khi bạn trở về và báo rằng task bị delay)
 - Ý tưởng:
   - Friday review (what shipped + decisions trong Slack/Teams + preview tuần sau)
   - Monthly roll-up ngày 1
   - Morning briefing cho meetings từ notes cũ + email threads
 
 ### Làm việc xa bàn làm việc
-- Web + mobile app: start từ điện thoại, check từ browser nào, nhận deliverable ở bàn. Task chạy **remote** — không gì cần để bật
-- 2 lưu ý: task từ web/phone **không với tới folder trên máy** (cần local files → start từ desktop app); **task ở lại nơi nó bắt đầu** — muốn đổi nơi chạy thì start task mới
+- Web + mobile app: start từ điện thoại, check từ browser nào, nhận deliverable ở bàn. Task chạy **remote** — không gì cần phải bật
+- 2 lưu ý: task từ web/phone **không truy cập được folder trên máy** (cần local files → start từ desktop app); **task ở lại nơi nó bắt đầu** — muốn đổi nơi chạy thì start task mới
 - VD:
-  - Trên đường đi nhớ client call cần one-pager về support tickets quý trước → nhờ Cowork từ app điện thoại pull tickets từ support tool + draft — review khi tới chỗ
+  - Trên đường đi nhớ client call cần one-pager về support tickets quý trước → nhờ Cowork từ app điện thoại pull tickets từ support tool + draft — review khi tới nơi
   - Vendor gửi hợp đồng sửa lúc offsite → so với bản năm trước trong Drive từ điện thoại
 - ⚠️ Nếu organization quản lý Claude giúp bạn thì **admin quyết định** việc bật các tính năng này
 
@@ -134,12 +134,12 @@ Knowledge worker dành phần lớn thời gian cho hai cái đầu — cho nh�
 2. **Names the inputs** — folder nào, channel nào, date range nào, application nào: Cowork tốt đúng mức context bạn trỏ vào
 3. **Names specifics/nuances** — *"I want base, best, worst scenarios that account for the 3 new locations we opened in Q3"*: loại output mong muốn + insight chuyên môn Claude không tự thấy
 
-Nhiều công hơn upfront — đổi lại phần back-and-forth dồn về **trước khi** Claude bắt đầu, thay vì 5 vòng "actually, can you also..."
+Tốn nhiều công hơn upfront — đổi lại phần back-and-forth dồn về **trước khi** Claude bắt đầu, thay vì 5 vòng "actually, can you also..."
 
 ### Trả lời clarifying questions
-Claude hỏi để đóng gaps **trước khi** lao vào việc (khi delegate, Claude đi mất và quay lại với artifact hoàn chỉnh — mọi context gap phải lộ qua câu hỏi).
+Claude hỏi để đóng gaps **trước khi** bắt tay vào việc (khi delegate, Claude đi làm và quay lại với artifact hoàn chỉnh — mọi context gap phải lộ qua câu hỏi).
 
-Đa số là multiple-choice, click cái phù hợp; không cái nào fit thì trả lời bằng lời của bạn.
+Đa số là multiple-choice, click phương án phù hợp; không phương án nào vừa thì trả lời bằng lời của bạn.
 
 ### Steer mid-task
 Theo dõi plan + progress. Lệch hướng (wrong source, wrong format, wrong tone) → **interrupt ngay**, không đợi xong rồi regenerate; chạy lệch nặng thì **stop run → refine prompt → start lại**.
@@ -147,12 +147,12 @@ Theo dõi plan + progress. Lệch hướng (wrong source, wrong format, wrong to
 *"Cowork is built for course corrections, and the cost of a redirect is low."*
 
 ### Review deliverable
-Xem trước trong app hoặc mở file trong folder. Review như đọc draft của người bạn tin nhưng chưa biết rõ — **discernment bật**. Kiểm tra (nhất là vài lần đầu):
-- **Đạt mục tiêu thực sự?** Hay tạo ra thứ gì đó khác tinh tế với yêu cầu?
+Xem trước trong app hoặc mở file trong folder. Review như đọc draft của người bạn tin nhưng chưa biết rõ — đây là lúc **discernment bật**. Kiểm tra (nhất là vài lần đầu):
+- **Đạt mục tiêu thực sự?** Hay tạo ra thứ gì đó lệch tinh tế so với yêu cầu?
 - **Facts chính xác?** — nhờ Claude chỉ ra docs nó pull từ đâu, rồi tự kiểm tra source
 - **Có gì nghe bịa?** — date/name/quote không truy được về input là **cờ đỏ, không phải feature**
 
-Draft gần đúng → bảo Claude sửa (nó nhớ conversation, **edit nhanh hơn regenerate**). Draft sai kiểu **load-bearing** → prompt thiếu context load-bearing — chỉ Claude tới context mới và nhờ điều chỉnh.
+Draft gần đúng → nhờ Claude sửa (nó nhớ conversation, **edit nhanh hơn regenerate**). Draft sai kiểu **load-bearing** → prompt thiếu context load-bearing — dẫn Claude tới context mới và nhờ điều chỉnh.
 
 ## Bài 5: Get better results faster (2′)
 
@@ -175,14 +175,14 @@ Không bắt đầu với cả 4 ngay ngày 1:
 
 ### Global instructions — standing brief cho mọi session
 - Viết một lần trong **Settings → Global instructions** (bản cũ gọi "Instructions for Claude") → Claude tham chiếu trong **mọi** session: chat lẫn scheduled task
-- Nên có: bạn là ai/làm gì; shorthand/acronyms (để khỏi phải giải thích "the QBR deck"); cách bạn muốn output (format, length, tone)
+- Nên có: bạn là ai/làm gì; shorthand/acronyms (để không phải giải thích "the QBR deck"); cách bạn muốn output (format, length, tone)
 - Không cần hoàn hảo ngày một: corrections hay lặp lại (*"share the bottom line up front"*, *"don't use Oxford commas"*) chính là global-instruction candidates
 
 ### Projects — workspace scoped cho một stream of work
 Global instructions nói về **bạn**; projects nói về **việc bạn đang làm**. Bên trong có 3 thứ bạn setup + 1 thứ Claude tự build:
 - **Instructions** — như global nhưng scoped cho project (*"project này cho weekly transformation team meetings — mục đích gather data và chưng cất thành slide deck mỗi tuần"*)
 - **Scheduled tasks** — recurring runs thuộc project (Friday status pull, pre-meeting brief, end-of-month rollup) — chạy với project context mỗi lần
-- **Context** — folders/links Claude làm việc từ; mọi conversation trong project đều với tới
+- **Context** — folders/links Claude làm việc từ; mọi conversation trong project đều truy cập được
 - **Memory** — Claude tự học từ conversations trong project (bạn không viết) — **đây là khác biệt**:
   - Ngoài project mỗi session fresh
   - Trong project, task mới mở ra đã có tình hình client, quyết định tuần trước, chuyện gì còn open
@@ -222,7 +222,7 @@ Kết hợp tùy việc — có skill chỉ cần SKILL.md là đủ; có skill 
 Prompt: *"I want to build a skill for [recurring process you're tired of re-explaining]. Walk me through what you need to know."*
 
 1. Claude hỏi: skill làm gì, khi nào trigger, output tốt ra sao, resources nào
-2. Xuất **skill folder** (SKILL.md + assets/references/scripts) sẵn install
+2. Xuất **skill folder** (SKILL.md + assets/references/scripts) sẵn sàng install
 
 Quản lý trong **Customize**; muốn sửa cứ nói correction — *"Add a step that flags any deal over $100K that slipped two stages"* — Claude update **in place**.
 
@@ -232,12 +232,12 @@ Skill hoạt động trong mọi conversation, kể cả trong project.
 
 ### Plugin là gì
 **Packaged set of skills built around a job** — skills + connectors + **subagents** chúng phụ thuộc.
-Subagent = purpose-built helper skill spin up để xử lý một phần việc trong context riêng — VD research subagent cho bước research, drafting subagent cho bước draft.
+Subagent = purpose-built helper skill được spin up để xử lý một phần việc trong context riêng — VD research subagent cho bước research, drafting subagent cho bước draft.
 
 Expertise **đi theo install, không theo người**: install finance plugin → Claude biết cách team bạn phân tích equities.
 
 ### 2 hình dạng plugin
-1. **End-to-end process bundle** — việc nhiều bước tuần tự: monthly-close plugin = skills kéo actuals + build variance table + draft board memo — team install một cái, có trọn process
+1. **End-to-end process bundle** — việc nhiều bước tuần tự: monthly-close plugin = skills kéo actuals + build variance table + draft board memo — team install một lần, có trọn process
 2. **Bộ skills dùng nhiều nhất** — các jobs độc lập: finance plugin = variance analysis + financial modeling + investment-memo drafting + quarterly reports
 
 Hình dạng đúng: plugin là package quanh **workflow** — "Renewal prep cho CS team" là plugin; "Equity research cho quỹ" là plugin.
@@ -264,7 +264,7 @@ Hình dạng đúng: plugin là package quanh **workflow** — "Renewal prep cho
 - **Vendor portals & customer systems**: procurement portal không API, CRM sau SSO, support tool — Claude navigate, pull, hành động như bạn
 - **Web apps sau login**: mọi thứ có browser interface (kể cả tool team bạn tự build) đều scriptable —
   *"Open the procurement system, find every PO from our top ten suppliers in Q3, and pull the line items into a spreadsheet"*
-- **Web research kết thúc bằng deliverable**: mở 10 tabs, pull từng trang, thành brief — không copy-paste
+- **Web research kết thúc bằng deliverable**: mở 10 tabs, pull từng trang, gom thành brief — không copy-paste
 
 ### Ví dụ phối hợp với Cowork
 Dashboard customer health sau login, không connector, cần summary một trang các account yellow/red trước thứ Sáu:
@@ -274,7 +274,7 @@ Dashboard customer health sau login, không connector, cần summary một trang
 Claude giao browser steps cho Chrome, lấy data, pull thêm context từ Drive + Slack, build summary vào folder — **một lần delegate, ba nguồn context**.
 
 ### Watch-outs
-- **Bạn phải tự đăng nhập** — Claude không sign in hộ; nó làm việc trong session bạn đã authenticated
+- **Bạn phải tự đăng nhập** — Claude không sign in thay bạn; nó làm việc trong session bạn đã authenticated
 - **Cân nhắc quyền trên web**: Claude thấy những gì bạn thấy — kể cả mọi thứ bạn có quyền trên open web; site nhạy cảm → thu hẹp phạm vi + review từng action trước approve
 
 ## Bài 10: Claude for Microsoft 365 (5′)
@@ -284,7 +284,7 @@ Claude giao browser steps cho Chrome, lấy data, pull thêm context từ Drive 
 - **Một conversation mang context xuyên các apps**: build analysis trong Excel → đẩy sang PowerPoint làm slide; Word memo làm nguồn cho draft reply Outlook
 - **Cowork vs M365 = công cụ khác nhau cho thời điểm khác**:
   - Cowork build deliverable hoàn chỉnh từ nhiều nguồn
-  - Claude trong M365 để **refine, debug, shaping file bạn đang làm** — và mang context từ file đó sang docs khác
+  - Claude trong M365 để **refine, debug, hoàn thiện file bạn đang làm** — và mang context từ file đó sang docs khác
 
 ### Claude làm gì trong từng app
 - **Excel**: phân tích dữ liệu, viết formulas, debug `#REF!` + circular references, chạy scenario tests không phá model, build sheet từ template, **cite ngược về cell cụ thể**
@@ -313,9 +313,9 @@ Công việc thật dùng cả hai: Claude build draft đầu của deck → b�
 
 > Bài 2 là **sàn** (luôn hỏi trước delete; mặc định hỏi trước send/share). Bài này là phần **bạn** tự mang thêm.
 
-### Setup để lỗi không với tới thứ quan trọng
+### Setup để lỗi không chạm tới thứ quan trọng
 1. **Dedicated working folder, không catch-all** — trỏ Claude vào Documents/Downloads/Desktop = để đồng nghiệp mới lục mọi file bạn có. Tạo folder cho việc, move/copy vào những gì cần, trỏ Claude vào đó
-2. **Backup thứ không thay thế được trước khi bắt đầu** — deliverable client cũ, hợp đồng không cấp lại được: giữ bản sao nơi Cowork **không với tới** (cloud, folder khác, ổ không cắm)
+2. **Backup thứ không thay thế được trước khi bắt đầu** — deliverable client cũ, hợp đồng không cấp lại được: giữ bản sao nơi Cowork **không truy cập được** (cloud, folder khác, ổ không cắm)
    Claude có hỏi trước khi xóa — nhưng giá của việc click nhầm confirmation là giá của file
 3. **Test workflow mới trên bản copy trước** — scheduled task chạy mỗi Friday: lần đầu chạy trên **bản copy của data**; thấy ổn rồi mới trỏ vào live folder
 
@@ -328,11 +328,11 @@ Công việc thật dùng cả hai: Claude build draft đầu của deck → b�
   - *"Only contracts that closed in Q3"*
   - *"Don't message anyone — draft only"*
   - → Thu hẹp việc Cowork làm + cho bạn đường ranh rõ để nhận drift
-- **Scheduled tasks: draft ban đầu** — chúng chạy khi bạn không xem; tới khi tự tin thì prompt nó **draft cho review** thay vì gửi thay bạn
+- **Scheduled tasks: draft ban đầu** — chúng chạy khi bạn không xem; tới khi tự tin thì đặt trong prompt yêu cầu **draft cho review** thay vì gửi thay bạn
 
 ### 3 kiểm tra tại thời điểm thực
 1. **Đọc plan khi nó được tạo** — Claude trình plan trong progress tab: có hợp lý? đúng thứ tự? đúng sources? Redirect nếu cần
-2. **Canh pattern bất thường** — không cần validate từng command; nhưng Claude đụng files/sites bạn không nhắc, hay scope phình → **stop task**
+2. **Canh pattern bất thường** — không cần validate từng command; nhưng Claude chạm vào files/sites bạn không nhắc, hay scope phình → **stop task**
    *"Something feels off" là tín hiệu thật — hãy coi trọng nó*
 3. **Approve confirmation một cách có chủ đích** — giữ "Ask before acting" cho mọi thứ send/post/share; confirmation hiện ra thì **đọc nó**
    *"Hầu hết sai lầm không xảy ra vì safeguard hỏng — mà vì ai đó click qua một confirmation không hoàn toàn là action họ định làm"*
@@ -340,7 +340,7 @@ Công việc thật dùng cả hai: Claude build draft đầu của deck → b�
 ### Khi Cowork KHÔNG phải công cụ đúng
 - **Workflow được regulate cần audit trail** — hoạt động Cowork không nằm trong audit logs/data exports (Compliance API trả transcripts nhưng **chỉ Claude Enterprise**)
 - **Việc bạn không tin đồng nghiệp nhanh thông minh làm không giám sát** — gửi legal doc cho counterparty, post thông báo công khai, push customer-facing change: *Claude prepares; you ship*
-- **Dữ liệu cá nhân cực nhạy** ngoài ranh giới IT của bạn phê duyệt rõ ràng
+- **Dữ liệu cá nhân cực nhạy** — không dùng khi vượt ranh giới IT của bạn phê duyệt rõ ràng
 
 > 📖 **Go deeper**: bài [Use Claude Cowork safely](https://support.claude.com/en/articles/13364135) (Phần B.2) nói rõ các guardrail có sẵn và phần bạn còn chịu trách nhiệm khi Claude hành động thay bạn.
 
@@ -365,7 +365,7 @@ Không chỉ hỏi "output có ổn không" mà "có **tốt hơn** cái Claude 
 Submit → **Claude revise skill theo feedback**.
 
 ### Iterate
-- **Đổi một thứ mỗi lần** — round đầu thấy wordy **và** thiếu section: chọn cái quan trọng hơn, fix, re-run, rồi quay lại; bạn sẽ biết cái nào thực sự move the needle
+- **Đổi một thứ mỗi lần** — round đầu thấy wordy **và** thiếu section: chọn cái quan trọng hơn, fix, re-run, rồi quay lại; bạn sẽ biết cái nào thực sự tạo khác biệt
 - **Là loop, không phải gate một lần** — chưa ưng thì chạy lại; đa số skill sẵn sàng sau 1-2 rounds
 - **Bar để ship**: các case bạn quan tâm pass **meaningfully better than baseline** + bạn đã **nêu tên các case chưa handle**
 - Output đẹp ngay round đầu? Xong — *"evals are there for when you need confidence, not ceremony"*
@@ -375,22 +375,22 @@ Submit → **Claude revise skill theo feedback**.
 ### Phân phối plugin trong organization
 Cách khuyến nghị: **private marketplace của org** — catalog plugin được duyệt, admin quản lý.
 
-Phân phối là một **hand-off**: bạn mang plugin tới người sở hữu marketplace (team lead, enablement/ops owner, IT) — họ publish, chọn cách landing:
+Phân phối là một **hand-off**: bạn mang plugin tới người sở hữu marketplace (team lead, enablement/ops owner, IT) — họ publish, chọn cách plugin tiếp cận người dùng:
 - **Available** — hiện trong company Directory, ai muốn thì install
 - **Installed by default** — đã cài sẵn cho mọi người; họ tắt được
 - **Required** — cài và **bật mãi** — hợp cho compliance checks ai cũng phải chạy giống nhau
 
 Đồng nghiệp thấy plugin trong Directory gắn nhãn công ty, cạnh các plugin Anthropic công khai; dùng/turn off được (trừ Required), **không edit được** — updates chảy từ người maintain.
 
-Cách này landed thế nào tùy admin org của bạn:
+Cách này triển khai thế nào tùy admin org của bạn:
 
-- Có nơi marketplace đã chạy + có owner rõ để trao
-- Có nơi chưa bật — đối chiếu tình huống của bạn để biết next step (chưa biết ai là người mang plugin tới marketplace? **Đó chính là next step thật sự của bạn**)
+- Có nơi marketplace đã chạy + có owner rõ để nhận plugin
+- Có nơi chưa bật — đối chiếu tình huống của bạn để biết next step (chưa biết ai là người mang plugin tới marketplace? **Đó chính là next step thực sự của bạn**)
 
 ### 4 thói quen giữ plugin shared khỏe
 1. **One owner** — mỗi shared plugin có một người có tên: review changes, chạy evals sau mỗi edit, quyết định update/retire
-2. **Evals trước mọi publish** — eval loop là gate: case quan trọng không hold up sau change → đừng push cho cả team
-3. **Đặt tên skills/plugins cụ thể** — "meeting-prep" sẽ đụng 3 skill meeting-prep khác trong directory; "sales-customer-renewal-prep" thì không
+2. **Evals trước mọi publish** — eval loop là gate: case quan trọng không đứng vững sau change → đừng share cho cả team
+3. **Đặt tên skills/plugins cụ thể** — "meeting-prep" sẽ trùng 3 skill meeting-prep khác trong directory; "sales-customer-renewal-prep" thì không
 4. **Review rhythm** — hàng quý: cái gì installed, cái gì thực sự dùng, cái gì stale → retire cái không ai chạy, amend theo feedback
 
 ## Bài 14: Wrap up and next steps (2′)
@@ -425,13 +425,13 @@ Cách này landed thế nào tùy admin org của bạn:
 
 ### Yêu cầu & chạy task
 - Cần: gói trả phí + **desktop app mở & connected** (cho local files, browser use, computer use — dù session chạy cloud) + internet
-- Task chạy: analyze → tạo plan → bẻ subtasks → chạy code/shell trong **isolated cloud env** → coordinate parallel workstreams → deliver outputs (preview/download)
+- Task chạy: analyze → tạo plan → chia subtasks → chạy code/shell trong **isolated cloud env** → coordinate parallel workstreams → deliver outputs (preview/download)
 - Trong task: progress indicators, transparent reasoning, mid-task steering, cross-device check-ins, parallel sub-agents, **deletion protection** (phải gõ "Allow" rõ ràng mới xóa vĩnh viễn)
 
 ### Năng lực chính
 - Cross-device continuity
 - Unattended execution (đóng laptop vẫn chạy)
-- **Shared memory với chat** (tắt "Memory" qua menu + trước tin nhắn đầu)
+- **Shared memory với chat** (tắt "Memory" qua menu, hoặc ngay trước tin nhắn đầu)
 - Local file access trực tiếp (desktop)
 - Sub-agent coordination
 - Professional outputs (Excel formulas chạy được, decks, docs)
@@ -456,7 +456,7 @@ Cách này landed thế nào tùy admin org của bạn:
 - **Global instructions**: Settings > Cowork (unified: nằm trong "Instructions for Claude")
 - **Folder instructions**: context gắn với local folder, Claude tự update được
 - **Plugins**: skills + connectors + sub-agents lưu theo account, dùng chung Cowork/chat/Code
-- **Scheduling**: `/schedule` hoặc mục "Scheduled" ở sidebar — không thiết bị nào cần thức
+- **Scheduling**: `/schedule` hoặc mục "Scheduled" ở sidebar — không thiết bị nào cần bật
 - **Usage**: task đa bước (code execution, file creation, connectors/browser) tốn usage theo từng bước
 - Kéo dài limit: gom việc liên quan vào một task, conversation mới cho việc không liên quan, nói rõ khi chỉ cần câu trả lời nhanh
 - **Security**:
@@ -472,10 +472,10 @@ Cách này landed thế nào tùy admin org của bạn:
 ### Mô hình rủi ro
 - Tools chia 2 nhóm: **Read tools** (đọc email, chụp màn hình) và **Write tools** (xóa file, gửi invite, chạy commands, click) — write rủi ro hơn vì tạo hành động ngoài ý muốn
 - Rủi ro = **những gì Claude đọc/thấy** × **những gì Claude được phép làm**
-- Session chạy trong **cloud env tạm, isolated** (mỗi session một môi trường, không với tới network nhà/công ty, xóa sau đó); Claude chỉ tới máy bạn qua desktop app đang mở + folders đã connect
+- Session chạy trong **cloud env tạm, isolated** (mỗi session một môi trường, không truy cập được network nhà/công ty, xóa sau đó); Claude chỉ truy cập máy bạn qua desktop app đang mở + folders đã connect
 - ⚠️ Isolation giới hạn **nơi code chạy**, không giới hạn Claude đọc/làm gì
-- **Prompt injection**: chỉ thị độc hại giấu trong content ngoài (VD email bảo Claude chuyển tiền)
-- Tấn công cần **cả hai** điều kiện: đọc content ngoài ranh giới tin cậy **và** có quyền hành động hại → chặn một trong hai là yếu đi tấn công
+- **Prompt injection**: chỉ thị độc hại giấu trong content ngoài (VD email yêu cầu Claude chuyển tiền)
+- Tấn công cần **cả hai** điều kiện: đọc content ngoài ranh giới tin cậy **và** có quyền hành động hại → chặn một trong hai là tấn công yếu đi
 
 ### 6 lớp safeguard của Anthropic
 1. Model training (RL nhận diện + từ chối chỉ thị độc hại, kể cả giả vờ khẩn cấp/có thẩm quyền)
@@ -498,16 +498,16 @@ Cách này landed thế nào tùy admin org của bạn:
 6. **Giới hạn web vào site tin cậy** — web là vector injection chính; side panel thấy trang hiện tại (kể cả đã login), session lưu vào history; egress không áp dụng cho web fetch/search/MCP
 7. **Kiểm định MCPs/plugins** — plugin mở rộng tầm với của Claude; local MCP chạy với quyền program bình thường; chỉ dùng extension đã verify
 8. **Canh cross-app data sharing** — add-in Excel/PPT có thể chuyển data giữa apps không cần chỉ dẫn; tránh info nhạy cảm khi Cowork đang hoạt động
-9. **Hiểu tầm với cloud-session**:
-   - Cloud task chỉ tới máy khi desktop mở + folder connected + trong quyền sẵn có
+9. **Hiểu tầm với của cloud-session**:
+   - Cloud task chỉ truy cập được máy khi desktop mở + folder connected + trong quyền sẵn có
    - Pro/Max/Ultra: desktop task mới chạy cloud (task trước 6/10/2026 vẫn local)
-   - Máy công ty managed: connected folders thành reachable từ cloud
-10. **Báo cáo hành vi khả nghi** — Claude nói chuyện ngoài đề, truy cập resource bất thường, đòi data nhạy cảm không được hỏi → stop + report
+   - Máy công ty managed: connected folders trở nên truy cập được từ cloud
+10. **Báo cáo hành vi khả nghi** — Claude lạc đề, truy cập resource bất thường, đòi data nhạy cảm không được hỏi → stop + report
 
 - **Enterprise**: Compliance API ghi Cowork sessions; owner stream events sang SIEM qua **OpenTelemetry**
-- **Trách nhiệm của bạn**: chịu trách nhiệm mọi thứ Claude làm thay mặt (nội dung publish, messages, purchases, data changes, scheduled/computer-use actions, tuân thủ ToS site bên thứ ba) — xem AUP for Agents
+- **Trách nhiệm của bạn**: chịu trách nhiệm mọi thứ Claude làm thay mặt bạn (nội dung publish, messages, purchases, data changes, scheduled/computer-use actions, tuân thủ ToS site bên thứ ba) — xem AUP for Agents
 - ⚠️ Built-in browser + Claude in Chrome dùng cùng safeguards — Anthropic **không khuyến khích** dùng cho hành động liên quan thông tin nhạy cảm
-- Computer use **vượt qua** permission gates + sandboxing các tool khác có
+- Computer use **vượt qua** permission gates + sandboxing mà các tool khác có
 
 ## B.3 — Work across M365 apps (docs)
 
@@ -538,12 +538,12 @@ Cách này landed thế nào tùy admin org của bạn:
 > Add-in Outlook cho người làm việc chạy qua email (PE/IB associates quản lý deal flow, legal chạy đàm phán, consultants theo nhiều client threads). **Beta**, Pro/Max/Team/Enterprise.
 
 ### Làm được gì (kèm prompt mẫu)
-- **Triage unread inbox** thành 3 nhóm: cần bạn / Claude xử lý (đến đã pre-drafted: scheduling asks, acknowledgments, standard-form docs) / noise (archive một lần chọn); mỗi action item kèm lý do 1 dòng:
+- **Triage unread inbox** thành 3 nhóm: cần bạn / Claude xử lý (đến đã có draft sẵn: scheduling asks, acknowledgments, standard-form docs) / noise (archive một lần chọn); mỗi action item kèm lý do 1 dòng:
   - *"What needs me?"*
   - *"Draft replies for everything you can handle"*
   - *"Archive all the calendar responses and newsletters"*
 - **Draft replies đúng giọng bạn**, **không gửi**:
-  - Hạ trong compose pane gốc
+  - Draft hiện trong compose pane gốc
   - Tone học từ **sent folder** của bạn (độ dài câu, mức trang trọng)
   - Bỏ phần kết để Outlook tự thêm signature
   - Chọn reply vs reply-all có chủ đích, **cảnh báo trước khi thêm người ngoài thread** — *"Reply to this and agree to the extension, push back on the fee"*
@@ -571,7 +571,7 @@ Cách này landed thế nào tùy admin org của bạn:
 ### Kiến trúc & dữ liệu
 - Item đang mở đọc qua **Office.js**; việc mailbox-wide (thread retrieval, search, free/busy, move/flag) qua **Microsoft Graph**
 - Mọi Graph call chạy **trong browser**, token nằm trong MSAL cache **không bao giờ gửi cho Anthropic**
-- **Claude không bao giờ tự gửi mail** — add-in không xin quyền `Mail.Send`; mọi draft hạ **unsent**, bạn bấm Send
+- **Claude không bao giờ tự gửi mail** — add-in không xin quyền `Mail.Send`; mọi draft ở trạng thái **unsent**, bạn bấm Send
 - Model: Claude account → Opus 4.7 / 4.6 / Sonnet 4.6; qua third-party → chỉ Opus 4.7
 - Chat history: IndexedDB local, không sync; riêng theo surface + userID + orgID (Excel và Outlook riêng); clear local không xóa bản Anthropic
 - Data retention 30 ngày backend; Enterprise: OpenTelemetry → SIEM, Compliance API; Pro/Max/Team không có observability/audit export
@@ -621,7 +621,7 @@ Cách này landed thế nào tùy admin org của bạn:
 - **Scheduled tasks** (daily→annually, icon đồng hồ)
 - **Multi-tab management** (kéo tab vào nhóm của Claude, tương tác đồng thời)
 - Site-specific navigation built-in (Slack, Google Calendar, Gmail, Google Docs, GitHub)
-- **1Password beta (macOS)** — Claude xin credentials, bạn duyệt sinh trắc, **Claude không bao giờ thấy password/mã**
+- **1Password beta (macOS)** — Claude xin credentials, bạn duyệt bằng sinh trắc học, **Claude không bao giờ thấy password/mã**
 - Background workflows (đổi tab vẫn chạy, Chrome giữ mở)
 - Chia sẻ visual context + upload ảnh (screenshots, vùng chọn; nạp vào forms/expense reports)
 - **Shortcuts** lưu prompts, gọi bằng `/`, lên schedule được

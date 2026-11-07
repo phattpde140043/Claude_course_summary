@@ -52,7 +52,7 @@ draft = response.content
 - `system` — system prompt định nghĩa role (tone + guidelines vào đây)
 - `messages` — array objects với role `user`/`assistant`
 - Flow: define client → retrieve ticket → `messages.create` → trả response cho button render
-- Ý nghĩa cốt lõi: không build chatbot từ đầu — **nhét Claude vào sản phẩm đã có**, API là cách wire nó in. Cần agents? Platform **chạy giúp** (managed agents)
+- Ý nghĩa cốt lõi: không build chatbot từ đầu — **đưa Claude vào sản phẩm đã có**, API là cách wire nó in. Cần agents? Platform **chạy giúp** (managed agents)
 
 ## Bài 2: Your first API call (5′)
 
@@ -114,7 +114,7 @@ Chạy → Claude phát hiện `add` đang trừ.
 ### Đánh giá trước khi viết production code
 Setup **eval đơn giản**: 20–30 representative examples từ workload thật, chạy qua từng model, chấm theo "good output" của use case.
 
-Rồi **đi lên từ dưới**: Haiku trước → chất lượng giữ được thì xong (tiết kiệm tiền); không → Sonnet; chỉ với Opus khi task cần.
+Rồi **đi lên từ dưới**: Haiku trước → chất lượng giữ được thì xong (tiết kiệm tiền); không → Sonnet; chỉ lên Opus khi task cần.
 
 ### So sánh trực tiếp
 ```python
@@ -200,7 +200,7 @@ while True:
 Chạy thấy 2 turns: turn 1 `stop_reason: tool_use` (Claude xin get_weather Austin) → turn 2 `end_turn` (*"wear something light and breathable"*). **2 API calls, 1 tool execution, 1 final answer.**
 
 ### Trong production
-Cùng loop đó làm **auto-review endpoint**: compliance agent đọc structural report → look up building codes qua tool → viết risk findings vào DB từng cái.
+Cùng loop đó làm **auto-review endpoint**: compliance agent đọc structural report → look up building codes qua tool → viết risk findings vào DB từng cái một.
 
 Khác biệt chỉ: tools thật thay mock, results **stream về UI dạng server-sent events**, findings persist vào bảng.
 
@@ -230,7 +230,7 @@ Khác biệt chỉ: tools thật thay mock, results **stream về UI dạng serv
 Gửi compliance report → turn 1 Claude trả `stop_reason: "tool_use"` → loop gọi tool với param Claude xin → feed lại **tool result** (user message chứa `tool_result` block gắn với `tool_use_id`) → Claude tiếp tục.
 
 ### Nhiều tools: Claude tự chọn
-Scenario Denver 3 ngày → khai báo `get_weather` + `get_forecast`; loop y hệt, chỉ thêm `runTool` **dispatch theo tên bằng switch**:
+Scenario Denver 3 ngày → khai báo `get_weather` + `get_forecast`; loop giống hệt, chỉ thêm `runTool` **dispatch theo tên bằng switch**:
 ```typescript
 function runTool(name, input) {
   switch (name) {
@@ -259,9 +259,9 @@ Claude gọi cả 2 tools (đôi khi cùng turn, đôi khi tuần tự) rồi tr
 Thêm tool thứ 3 = thêm vào array + thêm case.
 
 ### Tool runner — bỏ boilerplate
-2 red flags của cách trên: code nhiều cho 2 lookups; không ai muốn **handwrite JSON schemas** cho mọi function.
+2 red flags của cách trên: tốn nhiều code cho 2 lookups; không ai muốn **handwrite JSON schemas** cho mọi function.
 
-→ **Tool runner** (beta trong SDKs: TypeScript, Python, Ruby, C#, Go, Java, PHP): define tool một lần, runner xử toàn bộ loop nội bộ.
+→ **Tool runner** (beta trong SDKs: TypeScript, Python, Ruby, C#, Go, Java, PHP): define tool một lần, runner xử lý toàn bộ loop nội bộ.
 
 TypeScript dùng helper **`betaZodTool()`** với **Zod ≥ 3.25.0** (`npm install zod`):
 ```typescript
@@ -368,10 +368,10 @@ for block in code_response.content:
 ```
 Điểm mới: **không switch stop_reason, không push tool results** — response có sẵn block types mới: `server_tool_use` (tool call) + code execution result block (stdout) + `text` bình thường.
 
-Chạy thấy: Python Claude thật sự viết, stdout sandbox, câu trả lời cuối.
+Chạy thấy: Python Claude thực sự viết, stdout sandbox, câu trả lời cuối.
 
 ### Client tools
-Chạy **nơi code bạn chạy** — Anthropic publish schemas + train Claude sẵn (khỏi tự định nghĩa):
+Chạy **nơi code bạn chạy** — Anthropic publish schemas + train Claude sẵn (không cần tự định nghĩa):
 - **Memory** — Claude đọc/ghi memory xuyên sessions (4 SDKs có helper xử lý calls against storage bạn cung cấp)
 - **Bash** — persistent bash shell để Claude chạy commands (app bạn chạy shell)
 
@@ -421,16 +421,16 @@ response = client.messages.create(
 Điểm đáng chú ý:
 - Skills **GA** trên Claude API — beta header `skills-2025-10-02` **không còn cần** (gửi vẫn chạy bình thường)
 - `container.skills` là **list** → layer nhiều Skills lên một call
-- **Code execution bật kèm là bắt buộc**: trên API, Skills chạy trong container của code execution tool — điều cho Skill procedures làm việc thật (chạy scripts)
+- **Code execution bật kèm là bắt buộc**: trên API, Skills chạy trong container của code execution tool — điều cho phép Skill procedures làm việc thật (chạy scripts)
 
 Output = status report đúng format SKILL.md quy định (sections, tone, blocker handling); user prompt chỉ 1 dòng — **procedure nằm trong Skill**.
 
-Production: chuẩn hóa output cả feature — mọi PM nhận cùng cấu trúc không ai copy-paste template vào prompt.
+Production: chuẩn hóa output cả feature — mọi PM nhận cùng cấu trúc, không ai copy-paste template vào prompt.
 
 ## Bài 9: MCP (6′)
 
 ### Vấn đề maintenance
-Agent cần pull tasks Asana + check Google Calendar + search Slack → custom tools = **bạn viết 3 integrations** rồi **maintain mãi** mỗi khi service đổi API.
+Agent cần pull tasks từ Asana + check Google Calendar + search Slack → custom tools = **bạn viết 3 integrations** rồi **maintain mãi** mỗi khi service đổi API.
 
 MCP **đẩy maintenance cho provider**: Asana/Slack/Google tự publish MCP server, expose tools (descriptions + schemas + auth) qua standard protocol — API đổi, họ update server, **bạn không đổi gì**.
 
@@ -475,7 +475,7 @@ tools=[{
     },
 }]
 ```
-→ Claude search Slack + list channels được, **không post/delete** — hợp khi tin service cho đọc nhưng không muốn Claude viết hộ. Thêm: **modelcontextprotocol.io** cho danh sách servers + tài liệu protocol.
+→ Claude search Slack + list channels được, **không post/delete** — hợp khi tin service cho đọc nhưng không muốn Claude viết thay bạn. Thêm: **modelcontextprotocol.io** cho danh sách servers + tài liệu protocol.
 
 ## Bài 10: Context management (6′)
 
@@ -490,11 +490,11 @@ tools=[{
 
 Là input của mọi API call — **trả tiền lúc vào lẫn lúc ra**; window đầy → **request fail**.
 
-Mục tiêu không phải nhét tất cả vào, mà *fit đúng những thứ cần vào*.
+Mục tiêu không phải đưa tất cả vào, mà *fit đúng những thứ cần vào*.
 
 ### 4 patterns (3 là API features, 1 là design pattern)
 1. **Just-in-time context** *(design pattern)* — đừng load tất cả upfront; load cái agent cần **ngay lúc này**, cho nó tự pull thêm qua tools.
-   Compliance agent không nhét cả building code book vào system prompt — gọi `lookup_building_code` khi cần section cụ thể
+   Compliance agent không đưa cả building code book vào system prompt — gọi `lookup_building_code` khi cần section cụ thể
 2. **Server-side compaction** — conversation dài → Anthropic auto-summarize các turn cũ thành 1 block; opt-in bằng `context_management`:
 ```python
 response = client.beta.messages.create(
@@ -505,16 +505,16 @@ response = client.beta.messages.create(
     messages=messages,
 )
 ```
-   API tự summarize khi input vượt trigger threshold — khỏi tự theo dõi độ dài
+   API tự summarize khi input vượt trigger threshold — không cần tự theo dõi độ dài
 3. **Prompt caching** — mark phần **stable** của request (system prompt, tool definitions, document dài) và **reuse across calls** với giá rẻ hơn nhiều.
    Toán học: system prompt 4.000 tokens × 100 calls/giờ — *"caching là khác biệt giữa bill dùng được và điện thoại từ phòng tài chính"*
 4. **Memory tool** — context cần sống **xuyên sessions** (preferences, running notes, quyết định tuần trước).
-   Claude đọc/ghi **memory directory qua tool calls**; bạn implement **storage backend client-side** (file system, DB, encrypted store...); Anthropic **auto-inject system instruction** bảo Claude check memory directory trước khi bắt đầu
+   Claude đọc/ghi **memory directory qua tool calls**; bạn implement **storage backend client-side** (file system, DB, encrypted store...); Anthropic **auto-inject system instruction** nhờ Claude check memory directory trước khi bắt đầu
 
 ### Layer cả 4
 Production thường layer tất cả (compliance agent: cache system prompt + tool defs, JIT pull code sections).
 
-Mỗi pattern xử một failure mode:
+Mỗi pattern xử lý một failure mode:
 
 - **cost**
 - **window size**
@@ -537,15 +537,16 @@ Kéo ticket vào "in progress" → **tự động fire session**. Ticket "optimi
 2. Claude có codebase + tools + **rubric** định nghĩa done:
    *Lighthouse > 90 · no render-blocking resources · all images lazy loaded*
 3. Claude chạy audit → nén images, inline CSS, defer scripts — **mọi tool call stream về board real-time** qua event stream
-4. **Rubric kick in**: một **grader riêng** (context window riêng) đánh giá output theo criteria → Claude đọc feedback, quay vào sửa cái miss, resubmit → demo đưa Lighthouse lên **96**
+4. **Rubric kick in**: một **grader riêng** (context window riêng) đánh giá output theo criteria → Claude đọc feedback, quay lại sửa cái miss, resubmit → demo đưa Lighthouse lên **96**
 5. Kéo ticket thứ 2 trong khi cái đầu còn chạy — **2 sessions, 2 containers, song song**
 
 ### Ví dụ 2: recurring research agent + memory
 Agent theo dõi giá + plan changes của mọi SaaS tool công ty trả tiền, report trước stand-up.
 
-Mỗi run: search web pricing pages + flag tier changes/features ảnh hưởng hợp đồng → chạy **cost analysis Python trong sandbox** → dùng **Excel skill** viết executive summary → post link Slack + tạo review task Asana (qua **MCP servers**).
+Mỗi run: search web pricing pages + flag tier changes/features ảnh hưởng hợp đồng → chạy **cost analysis Python trong sandbox** → dùng **Excel skill** viết executive summary →
+post link lên Slack + tạo review task trong Asana (qua **MCP servers**).
 
-Đồng thời **đọc/ghi memory store**: check kết quả tuần trước trước khi bắt đầu, lưu thay đổi sau khi xong → report thứ Hai nói được *"compute costs are 15% lower since last week"* thay vì listing pricing tĩnh.
+Đồng thời **đọc/ghi memory store**: check kết quả tuần trước, trước khi bắt đầu, lưu thay đổi sau khi xong → report thứ Hai nói được *"compute costs are 15% lower since last week"* thay vì listing pricing tĩnh.
 
 ### Ví dụ 3: incident response đa agent
 Alert từ monitoring → back end nhận payload → gửi vào session mới dạng user message.
@@ -588,7 +589,7 @@ Loop tự viết ổn cho nhiều features — nhưng khi loop chạy **phút đ
 Dịch chuyển tư duy: **không chạy while loop — gửi events và đọc events.**
 
 ### 5 bước — managed agent nhỏ nhất (tạo file, đếm dòng, báo lại)
-Dùng **agent toolset** (`agent_toolset_20260401`) — bộ file/bash/web tools có sẵn của Anthropic, khỏi tự define:
+Dùng **agent toolset** (`agent_toolset_20260401`) — bộ file/bash/web tools có sẵn của Anthropic, không cần tự define:
 
 **1. Create the agent** (reusable):
 ```python
@@ -599,8 +600,8 @@ agent = client.beta.agents.create(
     tools=[{"type": "agent_toolset_20260401", "default_config": {"enabled": True}}],
 )
 ```
-**2. Create the environment** — sandbox: cloud + networking `limited` (sandbox & web tools chỉ với tới hosts trong `allowed_hosts`; task này không cần network → list rỗng;
-`unrestricted` chỉ khi agent phải với tới sites không list trước được).
+**2. Create the environment** — sandbox: cloud + networking `limited` (sandbox & web tools chỉ truy cập được hosts trong `allowed_hosts`; task này không cần network → list rỗng;
+`unrestricted` chỉ khi agent phải truy cập các sites không thể list trước).
 
 Mỗi session sandbox riêng — file viết vào đó:
 ```python
@@ -651,7 +652,7 @@ Bạn delegate **loop + sandbox + resumability**, chỉ consume event stream.
 **Event history lưu server-side** → kết nối đứt: mở stream mới, **list past events** xem thiếu gì, skip event trùng (chi tiết code ở B.2).
 
 Production shape cho việc **dài, chạm files, "go organize this for me"** —
-VD fileshare cleanup: agent đọc spec cấu trúc thư mục, walk folder bừa bộn, move đúng chỗ, archive trùng + zero-byte, flag cái không chắc — session chạy **phút tỷ lệ nghìn files**.
+VD fileshare cleanup: agent đọc spec cấu trúc thư mục, walk folder bừa bộn, move đúng chỗ, archive trùng + zero-byte, flag cái không chắc — session chạy **phút, tỷ lệ nghìn files**.
 
 ## Bài 13: Building with Claude Code (5′)
 
@@ -660,7 +661,7 @@ Viết code gọi Claude API tay được — nhưng nhanh hơn: **để Claude 
 
 Project: file TypeScript lấy weather với 2 stubs — `getWeather` (nhận city, trả nhiệt độ + conditions) và `run` (dùng **tool runner** + Claude TS SDK).
 
-Tool runner là mảnh xử tool calling + agent loop giúp bạn.
+Tool runner là mảnh xử lý tool calling + agent loop giúp bạn.
 
 ### Claude API skill
 Claude Code có built-in skill **Claude API**: invoke bằng **`/claude-api`**, hoặc Claude Code **tự động invoke khi phát hiện bạn dùng TypeScript SDK**.

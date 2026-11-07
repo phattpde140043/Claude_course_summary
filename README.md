@@ -1,6 +1,8 @@
 # Claude Course Summary
 
-Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) — biên soạn bằng tiếng Việt, giữ nguyên thuật ngữ chuyên ngành tiếng Anh. Đối tượng: người làm việc trong lĩnh vực technical đã quen sử dụng AI assistant.
+Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) — biên soạn bằng tiếng Việt, giữ nguyên thuật ngữ chuyên ngành tiếng Anh.
+
+Đối tượng: người làm việc trong lĩnh vực technical đã quen sử dụng AI assistant.
 
 > Toàn bộ nội dung được quét từ **raw text** của các bài học (kể cả sub-links, media links) cập nhật 11/2026, đảm bảo không bỏ sót thông tin chuyên môn.
 
@@ -55,6 +57,7 @@ Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) 
 ## Quy ước biên soạn
 
 - **Ngôn ngữ:** tiếng Việt; thuật ngữ chuyên ngành giữ nguyên tiếng Anh (không dịch).
-- **Phong cách:** tài liệu tổng (`Claude_Course.md`) viết theo phong cách McKinsey — kết luận trước, bảng quyết định, không phần dẫn dắt. Các tài liệu chi tiết giữ cấu trúc theo bài học của khóa gốc.
+- **Phong cách:** tài liệu tổng (`Claude_Course.md`) viết theo phong cách McKinsey — kết luận trước, bảng quyết định, không phần dẫn dắt.
+- **Cấu trúc:** các tài liệu chi tiết giữ cấu trúc theo bài học của khóa gốc.
 - **Độ phủ:** quét raw text toàn bộ lesson + sub-links + media links; bảng quyết định, con số cụ thể (context window, plan-gates, security model) được giữ nguyên 100%.
 - **Ngày cập nhật:** 11/2026.

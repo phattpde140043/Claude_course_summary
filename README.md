@@ -15,7 +15,7 @@ Thư viện tóm tắt các khóa học **Claude Academy** (academy.claude.com) 
 | Tài liệu | Nội dung |
 | :--- | :--- |
 | [**Claude_Course.md**](Claude_Course.md) | Tài liệu tham chiếu điều hành của khóa Claude 101, viết theo phong cách McKinsey (kết luận trước, bảng quyết định). Gồm: Executive Summary · mô hình hợp tác (situation vs question, chọn model) · prompting & verification (khung 3 yếu tố, evals, delegation diligence loop) · 8 bề mặt làm việc (Chat/Cowork/Code…) · kiến trúc tri thức (Projects/Skills/Artifacts) · mở rộng reach (Connectors/MCP, Enterprise Search, Research) · bảng yêu cầu theo plan |
-| [**Claude_Course_UseCases.md**](Claude_Course_UseCases.md) | Tra cứu **156 use cases** theo 14 nhóm role (Chung, Finance, Sales, Marketing, Operations, Education, Legal, Engineering, Product, Design, Research, HR, Data, Cá nhân) — mỗi use case có prompt mẫu theo bước |
+| [**Claude_Course_UseCases.md**](Claude_Course_UseCases.md) | Tra cứu **156 use cases** theo chuẩn McKinsey, gom nhóm theo 4 Bề mặt làm việc (Claude Cowork, Claude.ai / Chat, Claude Tag, Claude in Chrome) — bảng 4 cột: Tên use case (link gốc), Mô tả nghiệp vụ, Prompt mẫu nguyên bản, và Kinh nghiệm & Kiến thức truyền tải |
 
 ### 2. Developer — Claude Code
 

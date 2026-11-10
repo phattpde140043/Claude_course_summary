@@ -40,28 +40,29 @@
 
 ### 3 khái niệm để dùng hiệu quả
 
-1. **Context window** = "working memory" của Claude — chứa nhiều nhưng không phải tất cả; Claude **lựa chọn thông tin liên quan** để đưa vào ngữ cảnh thay vì nạp cả codebase
-2. **Bạn kiểm soát permissions** — hands-on (duyệt từng lệnh) hoặc auto mode (background safety check sàng lọc hầu hết hành động)
+1. **Context window (cửa sổ ngữ cảnh)** là "working memory" của Claude — chứa nhiều nhưng không phải tất cả
+   - Claude **lựa chọn thông tin liên quan** để đưa vào ngữ cảnh thay vì nạp cả codebase
+2. **Bạn kiểm soát quyền (permissions)** — hands-on (duyệt từng lệnh) hoặc auto mode (background safety check sàng lọc hầu hết hành động)
 3. **Claude có thể mắc lỗi** — hiểu sai yêu cầu, tạo ra bugs hoặc triển khai giải pháp phức tạp hơn mức cần thiết. Vì vậy, bạn cần theo dõi quá trình thực thi để phát hiện lỗi sớm
 
 > Claude Code có mặt tại: **terminal, VS Code, JetBrains IDEs, Claude Desktop app, và web**.
 
 ## Bài 2: How Claude Code works (5′)
 
-### Agentic loop (5 bước)
+### Vòng lặp agentic (agentic loop) — 5 bước
 
 1. User nhập prompt
-2. Claude **gather context** — model trả về text hoặc tool call khả thi
-3. Claude **take action** — edit file, chạy command
-4. Claude **verify results** so với mục tiêu của prompt
-5. Đạt mục tiêu → kết thúc, chờ prompt tiếp; không → **loop lại** đến khi "complete and verifiable"
+2. Claude **thu thập ngữ cảnh (gather context)** — model trả về text hoặc tool call khả thi
+3. Claude **thực thi hành động (take action)** — sửa file, chạy command
+4. Claude **kiểm chứng kết quả (verify results)** so với mục tiêu của prompt
+5. Đạt mục tiêu thì kết thúc và chờ prompt tiếp; chưa đạt thì **chạy lại vòng lặp** đến khi có kết quả "complete and verifiable"
 
-Trong suốt loop, bạn có thể thêm context, interrupt, hoặc steer.
+Trong suốt vòng lặp, bạn có thể thêm context, ngắt (interrupt), hoặc điều hướng (steer).
 
 ### Context
 
 - **Context window** giới hạn lượng conversation history + file contents + command output
-- Gần đầy → Claude Code tự **compact**: quyết định bỏ/tóm tắt gì để lấy lại không gian
+- Gần đầy thì Claude Code tự **nén (compact)**: quyết định bỏ/tóm tắt gì để lấy lại không gian
 
 ### Tools
 
@@ -91,7 +92,7 @@ Trong suốt loop, bạn có thể thêm context, interrupt, hoặc steer.
 | **Desktop** | Sau khi đăng nhập Claude Desktop → tab **"Code"**: làm việc trong folder cụ thể, đổi permissions, hoặc chạy **cloud environment** |
 | **Web** | `claude.ai/code` — như desktop nhưng **giới hạn GitHub repositories** |
 
-**First-run:** chọn theme → đăng nhập bằng Claude account (Pro/Max/Team/Enterprise) hoặc API key; org có Claude Enterprise thì chọn option đó.
+**First-run:** chọn theme, rồi đăng nhập bằng Claude account (Pro/Max/Team/Enterprise) hoặc API key; org có Claude Enterprise thì chọn option đó.
 
 > ⚠️ **Scope:** chạy `claude` từ thư mục nào thì nó có quyền truy cập **thư mục đó + toàn bộ subfolders**.
 
@@ -110,44 +111,45 @@ Trong suốt loop, bạn có thể thêm context, interrupt, hoặc steer.
 
 Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → Auto. *"There's no right or wrong answer — it's whatever you're comfortable with."*
 
-### Plan Mode
+### Plan Mode (chế độ lập kế hoạch)
 
 - Nằm trong menu `Shift + Tab`
-- Nhận prompt → đọc files + chạy shell commands để phân tích codebase và research hướng implement — **không edit source files**
+- Nhận prompt thì đọc files và chạy shell commands để phân tích codebase, research hướng implement — **không edit source files**
 - Hỏi clarifying questions dọc đường → trả về **plan chi tiết** có thể thực thi
 - Best for: lên kế hoạch thay đổi phức tạp, code review an toàn, multi-step features
 
 ### Ví dụ: thêm dark mode toggle
 
-1. Mở thư mục root của project → chạy `claude`
+1. Mở thư mục root của project, rồi chạy `claude`
 2. `Shift + Tab` tới khi status bar hiện **"plan mode on"**
 3. Viết prompt descriptive: *"My app needs a dark mode implemented across the entire app"* + yêu cầu toggle switch trên header + nhờ Claude *"find a good contrast color that works"* từ light theme hiện có
 4. Review plan → accept → Claude execute (tùy permission mode có thể check-in từng bước)
 5. Cuối cùng xem chính xác Claude đã làm gì và cách nó suy luận
 
-> Recap: prompt càng **descriptive** càng tốt; bạn có thể theo dõi và can thiệp ở mọi bước; dùng Plan Mode để đào chi tiết **trước khi code chạy**.
+> Tóm lại: prompt càng **cụ thể (descriptive)** càng tốt; bạn có thể theo dõi và can thiệp ở mọi bước; dùng Plan Mode để khám phá chi tiết **trước khi code chạy**.
 
 ## Bài 5: Explore → Plan → Code → Commit (8′)
 
-> *"Nếu chỉ mang về một điều từ khóa này, hãy là workflow này."* — Hầu hết mọi người nhảy thẳng đến việc nhờ Claude viết code, dẫn đến việc phải course-correct nhiều về sau.
+> *"Nếu chỉ mang về một điều từ khóa này, hãy là workflow này."* — Hầu hết mọi người nhảy thẳng đến việc nhờ Claude viết code, dẫn đến phải chỉnh hướng (course-correct) nhiều về sau.
 
 ### 1. Explore + Plan (qua Plan Mode)
 
 - Plan mode: Claude **không thể edit files** — chỉ đọc và chạy shell commands để khám phá
 - Prompt mẫu: *"I need to add WebP conversion to our image upload pipeline"* + nhờ Claude tự tìm: vị trí chèn trong pipeline? dependency mới cần? cách tiếp cận?
-- Claude đọc files liên quan, chạy web searches, trả về **plan of action** — review, yêu cầu sửa từng phần nếu chưa đạt
+- Claude đọc files liên quan, chạy web searches, trả về **plan of action** — bạn review và yêu cầu sửa từng phần nếu chưa đạt
 - *"Đây là nơi course-correct tốt nhất — vì chưa có dòng code nào được viết"*
 - Thay thế: chạy **explore subagent** (ngoài plan mode) khi chỉ cần tóm tắt codebase chung, không định thay đổi
 
 ### 2. Code
 
-- Approve plan → Claude thực hiện từng item; permission mode quyết định mức can thiệp
-- Claude tự troubleshoot trước khi tuyên bố xong — nhưng bạn vẫn có thể phải bước vào; lợi thế Plan Mode: bạn giữ **context của cả hành trình**
+- Sau khi bạn approve plan, Claude thực hiện từng item; permission mode quyết định mức can thiệp
+- Claude tự troubleshoot trước khi tuyên bố xong — nhưng bạn vẫn có thể phải bước vào
+- Lợi thế của Plan Mode: bạn giữ **context của cả hành trình**
 
-**3 tips cho session mượt:**
-1. **Define success criteria** — nêu rõ "đúng" trông như thế nào ngay trong plan
-2. **Add tools** — VD cài extension **Claude in Chrome** khi build web UI để Claude Code điều khiển browser tab và test UI trực tiếp
-3. **Include a test suite** — cho Claude bộ test để tự validate liên tục (Claude viết test được); đảm bảo tests là **reliable source of truth** trước để tránh false positives
+**3 tips cho session trơn tru:**
+1. **Đặt tiêu chí thành công (define success criteria)** — nêu rõ "đúng" trông như thế nào ngay trong plan
+2. **Bổ sung tools (add tools)** — VD cài extension **Claude in Chrome** khi build web UI để Claude Code điều khiển browser tab và test UI trực tiếp
+3. **Kèm bộ test (include a test suite)** — cho Claude bộ test để tự validate liên tục (Claude viết test được); đảm bảo tests là **reliable source of truth** trước để tránh false positives
 
 > 💡 Claude lặp lại cùng một lỗi? Nhờ nó **lưu giải pháp vào CLAUDE.md**.
 
@@ -155,7 +157,7 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 
 - Tự test changes trước khi push
 - Chạy **subagent code reviewer** trước khi commit — "fresh pair of eyes" không mang bias của main agent sau cả session
-- Nhờ Claude generate **commit message** theo phong cách của bạn → lặp lại cycle
+- Nhờ Claude generate **commit message** theo phong cách của bạn, rồi lặp lại cycle
 
 ## Bài 6: Context Management (7′)
 
@@ -165,7 +167,7 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 
 ### Khi đầy thì sao?
 
-- Gần limit → tự động **compact**: tóm tắt chi tiết quan trọng, bỏ tool call results không cần — *có thể mất chi tiết trong quá trình này*
+- Gần giới hạn thì tự động **nén (compact)**: tóm tắt chi tiết quan trọng, bỏ kết quả tool call không cần thiết — *có thể mất chi tiết trong quá trình này*
 
 ### 3 lệnh quản lý
 
@@ -180,13 +182,13 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 - `/compact` khi sắp đầy mà vẫn đang làm feature hiện tại
 - `/clear` trước khi bắt đầu feature mới (tránh old conversation làm lệch công việc mới)
 
-> 💡 Cross-session knowledge → lưu vào **CLAUDE.md** để Claude không phải học lại mỗi lần.
+> 💡 Kiến thức dùng chung nhiều session (cross-session knowledge): lưu vào **CLAUDE.md** để Claude không phải học lại mỗi lần.
 
 ### 3 cách tiết kiệm context
 
 1. **Prompt cụ thể** — prompt mơ hồ phản tác dụng: Claude phải tự explore + suy luận, tốn context hơn prompt chi tiết
 2. **Quản lý MCP servers** — mặc định servers chỉ load tên + instructions tool, chi tiết load theo nhu cầu; **tắt servers không liên quan** đến project hiện tại
-3. **Dùng subagents** — chạy song song với **context window riêng**; VD hỏi *"authentication endpoints ở đâu?"* → subagent trả về đúng summary, main context sạch
+3. **Dùng subagents** — chạy song song với **context window riêng**; VD hỏi *"authentication endpoints ở đâu?"*: subagent trả về đúng summary và main context vẫn sạch
 
 ## Bài 7: Code Review (10′)
 
@@ -195,7 +197,8 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 ### Xem thay đổi thực tế
 
 - `/diff` — viewer tương tác của uncommitted changes; xem được **mỗi turn của Claude đổi gì**; phím mũi tên chuyển file, `Enter` mở
-- ⚠️ Cần project là **git repo** (không thì nhờ Claude setup + commit trước; VCS khác thì `/diff`, `/code-review` không thấy changes, nhưng `/rewind` vẫn chạy vì Claude tự track edits của nó)
+- ⚠️ `/diff` cần project là **git repo** — chưa có thì nhờ Claude setup và commit trước
+- VCS khác: `/diff` và `/code-review` không thấy changes, nhưng `/rewind` vẫn chạy vì Claude tự track edits của nó
 
 **Check mỗi lần:**
 - Thay đổi **bạn không yêu cầu** (config bị edit, helper bị viết lại)
@@ -208,7 +211,8 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 ### Xin ý kiến thứ hai
 
 - Session dài mang toàn bộ history — điều reviewer không nên có. **`/code-review`** review trong **clean context**, *"không edit gì trừ khi bạn yêu cầu"*
-- Chạy background (vài giây – vài phút); **tính vào usage** — dành cho changes xứng đáng scrutiny
+- Chạy background (vài giây – vài phút) và **tính vào usage**
+- Vì tốn usage nên dành cho những changes xứng đáng được soi kỹ (scrutiny)
 - Prompt gợi ý: *"Review the changes you just made. Report problems; don't fix anything yet."*
 - Effort levels:
   - `/code-review low` (chỉ high-confidence, ít false alarm)
@@ -221,8 +225,8 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 3. **Leave it** — thật nhưng nhỏ; gom cho session sau
 
 - Challenge finding bằng cách quote lại: *"You reported that isValidEmail doesn't trim spaces, but line 4 calls trim(). Check again."*
-- Yêu cầu evidence kèm fix: *"Fix the first finding: don't skip the empty-email test and restore the original assertion"* → chạy tests, hiện output
-- Fix lớn hóa ra thành change lớn → chạy review lại lần nữa
+- Yêu cầu evidence kèm fix: *"Fix the first finding: don't skip the empty-email test and restore the original assertion"* — kết quả là Claude chạy tests và hiện output
+- Fix lớn hóa ra thành change lớn thì chạy review lại lần nữa
 
 ### Khi nào cần review kỹ
 
@@ -238,8 +242,10 @@ Nhấn **`Shift + Tab`** để vòng qua các mode: Manual → Auto-accept → A
 
 ### Vấn đề nó giải quyết
 
-- Không có CLAUDE.md → Claude Code **bắt đầu fresh mỗi lần**: re-explore codebase, tìm dependencies, khám phá features; đôi khi **tự giả định sai** → khó điều chỉnh hướng
-- Giải pháp: file Markdown tên `CLAUDE.md` ở **project root** — Claude Code đọc tự động mỗi session; như *"onboarding script cho codebase"*; nội dung được **append vào prompt** của bạn
+- Không có CLAUDE.md, Claude Code **bắt đầu fresh mỗi lần**: re-explore codebase, tìm dependencies, khám phá features
+- Đôi khi nó **tự giả định sai**, khiến việc điều chỉnh hướng trở nên khó khăn
+- Giải pháp: file Markdown tên `CLAUDE.md` ở **project root** — Claude Code đọc tự động mỗi session
+- File này như *"onboarding script cho codebase"*: nội dung được **append vào prompt** của bạn
 
 ### Ví dụ cấu trúc
 
@@ -258,7 +264,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - All API routes go in app/api/
 - Use server actions instead of API routes where possible
 ```
-→ Nhờ viết React component, Claude đã tự dùng Tailwind + theo conventions của bạn.
+Nhờ các khai báo này, khi được yêu cầu viết React component Claude đã tự dùng Tailwind và theo đúng conventions của bạn.
 
 ### CLAUDE.md dành cho teams
 
@@ -275,13 +281,13 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
    ## README.md
    Please read if you need more info: @README.md
    ```
-3. **Start without one** — khởi động project *chưa có* CLAUDE.md để thấy mình hay course-correct ở đâu; nhờ Claude generate bằng **`/init`** khi cần. Giữ file **compact**, chỉ thông tin cần thiết
+3. **Start without one** — khởi động project *chưa có* CLAUDE.md để thấy mình hay phải chỉnh hướng ở đâu; nhờ Claude generate bằng **`/init`** khi cần. Giữ file **compact**, chỉ thông tin cần thiết
 
 ## Bài 9: Subagents (6′)
 
 ### Ý tưởng
 
-- Claude **delegate** tasks cho subagents: chia task ra, chạy song song, cải thiện context management
+- Claude **giao việc (delegate)** cho subagents: chia task, chạy song song, cải thiện context management
 - Mỗi subagent chạy trong **context window riêng, isolated**; xong việc trả về **summary** cho main thread — *"bạn có câu trả lời mà không phải cả hành trình tới nó"*
 
 ### Tạo subagent của riêng bạn
@@ -292,7 +298,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Vị trí:
   - `.claude/agents/` (project hiện tại)
   - `~/.claude/agents/` (mọi projects của bạn)
-- Folder chưa tồn tại lúc session bắt đầu → **restart Claude Code** để load subagent mới
+- Folder chưa tồn tại lúc session bắt đầu thì phải **restart Claude Code** để load subagent mới
 - Claude tự sinh name, description, prompt — các thứ này cũng quyết định **khi nào** Claude gọi (invoke) subagent theo prompt của bạn
 
 ### Tùy biến sâu
@@ -300,7 +306,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - **Persistent memory**: subagent giữ memory xuyên conversations — hợp khi dùng nhất quán trên cùng projects
 - **Preloaded skills**: thêm key `skills`, liệt kê theo tên — khác skills trong conversation chính, **toàn bộ skill được load full** vào context subagent
 
-→ Đào sâu: Phần C (khóa Introduction to subagents).
+Đi sâu hơn: xem Phần C (khóa Introduction to subagents).
 
 ## Bài 10: Skills (3′)
 
@@ -313,7 +319,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 ### SKILL.md hoạt động thế nào?
 
 - Trong Claude Code, file skill là **`SKILL.md`**
-- **Description chính là cơ chế trigger**: bạn yêu cầu (VD "review this PR") → Claude so với các skill descriptions → kích hoạt cái khớp
+- **Description chính là cơ chế trigger**: khi bạn đưa yêu cầu (VD "review this PR"), Claude so với các skill descriptions và kích hoạt cái khớp
 - Ban đầu **chỉ name + description được load** → không ăn hết context window; nội dung load **on demand** khi request khớp
 
 ### Skills sống ở đâu?
@@ -329,7 +335,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 > Rule of thumb: *"If you find yourself explaining the same thing to Claude repeatedly — that's a skill waiting to be written."*
 
-→ Đào sâu: Phần D (khóa Introduction to agent skills).
+Đi sâu hơn: xem Phần D (khóa Introduction to agent skills).
 
 ## Bài 11: MCP (6′)
 
@@ -356,7 +362,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 1. **Local** — chỉ project hiện tại, chỉ bạn
 2. **User** — mọi projects của bạn
-3. **Project** — dùng file **`.mcp.json`** commit vào version control → *"ai trên codebase cũng có đúng các servers đó tự động"*
+3. **Project** — dùng file **`.mcp.json`** commit vào version control, nhờ đó *"ai trên codebase cũng có đúng các servers đó tự động"*
 
 ### Context costs (chi phí context)
 
@@ -380,7 +386,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 ### Cách hoạt động
 
-- Cấu hình trong **`settings.json`**: chọn **event** → thêm **matcher** (tool nào) → cung cấp **command**
+- Cấu hình trong **`settings.json`** theo ba bước: chọn **event**, thêm **matcher** (tool nào), cung cấp **command**
 - Events phổ biến:
   - `PreToolUse` (trước tool call)
   - `PostToolUse` (sau khi hoàn tất)
@@ -412,7 +418,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Hooks trong `.claude/settings.json` là project-level, **commit vào repo** → cả team kế thừa
 - Dùng biến môi trường **`CLAUDE_PROJECT_DIR`** trong commands để tham chiếu project scripts — paths đúng bất kể cwd của Claude
 
-> Chốt: *"If something needs to happen every time without fail, don't put it in a prompt. Put it in a hook."*
+> Điểm cốt lõi: *"If something needs to happen every time without fail, don't put it in a prompt. Put it in a hook."*
 
 ---
 
@@ -426,7 +432,8 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 - Claude review **pull requests** trong GitHub repositories: nhiều agents đọc từng change cùng code xung quanh, tìm **logic errors, security vulnerabilities, broken edge cases**
   - bước **verify** kiểm tra findings trước khi báo cáo
-- Findings là **inline comments** trên các dòng liên quan, xếp theo severity, kèm summary + **check run** trên PR. Review **không approve/block PR** — quyết định merge thuộc team
+- Findings là **inline comments** trên các dòng liên quan, xếp theo severity, kèm summary + **check run** trên PR
+- Review **không approve/block PR** — quyết định merge thuộc về team
 - Availability: **Team và Enterprise**; GitHub (kể cả Enterprise Server/Cloud); không khả dụng với Zero Data Retention, HIPAA config, CMEK
 
 ### Review chạy thế nào — 4 stages (trên Anthropic infrastructure)
@@ -436,8 +443,10 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 3. **Rank** — dedupe + xếp severity
 4. **Post** — đăng kết quả lên PR
 
-- Mặc định tập trung **correctness** (bugs phá production), không phải formatting hay test coverage; tùy chỉnh bằng files **`REVIEW.md`** + `CLAUDE.md` trong repo
-- Trong review: repo access **read-only**, không push commits; review đọc diff chứ **không build/run code**
+- Mặc định tập trung **correctness** (bugs phá production), không phải formatting hay test coverage
+- Tùy chỉnh hướng review bằng files **`REVIEW.md`** + `CLAUDE.md` trong repo
+- Trong quá trình review, repo access **read-only** và không push commits
+- Review chỉ đọc diff, **không build/run code**
 - Review level:
   - **Quick** (nhẹ, rẻ nhất)
   - **Standard** (mặc định)
@@ -498,7 +507,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 1. **Command** (`type: "command"`) — JSON qua **stdin**; 2 dạng:
    - **exec form** (có `args`, spawn trực tiếp không shell — an toàn nhất cho path placeholders)
    - **shell form** (không `args`, `sh -c`/Git Bash/PowerShell — hỗ trợ pipes, `&&`, globs)
-   - Windows: `.cmd`/`.bat` không chạy được exec form → dùng `node <script.js>`
+   - Windows: `.cmd`/`.bat` không chạy được exec form, thay bằng `node <script.js>`
 2. **HTTP** (`type: "http"`) — POST JSON tới `url`; response body dùng cùng JSON output schema; `headers` hỗ trợ env var interpolation; có HTTP allowlists (`allowedHttpHookUrls`)
 3. **MCP tool** (`type: "mcp_tool"`) — gọi tool của server (`server`, `tool`, `input` hỗ trợ `${tool_input.file_path}`); không chạy trên `SessionStart`/`Setup` lúc launch
 4. **Prompt** (`type: "prompt"`) — LLM đánh giá single-turn (xem riêng bên dưới)
@@ -513,7 +522,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - chỉ chữ/số/`_`/`-`/space/`,`/`|` = exact string hoặc list (`Bash`, `Edit|Write`)
 - ký tự khác = **unanchored JavaScript regex** (`^Notebook`, `mcp__memory__.*`)
 - MCP tools hiện diện là `mcp__<server>__<tool>` — match cả server **phải** có hậu tố `.*` (chỉ `mcp__memory` là exact-match, không bao giờ chạy). Plugin servers: `mcp__plugin_<plugin>_<server>__<tool>`
-- Mỗi event match một field khác nhau: tool events → `tool_name`; `SessionStart` → source; `SubagentStart/Stop` → agent type; `PreModelSwitch` → canonical model name...
+- Mỗi event match một field khác nhau: tool events khớp theo `tool_name`, `SessionStart` khớp theo source, `SubagentStart/Stop` khớp theo agent type, `PreModelSwitch` khớp theo canonical model name...
 
 ### Input (JSON trên stdin / POST body)
 
@@ -606,7 +615,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 
 - WorktreeCreate **thay thế hành vi mặc định** (`git worktree`) → cho dùng VCS khác (SVN, Perforce, Mercurial): hook checkout và **in ra path worktree** (dòng cuối stdout; HTTP hooks trả `worktreePath`)
   - `.worktreeinclude` không được xử lý — copy `.env` thủ công trong hook
-- WorktreeRemove: exit 0 = coi như đã xóa (hook phải tự xóa directory); non-zero mà directory còn → removal fail, worktree ở lại
+- WorktreeRemove: exit 0 = coi như đã xóa (hook phải tự xóa directory); non-zero mà directory còn thì removal fail và worktree ở lại
 
 **PreCompact / PostCompact** — matcher `manual` (`/compact`) / `auto` (auto-compact + idle compaction).
 
@@ -619,7 +628,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Input gồm field chi phí: `context_tokens`, `prompt_cache_warm`, `cache_ttl`, `estimated_cache_write_usd`, `pricing` — hook có thể hiện giá trước khi đổi model
 - Quyết định: `allow` (bỏ confirm), `deny` (hủy), `ask` (confirm — chỉ hiện trên `/model` interactive, nơi khác = refuse); ưu tiên deny > ask > allow
 - Timeout mặc định 30s — timeout = block switch
-- PostModelSwitch: không block; stdout/`additionalContext` được gửi cho Claude với request kế tiếp (hữu ích: guidance theo model, VD matcher `.*opus.*` → "delegate implementation to subagents")
+- PostModelSwitch: không block; stdout/`additionalContext` được gửi cho Claude với request kế tiếp (hữu ích: guidance theo model — VD matcher `.*opus.*` đi kèm message "delegate implementation to subagents")
 
 **Elicitation / ElicitationResult** — khi MCP server yêu cầu user input: hook có thể **trả lời thay** (`action: accept` + `content` — keys theo `requested_schema.properties`), decline, cancel, hoặc bỏ qua (dialog hiện).
 
@@ -645,10 +654,10 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
 - Gửi hook input + prompt của bạn tới một model; LLM trả JSON quyết định; dùng `$ARGUMENTS` làm placeholder cho input JSON
 - Response schema: `{ "ok": true|false, "reason": "...", "impossible": true|false }` — `impossible: true` (chỉ Stop/SubagentStop): Claude Code cho phép dừng thay vì quay vòng vô hạn
 - Hành vi `ok: false` theo event:
-  - Stop/SubagentStop → reason thành instruction tiếp, Claude tiếp tục
-  - PreToolUse → deny (mặc định kết thúc turn; `continueOnBlock: true` = trả reason như tool error để Claude điều chỉnh)
-  - PostToolUse → warning line hoặc feedback với `continueOnBlock`
-  - PermissionRequest/PermissionDenied → không hiệu lực (dùng command hook)
+  - Stop/SubagentStop: reason trở thành instruction tiếp theo, Claude tiếp tục
+  - PreToolUse: deny (mặc định kết thúc turn; `continueOnBlock: true` = trả reason như tool error để Claude điều chỉnh)
+  - PostToolUse: warning line hoặc feedback với `continueOnBlock`
+  - PermissionRequest/PermissionDenied: không có hiệu lực (dùng command hook)
 - VD Stop hook kiểm 3 điều kiện: "1. All user-requested tasks complete 2. Errors need addressing 3. Follow-up needed → Respond {\"ok\": true} to allow..."
 
 ### Agent-based hooks (experimental)
@@ -707,7 +716,7 @@ This is a Next.js 15 app using the App Router, Tailwind, and Drizzle ORM.
   }
 }
 ```
-Script đọc JSON stdin, grep `rm -rf` → trả JSON `permissionDecision: "deny"` + reason; ngược lại `exit 0`.
+Script đọc JSON stdin và grep `rm -rf`; tìm thấy thì trả JSON `permissionDecision: "deny"` kèm reason, ngược lại `exit 0`.
 
 ## B.3 — `/code-review` local (docs đầy đủ của lệnh trong Bài 7)
 
@@ -737,7 +746,7 @@ Không có target → review commits của branch hiện tại (so với upstrea
 
 ### Cơ chế & lưu ý quan trọng
 
-- Review chạy là **background subagent với context window riêng** → không đầy conversation; findings được gửi về trong hội thoại
+- Review chạy là **background subagent với context window riêng** — context không chứa đầy conversation; findings được gửi về trong hội thoại
 - **/rewind caveat**: `--fix` chạy nền edit **ngoài checkpoints của session** — `/rewind` chỉ restore files Claude đã edit trong conversation; edits của review phải revert bằng git
 - Review chạy foreground (chạy lại `/code-review` khi đang có review, hoặc `-p`) thì `/rewind` hoạt động bình thường
 - Đọc **`CLAUDE.md`** của bạn (kể cả `-p` run); **không đọc `REVIEW.md`** (file đó chỉ configure Code Review product trên GitHub)
@@ -747,7 +756,7 @@ Không có target → review commits của branch hiện tại (so với upstrea
 
 ### Escalate lên ultrareview
 
-- `/code-review ultra --fix` → chạy **ultrareview** (cloud sandbox), findings về session rồi Claude apply
+- Lệnh `/code-review ultra --fix` chạy **ultrareview** (cloud sandbox); findings về session rồi Claude apply
 - Scope: branch hiện tại so default branch + uncommitted/staged; file nhạy cảm (`.env`, `*.tfvars`) theo quy tắc upload local repo lên cloud
 - **Yêu cầu đăng nhập claude.ai** — không có trên Bedrock/Vertex/Foundry, Zero Data Retention, HIPAA, CMEK (những trường hợp đó `ultra` chạy local thay thế)
 - CI/script: `claude ultrareview` subcommand chờ findings và in ra stdout
@@ -823,19 +832,19 @@ practices, and adherence to project standards...
   - `model`
   - `color`
 - Body markdown dưới frontmatter = **system prompt** — chất lượng prompt quyết định độ hữu ích
-- **Testing:** restart nếu folder `agents` mới tạo; delegation không trigger → điều chỉnh description với các trigger scenario cụ thể hơn
+- **Testing:** restart nếu folder `agents` mới tạo; delegation không trigger thì điều chỉnh description với các trigger scenario cụ thể hơn
 
 ## C.3 — Designing effective subagents (10′)
 
 ### Config data được dùng thế nào
 
-- **Name + description của mọi subagent được inject vào system prompt của main agent** → quyết định subagent nào chạy, khi nào
+- **Name + description của mọi subagent được inject vào system prompt của main agent** — đây là dữ liệu quyết định subagent nào chạy và khi nào
 - Vai trò thứ hai: description còn **định hình input prompt** main agent viết cho subagent — *"doesn't just control when a subagent runs — it shapes what the subagent is told to do"*
 
 ### Viết description định hình input prompt
 
-- Bad: description generic → prompt mơ hồ *"use git diff to find the current changes"* → subagent phải đoán file nào quan trọng
-- Fix: thêm guidance vào description — *"You must tell the agent precisely which files you want it to review"* → main agent liệt kê files thật khi delegate
+- Bad: description generic khiến prompt mơ hồ (*"use git diff to find the current changes"*), và subagent phải tự đoán file nào quan trọng
+- Fix: thêm guidance vào description — *"You must tell the agent precisely which files you want it to review"* — nhờ đó main agent liệt kê files thật khi delegate
 
 ### Định nghĩa output format — *"cải thiện quan trọng nhất"*
 
@@ -859,7 +868,7 @@ VD template code review 6 sections:
   - workarounds
   - commands cần flags đặc biệt
   - dependencies/imports rắc rối
-- → thêm section **"Obstacles Encountered"** vào template
+- Vì vậy, thêm section **"Obstacles Encountered"** vào template
 
 ### Giới hạn tool access
 
@@ -869,7 +878,7 @@ VD template code review 6 sections:
 | Code reviewer | `Bash` (cho `git diff`), **không** `Edit`/`Write` | Thấy changes mà không edit |
 | Styling / sửa code | `Edit`, `Write` | Việc của nó là đổi code |
 
-> Chốt: 4 đặc tính — description cụ thể + output có cấu trúc + obstacle reporting + tool giới hạn
+> Điểm cốt lõi: 4 đặc tính — description cụ thể + output có cấu trúc + obstacle reporting + tool giới hạn
 > = subagent từ *"vaguely tries to help"* thành *"focused, predictable worker that finishes on time and reports back clearly"*.
 
 ## C.4 — Using subagents effectively (10′)
@@ -879,9 +888,9 @@ VD template code review 6 sections:
 ### Khi subagents tỏa sáng
 
 - Cần **kết quả**, không cần tường thuật từng bước
-- Exploratory work làm bẩn main context
+- Exploratory work làm nhiễm bẩn ngữ cảnh chính
 - Task hưởng lợi từ **fresh perspective** hoặc custom system prompt
-- **Research là classic use case:** tìm JWT validation trong codebase lạ → subagent đọc nhiều files, trace calls — main nhận summary sạch (*"middleware/auth.js line 42, gọi từ Express router trong route/api.js"*)
+- **Research là classic use case:** khi tìm JWT validation trong codebase lạ, subagent đọc nhiều files và trace calls, còn main nhận summary sạch (*"middleware/auth.js line 42, gọi từ Express router trong route/api.js"*)
 - **Code reviews:** Claude review code chính nó viết trong cùng thread thì feedback yếu
   - reviewer subagent thấy changes trong context riêng + encode team review standards trong system prompt để **tiêu chuẩn nhất quán toàn team**
 - **Custom system prompts** thực sự cải thiện: copywriting (tone/audience/style — default prompt quá technical); styling (đọc design system files trước khi viết CSS)
@@ -955,7 +964,7 @@ Brief context on why this change is needed
 - Bullet points of specific changes made
 ```
 
-- **Test:** Claude Code watch skills directories — skill mới dùng được **không cần restart**; nếu `~/.claude/skills` chưa tồn tại lúc đầu session → chạy `/reload-skills`
+- **Test:** Claude Code watch skills directories — skill mới dùng được **không cần restart**; nếu `~/.claude/skills` chưa tồn tại lúc đầu session thì chạy `/reload-skills`
 - Test prompt: *"write a PR description for my changes"*
 - **Matching:** startup load names + descriptions → so **semantic** (VD "explain this function" khớp skill "explain code with visual diagrams") → khớp thì đọc full SKILL.md
 - skills đơn giản auto-load (v2.1.19 bỏ approval step)
@@ -1055,7 +1064,7 @@ skills: accessibility-audit, performance-check
 claude plugin validate ~/.claude/skills   # personal
 claude plugin validate .claude/skills     # project
 ```
-→ Bắt lỗi frontmatter không parse được trước khi debug gì khác.
+Lệnh này bắt lỗi frontmatter không parse được trước khi bạn debug những nguyên nhân khác.
 
 ### Bảng triệu chứng → fix
 
@@ -1090,4 +1099,15 @@ claude plugin validate .claude/skills     # project
 
 ---
 
-> Metadata: cập nhật 2026-11-07 · nguồn: Anthropic Claude Academy (khóa *Claude Code 101* + 2 khóa con, 11/2026) · phạm vi: 12 bài chính + 10 bài khóa con (subagents, agent skills) + 3 trang docs (Code Review, Hooks, /code-review)
+## Phụ lục — Thông tin cần xác minh theo phiên bản
+
+Các tuyên bố dưới đây phụ thuộc phiên bản Claude Code; kiểm tra lại với docs hiện hành trước khi dùng (lượt kiểm tra: 2026-11-10).
+
+1. **Bài 2, Bài 7 — `/rewind` (checkpoints):** mỗi prompt của user tạo một checkpoint; khôi phục code và conversation qua `/rewind` hoặc `Esc` ×2 trên prompt trống.
+2. **Bài 2 — Auto mode (background classifier):** classifier chặn hành động *irreversible, destructive* hoặc nhắm ngoài môi trường; danh sách block/allow đang hoàn thiện nên hành vi có thể thay đổi.
+3. **Bài 10, Phần D — Skills tự kích hoạt:** matching dựa trên description và ban đầu chỉ name + description được nạp vào context; cơ chế load on-demand có thể điều chỉnh theo phiên bản.
+4. **Bài 12, B.2 — `updatedInput` (PreToolUse):** field này thay thế toàn bộ tool input object và được đánh giá lại theo permission rules; schema JSON output của hooks có thể đổi kèm phiên bản.
+
+---
+
+> Metadata: cập nhật 2026-11-10 · nguồn: Anthropic Claude Academy (khóa *Claude Code 101* + 2 khóa con, 11/2026) · phạm vi: 12 bài chính + 10 bài khóa con (subagents, agent skills) + 3 trang docs (Code Review, Hooks, /code-review)

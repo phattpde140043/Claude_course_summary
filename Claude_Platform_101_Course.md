@@ -19,7 +19,7 @@
 ### Định nghĩa
 **Claude Platform** = hạ tầng của Anthropic để xây dựng cùng Claude **thông qua code (programmatically)**: thay vì chat trong browser, bạn gửi **structured requests** từ code và nhận structured responses —
 
-kiểm soát mọi chi tiết: model nào, bao nhiêu tokens, tools gì, system instructions nào.
+kiểm soát chi tiết: model nào, bao nhiêu tokens, tools gì, system instructions nào.
 
 Cấu thành:
 
@@ -34,6 +34,8 @@ Cấu thành:
 3. **Controls** — chạy production: dashboards, evals
 
 > Shorthand: *"build with primitives, scale on infrastructure, run with control."*
+>
+> Lưu ý: cách chia 3 tầng trên là mô hình khái niệm để học (conceptual model) — ranh giới giữa các tầng mang tính chất dụng cho việc hiểu kiến trúc, không phải ranh giới cứng của sản phẩm API.
 
 ### Ví dụ: draft help desk replies
 Tích hợp nút UI → Messages API (Python):
@@ -92,7 +94,7 @@ for (const block of response.content) {
 }
 ```
 2 điều đáng chú ý:
-- **System prompt là chỗ shape persona** — muốn terse senior reviewer thì nói vậy
+- **System prompt là chỗ định hình persona (shape persona)** — muốn terse senior reviewer thì nói vậy
 - ⚠️ `response.content` là **array of blocks, không phải string** — text thường 1 block, nhưng Claude có thể trả nhiều loại (text, tool calls, thinking) → **luôn loop và check `type`**
 
 Chạy → Claude phát hiện `add` đang trừ.
@@ -114,7 +116,7 @@ Chạy → Claude phát hiện `add` đang trừ.
 ### Đánh giá trước khi viết production code
 Setup **eval đơn giản**: 20–30 representative examples từ workload thật, chạy qua từng model, chấm theo "good output" của use case.
 
-Rồi **đi lên từ dưới**: Haiku trước → chất lượng giữ được thì xong (tiết kiệm tiền); không → Sonnet; chỉ lên Opus khi task cần.
+Rồi **bắt từ tier thấp nhất**: Haiku trước; chất lượng giữ được thì xong (tiết kiệm tiền), không đạt thì chuyển Sonnet; chỉ lên Opus khi task cần.
 
 ### So sánh trực tiếp
 ```python
@@ -126,7 +128,7 @@ for model in models:
     )
     print(model, response.usage)
 ```
-- Loop chỉ đổi `model` — cùng prompt, cùng max_tokens; **`response.usage` trả input/output tokens = cái hóa đơn tính trên đó**
+- Loop chỉ đổi `model` — cùng prompt, cùng max_tokens; **`response.usage` trả input/output tokens — cơ sở tính hóa đơn (giá theo model/tính năng tại thời điểm call)**
 - Quan sát: Opus chậm nhất + polished nhất (lãng phí cho định nghĩa 2 câu); Sonnet tight hơn; Haiku về trong <1s với câu trả lời rất competent
 > Nguyên tắc chốt: *"The right model is the cheapest one whose output you'd actually ship."*
 
@@ -142,7 +144,7 @@ Một endpoint — nhiều models theo loại việc:
 ## Bài 4: The agent loop explained (7′)
 
 ### Agent là gì
-**Agent = Claude chạy cả 2 phía của messaging loop không cần người ở giữa** — nhận task, chọn tool, execute code trong loop cho đến khi Claude quyết định xong.
+**Agent = messaging loop tự chạy không cần người ở giữa.** Phân vai: **Claude** phụ trách suy luận và quyết định (nhận task, chọn tool tiếp theo, quyết định khi nào dừng); **code của bạn** execute tool và chạy loop; **Managed Agents** là lựa chọn để chạy đúng loop này trên hạ tầng Anthropic.
 
 **Loop tối thiểu:**
 1. Gửi message cho Claude kèm tools
@@ -197,7 +199,14 @@ while True:
         messages.append({"role": "assistant", "content": response.content})
         messages.append({"role": "user", "content": tool_results})
 ```
-Chạy thấy 2 turns: turn 1 `stop_reason: tool_use` (Claude xin get_weather Austin) → turn 2 `end_turn` (*"wear something light and breathable"*). **2 API calls, 1 tool execution, 1 final answer.**
+Chạy thấy 2 turns: turn 1 `stop_reason: tool_use` (Claude yêu cầu gọi `get_weather` với `city="Austin"`) → turn 2 `end_turn` (*"wear something light and breathable"*). **2 API calls, 1 tool execution, 1 final answer.**
+
+> ⚠️ **Đây là bản tối giản cho mục đích dạy học — chưa đạt chuẩn production.** Loop `while True` ở trên chỉ xử lý 2 giá trị `stop_reason`; nếu `stop_reason` không phải `end_turn` hay `tool_use`, code hiện tại sẽ lặp không giới hạn. Bản production cần bổ sung:
+> - Xử lý các giá trị `stop_reason` còn lại (`max_tokens`, `refusal`, `pause_turn`...) — tập giá trị đúng theo SDK version hiện hành (xem Phụ lục: Cần xác minh).
+> - Giới hạn số vòng lặp (max iterations) để tránh loop không dừng.
+> - Xử lý tool failure: lỗi execute, kết quả trả về sai định dạng.
+> - Validate input trước khi execute; đặt timeout và cơ chế cancel.
+> - Observability: log mỗi turn và mỗi tool call để debug.
 
 ### Trong production
 Cùng loop đó làm **auto-review endpoint**: compliance agent đọc structural report → look up building codes qua tool → viết risk findings vào DB từng cái một.
@@ -259,7 +268,7 @@ Claude gọi cả 2 tools (đôi khi cùng turn, đôi khi tuần tự) rồi tr
 Thêm tool thứ 3 = thêm vào array + thêm case.
 
 ### Tool runner — bỏ boilerplate
-2 red flags của cách trên: tốn nhiều code cho 2 lookups; không ai muốn **handwrite JSON schemas** cho mọi function.
+2 red flags của cách trên: tốn nhiều code cho 2 lookups; không ai muốn **tự viết tay JSON schemas (handwrite)** cho mọi function.
 
 → **Tool runner** (beta trong SDKs: TypeScript, Python, Ruby, C#, Go, Java, PHP): define tool một lần, runner xử lý toàn bộ loop nội bộ.
 
@@ -325,7 +334,7 @@ response = client.messages.create(
     messages=[{"role": "user", "content": "Plan a road trip out of San Francisco with two stops, weighing weather and drive time."}],
 )
 ```
-Output: **thinking blocks** (Claude cân trade-offs) → tool calls check từng city → text block recommendation. *The reasoning is visible — that's the whole point.*
+Output: **thinking blocks** (Claude cân trade-offs) → tool calls check từng city → text block recommendation. *The reasoning is visible — that's the whole point.* Lưu ý: reasoning mà API trả về là **bản tóm tắt** (`"display": "summarized"`) — raw chain of thought không được expose.
 
 ### Trong production
 Khác biệt giữa agent tìm lỗi **từng cái một** và agent **nối chúng lại**: bật adaptive thinking cho auto-review
@@ -368,7 +377,7 @@ for block in code_response.content:
 ```
 Điểm mới: **không switch stop_reason, không push tool results** — response có sẵn block types mới: `server_tool_use` (tool call) + code execution result block (stdout) + `text` bình thường.
 
-Chạy thấy: Python Claude thực sự viết, stdout sandbox, câu trả lời cuối.
+Chạy thấy: code Python do Claude viết, chạy trong sandbox với stdout, và câu trả lời cuối.
 
 ### Client tools
 Chạy **nơi code bạn chạy** — Anthropic publish schemas + train Claude sẵn (không cần tự định nghĩa):
@@ -385,7 +394,7 @@ Chạy **nơi code bạn chạy** — Anthropic publish schemas + train Claude s
 ### Skill là gì
 **Folders of instructions, scripts, resources Claude load dynamically** cho task chuyên biệt.
 
-Lõi = **`SKILL.md`** — package instructions upload **một lần**, attach vào bất kỳ `messages.create` nào.
+Lõi = **`SKILL.md`** — package instructions upload **một lần**, attach vào `messages.create` qua `container` config (kèm code execution tool).
 
 Bạn dạy Claude cách **LÀM** việc: format status report, review checklist, release notes.
 
@@ -432,7 +441,7 @@ Production: chuẩn hóa output cả feature — mọi PM nhận cùng cấu tr�
 ### Vấn đề maintenance
 Agent cần pull tasks từ Asana + check Google Calendar + search Slack → custom tools = **bạn viết 3 integrations** rồi **maintain mãi** mỗi khi service đổi API.
 
-MCP **đẩy maintenance cho provider**: Asana/Slack/Google tự publish MCP server, expose tools (descriptions + schemas + auth) qua standard protocol — API đổi, họ update server, **bạn không đổi gì**.
+MCP **chuyển phần lớn maintenance sang phía provider**: Asana/Slack/Google tự publish MCP server, expose tools (descriptions + schemas + auth) qua standard protocol — API đổi thì họ update server, phía bạn giữ lại auth/token, quản lý version của beta và theo dõi breaking changes từ server.
 
 ### Tools vs Skills vs MCP
 | | Dùng cho | Ai maintain |
@@ -509,7 +518,7 @@ response = client.beta.messages.create(
 3. **Prompt caching** — mark phần **stable** của request (system prompt, tool definitions, document dài) và **reuse across calls** với giá rẻ hơn nhiều.
    Toán học: system prompt 4.000 tokens × 100 calls/giờ — *"caching là khác biệt giữa bill dùng được và điện thoại từ phòng tài chính"*
 4. **Memory tool** — context cần sống **xuyên sessions** (preferences, running notes, quyết định tuần trước).
-   Claude đọc/ghi **memory directory qua tool calls**; bạn implement **storage backend client-side** (file system, DB, encrypted store...); Anthropic **auto-inject system instruction** nhờ Claude check memory directory trước khi bắt đầu
+   Claude đọc/ghi **memory directory qua tool calls**; bạn implement **storage backend client-side** (file system, DB, encrypted store...) — không phải persistence tự động của nền tảng, bạn sở hữu và vận hành storage; Anthropic **auto-inject system instruction** nhờ Claude check memory directory trước khi bắt đầu
 
 ### Layer cả 4
 Production thường layer tất cả (compliance agent: cache system prompt + tool defs, JIT pull code sections).
@@ -525,7 +534,7 @@ Mỗi pattern xử lý một failure mode:
 ## Bài 11: What are managed agents? (7′)
 
 ### Định nghĩa
-**Claude Managed Agents** = suite APIs build + deploy **agents at scale**: define agents (tools, personas, capabilities) → configure sandbox environments (packages, network controls) → fire sessions từ app mình.
+**Claude Managed Agents** = suite APIs build + deploy **agents at scale**: define agents (tools, personas, capabilities) → configure sandbox environments (packages, network controls) → khởi tạo session (fire sessions) từ app mình.
 
 Claude làm việc trong **isolated container** với full file system access, bash execution, web search.
 
@@ -618,7 +627,7 @@ session = client.beta.sessions.create(
     title="Count lines demo",
 )
 ```
-**4. Mở stream TRƯỚC, rồi gửi kickoff** — ⚠️ stream **chỉ deliver events xảy ra sau khi mở** → luôn mở trước khi gửi message:
+**4. Mở stream TRƯỚC, rồi gửi kickoff** — ⚠️ stream **chỉ nhận các events xảy ra sau khi stream được mở** → luôn mở trước khi gửi message:
 ```python
 with client.beta.sessions.events.stream(session_id=session.id) as stream:
     # Stream đã mở — giờ mới gửi kickoff
@@ -650,6 +659,8 @@ for event in stream:
 Bạn delegate **loop + sandbox + resumability**, chỉ consume event stream.
 
 **Event history lưu server-side** → kết nối đứt: mở stream mới, **list past events** xem thiếu gì, skip event trùng (chi tiết code ở B.2).
+
+> ⚠️ **Sessions là stateful resources**: transcripts persist tới khi bạn delete, và Managed Agents **không eligible cho ZDR** (Zero Data Retention) — chi tiết ở phụ lục B.2.
 
 Production shape cho việc **dài, chạm files, "go organize this for me"** —
 VD fileshare cleanup: agent đọc spec cấu trúc thư mục, walk folder bừa bộn, move đúng chỗ, archive trùng + zero-byte, flag cái không chắc — session chạy **phút, tỷ lệ nghìn files**.
@@ -755,4 +766,20 @@ Lần chạy này: Claude Code tạo **Zod tool** parse input + return output th
 > ✅ **Độ phủ:** 13/13 bài đọc từ raw HTML gốc, **giữ nguyên toàn bộ code samples** (Python + TypeScript + JSON) — đây là khóa nặng code nhất trong 5 khóa đã quét.
 > 2/2 refer links quét trọn. Duration mỗi bài: 6-5-5-7-8-5-6-6-6-6-7-8-5′.
 
-> Metadata: cập nhật 2026-11-08 · nguồn: Anthropic Claude Academy (khóa *Claude Platform 101*, 11/2026) · phạm vi: 13 bài học + 2 refer links (Fable/Mythos 5.1 blog, Managed Agents events-and-streaming)
+---
+
+## Phụ lục: Cần xác minh
+
+Các mục dưới đây là chi tiết kỹ thuật phụ thuộc phiên bản (SDK/docs) hoặc thông tin chưa xác minh đủ để khẳng định trong thân bài. Không sửa thân bài theo suy luận; mỗi mục cần đối chiếu docs chính thức trước khi cập nhật.
+
+| # | Nội dung cần xác minh | Vị trí |
+| :--- | :--- | :--- |
+| 1 | Tập giá trị `stop_reason` của API hiện hành (`max_tokens`, `refusal`, `pause_turn`...) — ghi chú production ở Bài 4 chỉ liệt kê tham khảo | Bài 4 (agent loop) + ghi chú production |
+| 2 | Skills beta status: ràng buộc `container` + code execution tool và beta header `skills-2025-10-02` còn bắt buộc hay không | Bài 8 (Skills) |
+| 3 | MCP connector: hiệu lực beta header `mcp-client-2025-11-20`; ranh giới maintenance provider vs client (auth/token, versioning, breaking changes) | Bài 9 (MCP) |
+| 4 | Extended Thinking: API chỉ trả reasoning dạng summary (`"display": "summarized"`), raw chain of thought không expose | Bài 6 (thinking) |
+| 5 | Managed Agents: transcripts persist tới khi delete; không eligible cho ZDR (Zero Data Retention) mọi sub-feature | Bài 11-12 + phụ lục B.2 |
+| 6 | Memory tool: hành vi auto-inject system instruction của nền tảng | Bài 10 (context patterns) |
+| 7 | Model IDs / giá / mốc GA (Fable/Mythos 5.1 — GA 1/9/2026) là snapshot tại thời điểm quét, dễ thay đổi | Bài 2-3 |
+
+> Metadata: cập nhật 2026-11-12 · nguồn: Anthropic Claude Academy (khóa *Claude Platform 101*, 11/2026) · phạm vi: 13 bài học + 2 refer links (Fable/Mythos 5.1 blog, Managed Agents events-and-streaming)
